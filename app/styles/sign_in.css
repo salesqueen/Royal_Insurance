@@ -1,0 +1,85 @@
+body{
+    overflow: hidden;
+}
+/*====SIGIN FORM====*/
+/*SIGIN*/
+#sign_in_container #sign_in_form{
+    width: 40vw;
+    height: 100vh;
+}
+#sign_in_container #sign_in_form .brand{
+    margin: 20px;
+}
+#sign_in_container #sign_in_form .brand img{
+    max-width: 60px;
+}
+#sign_in_container #sign_in_form form h2{
+    visibility: hidden;
+}
+#sign_in_container #sign_in_form form h5{
+    visibility: hidden;
+    color: var(--primary-sub-font);
+    margin-bottom: 32px;
+}
+#sign_in_container #sign_in_form form{
+    margin-top: 10%;
+    padding: 30px;
+    padding-left: 40px;
+}
+#sign_in_container #sign_in_form form label{
+    font-family: var(--roboto);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--primary-main-font);
+}
+#sign_in_container #sign_in_form form input{
+    margin-bottom: 20px;
+}
+#sign_in_container #sign_in_form form input[type=submit]{
+    float:right;
+    padding: 4px 38px;
+    margin-top: 6px;
+}
+/*Side*/
+#sign_in_container #sign_in_side{
+    background-image: url('../images/sign_in_side.jpg');
+    width: 60vw;
+    height: 100vh;
+    padding-left: 90px;
+}
+#sign_in_container #sign_in_side h2{
+    margin-top: 22%;
+    font-family: var(--sans);
+    color: var(--primary-accent-font);
+    font-weight: 600;
+    font-size: 50px;
+}
+#sign_in_container #sign_in_side h5{
+    font-family: var(--monserrat);
+    color: var(--primary-accent-font);
+    font-weight: 400;
+}
+@media only screen and (max-width: 768px) {
+    #sign_in_container #sign_in_form form{
+        margin-top: -50px;
+        padding: 10px;
+        padding-left: 12px;
+    }
+}
+@media only screen and (max-width: 425px) {
+    #sign_in_container #sign_in_form form{
+        margin-top: 12vh;
+        width: 100vw;
+        height: 100vh;
+        padding: 30px;
+    }
+    #sign_in_container #sign_in_form form h2{
+        visibility: visible;
+    }
+    #sign_in_container #sign_in_form form h5{
+        visibility: visible;
+    }
+    #sign_in_container #sign_in_side{
+        display: none;
+    }
+}

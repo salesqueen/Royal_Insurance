@@ -1,0 +1,307 @@
+:root{
+    --primary: #fff;
+    --primary-dark: #222;
+    --accent: green;
+
+    --primary-font: #111;
+    --primary-main-font: #333;
+    --primary-sub-font: #444;
+    --primary-dark-font: rgb(207, 214, 219);
+    --accent-font: aliceblue;
+
+    --roboto: 'Roboto', sans-serif; /*300,400,700,900*/
+    --sans: 'Open Sans', sans-serif; /*300,400,600*/
+    --monserrat: 'Montserrat', sans-serif; /*200,300,400*/
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+}
+img{
+    width: 100%;
+}
+input{
+    overflow: hidden;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+button{
+    background: var(--accent);
+    padding: 5px 25px;
+    border-radius: 2px;
+    border:0px;
+    box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    color: var(--accent-font);
+}
+button:hover{
+    background: #007bff;
+}
+input[type=submit]{
+    background: var(--accent);
+    padding: 5px 25px;
+    border-radius: 2px;
+    border:0px;
+    color: var(--accent-font);
+    margin-top: .5rem;
+}
+input[type=submit]:hover{
+    background: #007bff;
+}
+option,select{
+    text-transform: uppercase;
+}
+.container{
+    max-width: 98vw;
+}
+.navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link{
+    color:var(--accent);
+    font-size: 15px;
+    font-weight: bolder;
+}
+.action_button{
+    font-size: large;
+    color: var(--primary-font);
+    margin: 0 5px;
+}
+.action_button:hover{
+    color: var(--accent);
+}
+/*====Header====*/
+header{
+    background: var(--primary-dark);
+    padding: 8px 30px;
+    vertical-align: middle;
+}
+header nav{
+    background: var(--primary-dark);
+}
+header nav a{
+    color: var(--primary-dark-font);
+    font-size: 28px;
+    font-family: var(--roboto);
+    font-weight: 900;
+}
+header nav #account{
+    display: flex;
+}
+header nav #account #account-menu{
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    border: 2px solid var(--primary-dark-font);
+    overflow: hidden;
+}
+header nav #account p{
+    color: var(--primary-dark-font);
+    font-size: 18px;
+    font-family: var(--monserrat);
+    font-weight: 200;
+    height: 100%;
+    vertical-align: middle;
+    margin: auto;
+    margin-right: 20px;
+}
+header #account #account-menu img{
+    height: 100%;
+}
+/*====Navigation bar====*/
+#navbar{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: sticky;
+    top:0;
+    z-index:1000;
+}
+#navbar nav #navbarSupportedContent .navbar-nav .nav-item{
+    font-family: var(--monserrat);
+    font-size: 14px;
+    font-weight: 600;
+}
+#navbar nav #navbarSupportedContent .navbar-nav .nav-item .dropdown-menu .dropdown-item{
+    font-family: var(--monserrat);
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(0,0,0,.5);
+}
+/*====Insert User====*/
+.nav-tabs{
+    border: 0;
+}
+#main-container{
+    margin-top: 20px;
+}
+#main-container .nav{
+    margin-top: 20px;
+}
+#main-container .nav li a{
+    color: var(--primary-font);
+    padding: 5px 8px;
+    font-family: var(--roboto);
+    font-weight: normal;
+    text-decoration: none;
+    text-align: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+#main-container .nav li .active{
+    background: var(--accent);
+    color: var(--accent-font);
+}
+#main-container .tab-content{
+    border: .2px solid var(--primary-dark-font);
+    background: var(--primary);
+    padding: 16px;
+    border-radius: 5px;
+}
+#main-container h4{
+    font-family: var(--sans);
+    color: var(--primary-sub-font);
+}
+#main-container .filter{
+    display: inline-flex;
+    width: 100%;
+    margin-bottom: 10px;
+}
+#main-container .table-scroll{
+    overflow-x: auto;
+}
+#main-container .filter .search-container button {
+    padding: 2px 10px;
+    margin-top: 8px;
+    margin-right: 5px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    background: var(--accent);
+    color: var(--accent-font);
+}
+#main-container .filter .dropdown{
+    float: right;
+    background: var(--accent);
+}
+#main-container .filter .dropdown button{
+    background: var(--accent);
+    padding: 2px 10px;
+}
+#main-container form label{
+    font-family: var(--monserrat);
+    font-size: 14px;
+}
+#main-container table tbody tr td{
+    text-transform: uppercase;
+}
+#main-container form input{
+    margin-bottom: 6px;
+}
+/*====Overlay====*/
+#overlay{
+    left:0;
+    right:-4000px;
+    margin-left: auto;
+    margin-right: auto;
+    width: max-content;
+    position: fixed;
+    top: 220px;
+    background: var(--primary);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 14px;
+    border-radius: 10px;
+}
+#overlay .close_container span{
+    width: 100%;
+    text-align: right;
+}
+/*====Table====*/
+#main-container table thead{
+    background: var(--primary-dark);
+    color: var(--primary-dark-font);
+}
+/*====Download Excel Button====*/
+#main-container .download_excel{
+    float:right;
+}
+/*====Message=====*/
+.alert{
+    background: #ffdb9b;
+    padding: 20px 40px;
+    min-width: 420px;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    border-radius: 4px;
+    border-left: 8px solid #ffa502;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    z-index:1001;
+  }
+  .alert.showAlert{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .alert .fa-exclamation-circle{
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ce8500;
+    font-size: 30px;
+  }
+  .alert .msg{
+    padding: 0 20px;
+    font-size: 18px;
+    color: #ce8500;
+  }
+  .alert .close-btn{
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ffd080;
+    padding: 20px 18px;
+    cursor: pointer;
+  }
+  .alert .close-btn:hover{
+    background: #ffc766;
+  }
+  .alert .close-btn .fas{
+    color: #ce8500;
+    font-size: 22px;
+    line-height: 40px;
+  }
+@media only screen and (max-width: 768px) {
+    
+}
+@media only screen and (max-width: 425px) {
+    header nav #account p{
+        display: none;
+    }
+    #main-container .filter .dropdown{
+        float: left;
+        margin-top: 4px;
+    }
+}
+@media only screen and (max-width: 340px) {
+    header{
+        padding: 4px 20px;
+    }
+    .navbar{
+        padding: .50rem .50rem;
+    }
+    .navbar-toggler{
+        padding: .15rem .60rem;
+    }
+    .navbar-brand{
+        font-size: 20px;
+        margin-right: 8px;
+    }
+    header nav #account #account-menu{
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+    }
+    #main-container .filter .search-container button {
+        padding: 2px 8px;
+    }
+}
