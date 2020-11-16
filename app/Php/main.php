@@ -1,6 +1,6 @@
 <?php 
 
-    //error_reporting(0);
+    error_reporting(0);
 
     include 'Util/session.php';
     include 'Util/form.php';
@@ -732,7 +732,6 @@
                             $comission=$policy_result['net_premium']*($policy_result['comission_percentage']/100);
                             $wallet_amount+=$policy_result['total_premium']-$comission;
                         }
-                        echo $wallet_amount;
                     }else{
                         //calculating comission amount
                         if($policy_result['comission_type']=='OD'){
@@ -925,6 +924,26 @@
         }
         public function delete_admin(){
 
+        }
+        public function get_admin_cash($payment){
+            $amount=0;
+            $transaction_result_set=$this->read_selective_transaction("WHERE payment='".$payment."'");
+            if($transaction_result_set){
+                while($transaction_result=$transaction_result_set->fetch_assoc()){
+                    $amount+=$transaction_result['amount'];
+                }
+            }
+            return $amount;
+        }
+        public function get_admin_wallet_amount(){
+            $amount=0;
+            $user_result_set=$this->read_all_agent();
+            if($user_result_set){
+                while($user_result=$user_result_set->fetch_assoc()){
+                    $amount+=$this->get_wallet_amount($user_result['id']);
+                }
+            }
+            return $amount;
         }
     }
     //document download option

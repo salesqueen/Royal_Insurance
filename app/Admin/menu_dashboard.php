@@ -1,6 +1,6 @@
 <?php 
 
-  //error_reporting(0);
+  error_reporting(0);
 
   include '../Php/main.php';
 
@@ -129,8 +129,8 @@
                     <!--Count-->
                     <div class="row">
                         <div class="card">
-                            <h2><span class="fas fa-rupee-sign"></span> 42</h2>
-                            <h6>Revenue</h6>
+                            <h2><i class="fas fa-wallet"></i> <?php echo $user->get_admin_wallet_amount();?></h2>
+                            <h6>Wallet</h6>
                         </div>
                         <div class="card">
                             <h2><span class="fas fa-file-powerpoint"></span> <?php echo $user->get_policy_count();?></h2>
@@ -146,17 +146,17 @@
                         </div>
                     </div>
                     <!--Comission-->
-                    <p class="mt-4">Comission</p>
+                    <h4 class="mt-4">Cash</h4>
                     <div class="row comission">
                         <div class="col-md-3">
-                            <h2><span class="fas fa-rupee-sign"></span> 42</h2>
-                            <h1 class="fab fa-artstation"></h1>
-                            <p>Payable</p>
+                            <h2><span class="fas fa-rupee-sign"></span> <?php echo $user->get_admin_cash("Recived");?></h2>
+                            <h1 class="fab fa-atlassian"></h1>
+                            <p>Recived</p>
                         </div>
                         <div class="col-md-3">
-                            <h2><span class="fas fa-rupee-sign"></span> 42</h2>
+                            <h2><span class="fas fa-rupee-sign"></span> <?php echo $user->get_admin_cash("Paid");?></h2>
                             <h1 class="fab fa-atlassian"></h1>
-                            <p>Recivable</p>
+                            <p>Paid</p>
                         </div>
                     </div>
                 </div>

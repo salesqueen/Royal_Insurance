@@ -1,6 +1,6 @@
 <?php 
 
-//error_reporting(0);
+error_reporting(0);
 
 class Session{
     public function initiate_session($key,$value){

@@ -201,7 +201,7 @@
                                 <form action="<?php echo $_SERVER['PHP_SELF']?>" method="GET">
                                     <input type="date" name="filter_start_date" id="filter_start_date" required="required">
                                     <input type="date" name="filter_end_date" id="filter_end_date" placeholder="" required="required">
-                                    <input type="submit" value="Filter" name="filter_submit">
+                                    <button type="submit" name="filter_submit"><i class="fas fa-sort"></i></button>
                                 </form>
                             </div>
                             <div class="col-md-4">
@@ -278,6 +278,7 @@
                                                     echo "  <td>Approved</td>";
                                                     echo '  <td>
                                                                 <a href="view_policy.php?id='.$approved_policy_result['id'].'"><span class="fas fa-eye action_button"></span></a>
+                                                                <a href="upload_document_policy.php?id='.$approved_policy_result['id'].'"><span class="fas fa-upload action_button"></span></a>
                                                             </td>';
                                                     echo "</tr>";
                                                 }
@@ -326,7 +327,7 @@
   <script src="https://kit.fontawesome.com/831f398f58.js" crossorigin="anonymous"></script>
   <!--Custom script-->
   <script src="../scripts/overlay.js"></script>
-  <script src="../scripts/search.js"></script>
+  <!--<script src="../scripts/search.js"></script>-->
   <script src="../scripts/main.js"></script>
 
   <?php 
