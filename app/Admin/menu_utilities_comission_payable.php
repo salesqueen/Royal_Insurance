@@ -26,7 +26,7 @@
   if($constraint==""){
     $pending_policy_result_set=$user->read_selective_policy('WHERE (comission_percentage=0 AND payment_mode="Cash") OR (comission_percentage=0 AND payment_mode="Online")');
   }else{
-    $pending_policy_result_set=$user->read_selective_policy('WHERE (comission_percentage=0 AND payment_mode="Cash") OR (comission_percentage=0 AND payment_mode="Online") '.$constraint);
+    $pending_policy_result_set=$user->read_selective_policy('WHERE ((comission_percentage=0 AND payment_mode="Cash") OR (comission_percentage=0 AND payment_mode="Online")) '.$constraint);
   }
   //pending policy via cheque
   $cleared_cheque_pending_policy_array=$user->get_cleared_cheque_pending_policy("comission_percentage",$filter_date_one,$filter_date_two);
@@ -43,12 +43,43 @@
     $user->update_policy(array('policy_number','company_code','product','comission_percentage','comission_type'),$_POST['policy_id']);
     header("Location:menu_utilities_comission_payable.php");
   }
-  //downloading content
-  if(isset($_POST['download_excel'])){
-    $download=new Download();
-    $download->comission_payable($approved_policy_result_set);
-    header("Location:menu_utilities_comission_payable.php");
-  }
+    //search submit
+    if(isset($_POST['search_submit'])){
+        $branch_result_set=$user->read_selective_branch_manager("WHERE branch='".$_POST['search']."'");
+        if($branch_result_set){
+        $agent_result_set=$user->read_selective_agent('WHERE branch_manager_id='.$branch_result_set->fetch_assoc()['id']); 
+        if($agent_result_set){
+            $constraint="AND (agent_id=".$agent_result_set->fetch_assoc()['id'];
+            while($agent_result=$agent_result_set->fetch_assoc()){
+                $constraint=$constraint." OR agent_id=".$agent_result['id'];
+            }
+            $constraint=$constraint.")";
+            $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
+            $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
+        }else{
+            $_SESSION['message']='No Results Found';
+        }
+        }else{
+            $constraint="AND (company_code='".$_POST['search']."' OR company_name='".$_POST['search']."')";
+            $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
+            $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
+            if($pending_policy_result_set || $approved_policy_result_set){
+                //Do nothing
+            }else{
+                $_SESSION['message']='No Results Found';
+            }
+        }
+    }
+    //download
+    if(isset($_POST['download_excel'])){
+        if(isset($_POST['constraint']) && $_POST['constraint'] !=""){
+            $constraint=$_POST['constraint'];
+            $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
+            $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
+        }
+        $download=new Download();
+        $download->policy($pending_policy_result_set,$approved_policy_result_set);
+    }
     
 ?>
 <!DOCTYPE html>
@@ -155,6 +186,7 @@
                     </div>
                     <div class="col-md-6">
                         <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST" style="float:right">
+                            <input type="hidden" name="constraint" value="<?php echo $constraint?>">
                             <input type="submit" name="download_excel" value="Download Excel">
                         </form>
                     </div>
@@ -173,6 +205,7 @@
                                 <div class="search-container">
                                     <form action="" method="POST">
                                         <input id="search_1" type="text" placeholder="Search" name="search">
+                                        <button type="submit" name="search_submit"><i class="fa fa-search"></i></button>
                                     </form>
                                 </div>
                             </div>

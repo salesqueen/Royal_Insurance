@@ -1,55 +1,86 @@
 <?php 
   
-  error_reporting(0);
+    error_reporting(0);
 
-  include '../Php/main.php';
+    include '../Php/main.php';
 
-  //session handelling
-  $session=new Session();
-  $session->check_session("Admin");
-  //creating user object
-  $user=new Admin();
+    //session handelling
+    $session=new Session();
+    $session->check_session("Admin");
+    //creating user object
+    $user=new Admin();
 
-  //filtering
-  $constraint="";
-  $filter_date_one="";
-  $filter_date_two="";
-  //filter assigning
-  if(isset($_GET['filter_start_date']) && isset($_GET['filter_end_date'])){
-    $constraint="AND issue_date BETWEEN '".$_GET['filter_start_date']."' AND '".$_GET['filter_end_date']."'";
-    $filter_date_one=$_GET['filter_start_date'];
-    $filter_date_two=$_GET['filter_end_date'];
-  }
+    //filtering
+    $constraint="";
+    $filter_date_one="";
+    $filter_date_two="";
+    //filter assigning
+    if(isset($_GET['filter_start_date']) && isset($_GET['filter_end_date'])){
+        $constraint="AND issue_date BETWEEN '".$_GET['filter_start_date']."' AND '".$_GET['filter_end_date']."'";
+        $filter_date_one=$_GET['filter_start_date'];
+        $filter_date_two=$_GET['filter_end_date'];
+    }
 
-  //fetching main
-  //pending policy vai cash
-  if($constraint==""){
-    $pending_policy_result_set=$user->read_selective_policy('WHERE my_comission_percentage=0 AND payment_mode="Cash" OR payment_mode="Online"');
-  }else{
-    $pending_policy_result_set=$user->read_selective_policy('WHERE my_comission_percentage=0 AND payment_mode="Cash" OR payment_mode="Online" '.$constraint);
-  }
-  //pending policy via cheque
-  $cleared_cheque_pending_policy_array=$user->get_cleared_cheque_pending_policy("my_comission_percentage",$filter_date_one,$filter_date_two);
-  //approved policy
-  if($constraint==""){
-    $approved_policy_result_set=$user->read_selective_policy('WHERE NOT my_comission_percentage=0');
-  }else{
-    $approved_policy_result_set=$user->read_selective_policy('WHERE NOT my_comission_percentage=0 '.$constraint);
-  }
+    //fetching main
+    //pending policy vai cash
+    if($constraint==""){
+        $pending_policy_result_set=$user->read_selective_policy('WHERE my_comission_percentage=0 AND (payment_mode="Cash" OR payment_mode="Online")');
+    }else{
+        $pending_policy_result_set=$user->read_selective_policy('WHERE my_comission_percentage=0 AND (payment_mode="Cash" OR payment_mode="Online") '.$constraint);
+    }
+    //pending policy via cheque
+    $cleared_cheque_pending_policy_array=$user->get_cleared_cheque_pending_policy("my_comission_percentage",$filter_date_one,$filter_date_two);
+    //approved policy
+    if($constraint==""){
+        $approved_policy_result_set=$user->read_selective_policy('WHERE NOT my_comission_percentage=0');
+    }else{
+        $approved_policy_result_set=$user->read_selective_policy('WHERE NOT my_comission_percentage=0 '.$constraint);
+    }
 
-  //form handelling
-  //approving policy
-  if(isset($_POST['approve_submit'])){
-    $user->update_policy(array('my_comission_percentage','my_comission_type'),$_POST['policy_id']);
-    header("location:menu_utilities_comission_recivable.php");
-  }
+    //form handelling
+    //approving policy
+    if(isset($_POST['approve_submit'])){
+        $user->update_policy(array('my_comission_percentage','my_comission_type'),$_POST['policy_id']);
+        header("location:menu_utilities_comission_recivable.php");
+    }
 
-  //downloading content
-  if(isset($_POST['download_excel'])){
-      $download=new Download();
-      $download->comission_recivable($approved_policy_result_set);
-      header("location:menu_utilities_comission_recivable.php");
-  }
+    //search submit
+    if(isset($_POST['search_submit'])){
+        $branch_result_set=$user->read_selective_branch_manager("WHERE branch='".$_POST['search']."'");
+        if($branch_result_set){
+        $agent_result_set=$user->read_selective_agent('WHERE branch_manager_id='.$branch_result_set->fetch_assoc()['id']); 
+        if($agent_result_set){
+            $constraint="AND (agent_id=".$agent_result_set->fetch_assoc()['id'];
+            while($agent_result=$agent_result_set->fetch_assoc()){
+                $constraint=$constraint." OR agent_id=".$agent_result['id'];
+            }
+            $constraint=$constraint.")";
+            $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
+            $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
+        }else{
+            $_SESSION['message']='No Results Found';
+        }
+        }else{
+            $constraint="AND (company_code='".$_POST['search']."' OR company_name='".$_POST['search']."')";
+            $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
+            $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
+            if($pending_policy_result_set || $approved_policy_result_set){
+                //Do nothing
+            }else{
+                $_SESSION['message']='No Results Found';
+            }
+        }
+    }
+    //download
+    if(isset($_POST['download_excel'])){
+        if(isset($_POST['constraint']) && $_POST['constraint'] !=""){
+            $constraint=$_POST['constraint'];
+            $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
+            $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
+        }
+        $download=new Download();
+        $download->policy($pending_policy_result_set,$approved_policy_result_set);
+    }
     
 ?>
 <!DOCTYPE html>
@@ -157,6 +188,7 @@
                     </div>
                     <div class="col-md-6">
                         <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST" style="float:right">
+                            <input type="hidden" name="constraint" value="<?php echo $constraint?>">
                             <input type="submit" name="download_excel" value="Download Excel">
                         </form>
                     </div>
@@ -174,6 +206,7 @@
                                 <div class="search-container">
                                     <form action="" method="POST">
                                         <input id="search_1" type="text" placeholder="Search" name="search">
+                                        <button type="submit" name="search_submit"><i class="fa fa-search"></i></button>
                                     </form>
                                 </div>
                             </div>

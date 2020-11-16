@@ -941,7 +941,7 @@
                         $pending_policy_result['policy_type'],
                         $pending_policy_result['product'],
                         $pending_policy_result['company_name'],
-                        $pending_policy_result['policy_number'],
+                        "'".$pending_policy_result['policy_number'],
                         $pending_policy_result['customer_name'],
                         $pending_policy_result['registration_number'],
                         $pending_policy_result['make_model'],
@@ -967,7 +967,7 @@
                         $approved_policy_result['policy_type'],
                         $approved_policy_result['product'],
                         $approved_policy_result['company_name'],
-                        $approved_policy_result['policy_number'],
+                        "'".$approved_policy_result['policy_number'],
                         $approved_policy_result['customer_name'],
                         $approved_policy_result['registration_number'],
                         $approved_policy_result['make_model'],
@@ -1007,7 +1007,7 @@
                     }
                     $values_array[$i]=array(
                         $approved_policy_result['issue_date'],
-                        $approved_policy_result['policy_number'],
+                        "'".$approved_policy_result['policy_number'],
                         $approved_policy_result['policy_type'],
                         $approved_policy_result['product'],
                         $approved_policy_result['company_name'],
@@ -1045,7 +1045,7 @@
                     }
                     $values_array[$i]=array(
                         $policy_result['issue_date'],
-                        $policy_result['policy_number'],
+                        "'".$policy_result['policy_number'],
                         $policy_result['policy_type'],
                         $policy_result['product'],
                         $policy_result['company_name'],
@@ -1074,10 +1074,10 @@
             foreach($cheque_array as $cheque){
                 $values_array[$i]=array(
                     $cheque[1]['issue_date'],
+                    "'".$cheque[1]['policy_number'],
                     $cheque[1]['policy_type'],
                     $cheque[1]['product'],
                     $cheque[1]['company_name'],
-                    $cheque[1]['policy_number'],
                     $cheque[1]['customer_name'],
                     $cheque[1]['registration_number'],
                     $cheque[0]['cheque_number'],
@@ -1089,10 +1089,11 @@
                 $i++;
             }
             //call to download excel
-            $this->excel(array("Policy Date","Policy Type","Product","Company","Policy Number","Customer Name","Registration Number",
+            $this->excel(array("Policy Date","Policy Number","Policy Type","Product","Company","Customer Name","Registration Number",
             "Cheque Number","Cheque Bank","Cheque Status","Agent Name","Branch"),$values_array);
             header("Location:menu_utilities_cheque_status.php");
         }
+        //for cash recived and cash paid
         public function cash($transaction_result_set){
             //preparing value array
             $values_array=array();
@@ -1110,9 +1111,7 @@
             }
             //call to download excel
             $GLOBALS['user']->excel(array("Date","Agent Name","Remark","Amount"),$values_array);
-        }
-        public function cash_paid($transaction_result_set){
-
+            header($_SERVER['HTTP_REFERER']);
         }
     }
 

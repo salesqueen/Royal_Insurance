@@ -39,30 +39,36 @@
       if($branch_result_set){
         $agent_result_set=$user->read_selective_agent('WHERE branch_manager_id='.$branch_result_set->fetch_assoc()['id']); 
         if($agent_result_set){
-            $constraint=" (agent_id=".$agent_result_set->fetch_assoc()['id'];
+            $constraint="AND (agent_id=".$agent_result_set->fetch_assoc()['id'];
             while($agent_result=$agent_result_set->fetch_assoc()){
                 $constraint=$constraint." OR agent_id=".$agent_result['id'];
             }
             $constraint=$constraint.")";
-            $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 AND".$constraint);
-            $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 AND".$constraint);
+            $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
+            $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
         }else{
             $_SESSION['message']='No Results Found';
         }
       }else{
-          $_SESSION['message']='No Results Found';
+          $constraint="AND (company_code='".$_POST['search']."' OR company_name='".$_POST['search']."')";
+          $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
+          $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
+          if($pending_policy_result_set || $approved_policy_result_set){
+              //Do nothing
+          }else{
+              $_SESSION['message']='No Results Found';
+          }
       }
   }
   //download
   if(isset($_POST['download_excel'])){
     if(isset($_POST['constraint']) && $_POST['constraint'] !=""){
         $constraint=$_POST['constraint'];
-        $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 AND".$constraint);
-        $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 AND".$constraint);
+        $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
+        $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
     }
     $download=new Download();
     $download->policy($pending_policy_result_set,$approved_policy_result_set);
-    header("Location:menu_policy.php");
   }
 
 ?>
@@ -228,7 +234,7 @@
                                             if($pending_policy_result_set){
                                                 while($pending_policy_result=$pending_policy_result_set->fetch_assoc()){
                                                     echo "<tr>";
-                                                    echo "  <td>".$pending_policy_result['od_policy_start_date']."</td>";
+                                                    echo "  <td>".$pending_policy_result['issue_date']."</td>";
                                                     echo "  <td>".$pending_policy_result['company_name']."</td>";
                                                     echo "  <td>".$pending_policy_result['policy_number']."</td>";
                                                     echo "  <td>".$pending_policy_result['customer_name']."</td>";
@@ -259,7 +265,7 @@
                                             if($approved_policy_result_set){
                                                 while($approved_policy_result=$approved_policy_result_set->fetch_assoc()){
                                                     echo "<tr>";
-                                                    echo "  <td>".$approved_policy_result['od_policy_start_date']."</td>";
+                                                    echo "  <td>".$approved_policy_result['issue_date']."</td>";
                                                     echo "  <td>".$approved_policy_result['company_name']."</td>";
                                                     echo "  <td>".$approved_policy_result['policy_number']."</td>";
                                                     echo "  <td>".$approved_policy_result['customer_name']."</td>";
