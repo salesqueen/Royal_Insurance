@@ -12,30 +12,71 @@
 
     //filtering
     $constraint="";
-    $filter_date_one="";
-    $filter_date_two="";
-    //filter assigning
-    if(isset($_GET['filter_start_date']) && isset($_GET['filter_end_date'])){
-        $constraint="AND issue_date BETWEEN '".$_GET['filter_start_date']."' AND '".$_GET['filter_end_date']."'";
-        $filter_date_one=$_GET['filter_start_date'];
-        $filter_date_two=$_GET['filter_end_date'];
+    //assigning filter
+    //company name
+    if(isset($_POST['company_name']) && $_POST['company_name']!=""){
+        $constraint=$constraint." AND (company_name='".$_POST['company_name']."')";
+    }
+    //company code
+    if(isset($_POST['company_code']) && $_POST['company_code']!=""){
+        $constraint=$constraint." AND (company_code='".$_POST['company_code']."')";
+    }
+    //branch
+    if(isset($_POST['branch']) && $_POST['branch']!=""){
+        //fetching the branch manager id
+        $branch_manager_id=$user->read_selective_branch_manager("WHERE branch='".$_POST['branch']."'")->fetch_assoc()['id'];
+        //fetching the agent with the branch manager id
+        $agent_result_set=$user->read_selective_agent("WHERE branch_manager_id=".$branch_manager_id);
+        if($agent_result_set){
+            $constraint=$constraint." AND (agent_id=".$agent_result_set->fetch_assoc()['id'];
+            while($agent_result=$agent_result_set->fetch_assoc()){
+                $constraint=$constraint." OR agent_id=".$agent_result['id'];
+            }
+            $constraint=$constraint.")";
+        }else{
+            $constraint=$constraint." AND (blue=0)";
+        }
+    }
+    //agent
+    if(isset($_POST['agent']) && $_POST['agent']!=""){
+        $constraint=$constraint." AND (agent_id='".$_POST['agent']."')";
+    }
+    //filter date
+    if(isset($_POST['filter_start_date']) && isset($_POST['filter_end_date']) && $_POST['filter_start_date']!="" && $_POST['filter_end_date']!=""){
+        $constraint=$constraint." AND (issue_date BETWEEN '".$_POST['filter_start_date']."' AND '".$_POST['filter_end_date']."')";
+    }else{
+        //only start date is set
+        if(isset($_POST['filter_start_date']) && $_POST['filter_start_date']!=""){
+            $constraint=$constraint." AND (issue_date>='".$_POST['filter_start_date']."')";
+        }
+        if(isset($_POST['filter_end_date']) && $_POST['filter_end_date']!=""){
+            $constraint=$constraint." AND (issue_date<='".$_POST['filter_end_date']."')";
+        }
     }
 
     //fetching main
     //pending policy vai cash
     if($constraint==""){
-        $pending_policy_result_set=$user->read_selective_policy('WHERE my_comission_percentage=0 AND (payment_mode="Cash" OR payment_mode="Online")');
+        $pending_policy_result_set=$user->read_selective_policy('WHERE (my_comission_percentage=0 AND payment_mode="Cash") OR (my_comission_percentage=0 AND payment_mode="Online")');
     }else{
-        $pending_policy_result_set=$user->read_selective_policy('WHERE my_comission_percentage=0 AND (payment_mode="Cash" OR payment_mode="Online") '.$constraint);
+        $pending_policy_result_set=$user->read_selective_policy('WHERE ((my_comission_percentage=0 AND payment_mode="Cash") OR (my_comission_percentage=0 AND payment_mode="Online")) '.$constraint);
     }
     //pending policy via cheque
-    $cleared_cheque_pending_policy_array=$user->get_cleared_cheque_pending_policy("my_comission_percentage",$filter_date_one,$filter_date_two);
+    $cleared_cheque_pending_policy_array=$user->get_cleared_cheque_pending_policy("my_comission_percentage",$_POST['company_name'],$_POST['company_code'],$_POST['branch'],$_POST['agent'],$_POST['filter_start_date'],$_POST['filter_end_date']);
     //approved policy
     if($constraint==""){
         $approved_policy_result_set=$user->read_selective_policy('WHERE NOT my_comission_percentage=0');
     }else{
         $approved_policy_result_set=$user->read_selective_policy('WHERE NOT my_comission_percentage=0 '.$constraint);
     }
+    //company
+    $company_result_set=$user->read_all_company();
+    //company code
+    $company_code_result_set=$user->read_all_company_code();
+    //branch
+    $branch_manager_result_set=$user->read_all_branch_manager();
+    //agent
+    $agent_result_set=$user->read_all_agent();
 
     //form handelling
     //approving policy
@@ -44,42 +85,10 @@
         header("location:menu_utilities_comission_recivable.php");
     }
 
-    //search submit
-    if(isset($_POST['search_submit'])){
-        $branch_result_set=$user->read_selective_branch_manager("WHERE branch='".$_POST['search']."'");
-        if($branch_result_set){
-        $agent_result_set=$user->read_selective_agent('WHERE branch_manager_id='.$branch_result_set->fetch_assoc()['id']); 
-        if($agent_result_set){
-            $constraint="AND (agent_id=".$agent_result_set->fetch_assoc()['id'];
-            while($agent_result=$agent_result_set->fetch_assoc()){
-                $constraint=$constraint." OR agent_id=".$agent_result['id'];
-            }
-            $constraint=$constraint.")";
-            $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
-            $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
-        }else{
-            $_SESSION['message']='No Results Found';
-        }
-        }else{
-            $constraint="AND (company_code='".$_POST['search']."' OR company_name='".$_POST['search']."')";
-            $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
-            $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
-            if($pending_policy_result_set || $approved_policy_result_set){
-                //Do nothing
-            }else{
-                $_SESSION['message']='No Results Found';
-            }
-        }
-    }
     //download
     if(isset($_POST['download_excel'])){
-        if(isset($_POST['constraint']) && $_POST['constraint'] !=""){
-            $constraint=$_POST['constraint'];
-            $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
-            $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
-        }
         $download=new Download();
-        $download->policy($pending_policy_result_set,$approved_policy_result_set);
+        $download->comission_recivable($pending_policy_result_set,$cleared_cheque_pending_policy_array,$approved_policy_result_set);
     }
     
 ?>
@@ -188,7 +197,17 @@
                     </div>
                     <div class="col-md-6">
                         <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST" style="float:right">
-                            <input type="hidden" name="constraint" value="<?php echo $constraint?>">
+                            <!--Company Name-->
+                            <input type="hidden" name="company_name" value="<?php if(isset($_POST['company_name'])){echo $_POST['company_name'];}else{/*Do Nothing */}?>">
+                            <!--Company Code-->
+                            <input type="hidden" name="company_code" value="<?php if(isset($_POST['company_code'])){echo $_POST['company_code'];}else{/*Do Nothing */}?>">
+                            <!--Branch-->
+                            <input type="hidden" name="branch" value="<?php if(isset($_POST['branch'])){echo $_POST['branch'];}else{/*Do Nothing */}?>">
+                             <!--Agent-->
+                            <input type="hidden" name="agent" value="<?php if(isset($_POST['agent'])){echo $_POST['agent'];}else{/*Do Nothing */}?>">
+                            <!--Date Filter-->
+                            <input type="hidden" name="filter_start_date" value="<?php if(isset($_POST['filter_start_date'])){echo $_POST['filter_start_date'];}else{/*Do Nothing */}?>">
+                            <input type="hidden" name="filter_end_date" value="<?php if(isset($_POST['filter_end_date'])){echo $_POST['filter_end_date'];}else{/*Do Nothing */}?>">
                             <input type="submit" name="download_excel" value="Download Excel">
                         </form>
                     </div>
@@ -202,18 +221,48 @@
                     <div id="comission-recivable" class="tab-pane fade show in active">
                         <!--Filter-->
                         <div class="row filter">
-                            <div class="col-md-4">
-                                <div class="search-container">
-                                    <form action="" method="POST">
-                                        <input id="search_1" type="text" placeholder="Search" name="search">
-                                        <button type="submit" name="search_submit"><i class="fa fa-search"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <form action="<?php echo $_SERVER['PHP_SELF']?>" method="GET">
-                                    <input type="date" name="filter_start_date" id="filter_start_date" required="required">
-                                    <input type="date" name="filter_end_date" id="filter_end_date" placeholder="" required="required">
+                            <div class="col-md-12">
+                                <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
+                                    <!--Company Name-->
+                                    <input type="text" onfocus="this.value=''" name="company_name" id="company_name" list="company_names" placeholder="Company Name" value="<?php if(isset($_POST['company_name'])){echo $_POST['company_name'];}else{/*Do Nothing */}?>">
+                                    <datalist id="company_names">
+                                        <?php 
+                                            while($company_result=$company_result_set->fetch_assoc()){
+                                                echo '<option value="'.$company_result['company_name'].'">';
+                                            }
+                                        ?>
+                                    </datalist>
+                                    <!--Company Code-->
+                                    <input type="text" onfocus="this.value=''" name="company_code" id="company_code" list="company_codes" placeholder="Company Code" value="<?php if(isset($_POST['company_code'])){echo $_POST['company_code'];}else{/*Do Nothing */}?>">
+                                    <datalist id="company_codes">
+                                        <?php 
+                                            while($company_code_result=$company_code_result_set->fetch_assoc()){
+                                                echo '<option value="'.$company_code_result['company_code'].'">';
+                                            }
+                                        ?>
+                                    </datalist>
+                                    <!--Branch-->
+                                    <input type="text" onfocus="this.value=''" name="branch" id="branch" list="branches" placeholder="Branch" value="<?php if(isset($_POST['branch'])){echo $_POST['branch'];}else{/*Do Nothing */}?>">
+                                    <datalist id="branches">
+                                        <?php 
+                                            while($branch_manager_result=$branch_manager_result_set->fetch_assoc()){
+                                                echo '<option value="'.$branch_manager_result['branch'].'">';
+                                            }
+                                        ?>
+                                    </datalist>
+                                    <!--Agent-->
+                                    <input type="text" onfocus="this.value=''" name="agent" id="agent" list="agents" placeholder="Agent" value="<?php if(isset($_POST['agent'])){echo $_POST['agent'];}else{/*Do Nothing */}?>">
+                                    <datalist id="agents">
+                                        <?php 
+                                            while($agent_result=$agent_result_set->fetch_assoc()){
+                                                echo '<option value="'.$agent_result['id'].'">'.$agent_result['name'].'-'.$agent_result['mobile'].'</option>';
+                                            }
+                                        ?>
+                                    </datalist>
+                                    <!--Date Filter-->
+                                    <input type="date" onfocus="this.value=''" name="filter_start_date" id="filter_start_date" value="<?php if(isset($_POST['filter_start_date'])){echo $_POST['filter_start_date'];}else{/*Do Nothing */}?>">
+                                    <input type="date" onfocus="this.value=''" name="filter_end_date" id="filter_end_date" value="<?php if(isset($_POST['filter_end_date'])){echo $_POST['filter_end_date'];}else{/*Do Nothing */}?>">
+                                    <!--Filter Button-->
                                     <button type="submit" name="filter_submit"><i class="fas fa-sort"></i></button>
                                 </form>
                             </div>
@@ -271,13 +320,6 @@
                                         //approved policy
                                         if($approved_policy_result_set){
                                             while($approved_policy_result=$approved_policy_result_set->fetch_assoc()){
-                                                echo "<tr>";
-                                                echo "  <td>".$approved_policy_result['issue_date']."</td>";
-                                                echo "  <td>".$approved_policy_result['company_name']."</td>";
-                                                echo "  <td>".$approved_policy_result['policy_number']."</td>";
-                                                echo "  <td>".$approved_policy_result['customer_name']."</td>";
-                                                echo "  <td>".$approved_policy_result['registration_number']."</td>";
-                                                echo "  <td>".$approved_policy_result['payment_mode']."</td>";
                                                 //comission calculation
                                                 $comission=0;
                                                 if($approved_policy_result['my_comission_type']=='OD'){
@@ -286,10 +328,31 @@
                                                 if($approved_policy_result['my_comission_type']=='NP'){
                                                     $comission=$approved_policy_result['net_premium']*($approved_policy_result['my_comission_percentage']/100);
                                                 }
+                                                //elimating the transactioned amount
+                                                $recivable_transaction_result_set=$user->read_selective_recivable_transaction("WHERE policy_id='".$approved_policy_result['id']."'");
+                                                if($recivable_transaction_result_set){
+                                                    $recived_amount=0;
+                                                    while($recivable_transaction_result=$recivable_transaction_result_set->fetch_assoc()){
+                                                        $recivable_amount+=$recivable_transaction_result['amount'];
+                                                    }
+                                                }
+                                                $comission=$comission-$recivable_amount;
+                                                echo "<tr>";
+                                                echo "  <td>".$approved_policy_result['issue_date']."</td>";
+                                                echo "  <td>".$approved_policy_result['company_name']."</td>";
+                                                echo "  <td>".$approved_policy_result['policy_number']."</td>";
+                                                echo "  <td>".$approved_policy_result['customer_name']."</td>";
+                                                echo "  <td>".$approved_policy_result['registration_number']."</td>";
+                                                echo "  <td>".$approved_policy_result['payment_mode']."</td>";
+                                                
+                                                //elimating already transactioned amount
                                                 echo "  <td>".$approved_policy_result['my_comission_type']."</td>";
                                                 echo "  <td>".$comission."</td>";
                                                 echo "  <td>".$user->get_agent_name($approved_policy_result['agent_id'])."</td>";
-                                                echo '  <td>Approved <a href="view_policy.php?id='.$approved_policy_result['id'].'"><span class="fas fa-eye action_button"></span></a></td>';
+                                                echo '  <td>
+                                                            Approved <a href="view_policy.php?id='.$approved_policy_result['id'].'"><span class="fas fa-eye action_button"></span></a>
+                                                            <a href="create_recivable_transaction.php?company_name='.$approved_policy_result['company_name'].'&policy_id='.$approved_policy_result['id'].'"><i class="fas fa-money-check action_button"></i></a>
+                                                        </td>';
                                                 echo "</tr>";
                                             }
                                         }
@@ -351,12 +414,11 @@
                         <label for="exampleRadios">Comsission Type</label>
                         <br>
                         <input class="form-check-input" onclick="update_agent_payout_amount()" type="radio" name="my_comission_type" id="OD" value="OD" checked>
-                        <label class="form-check-label" for="OD">OD Premium</label>
-                        <input type="text" id="od_premium" name="od_premium" value="" required="required" readonly="true">
+                        <label class="form-check-label" for="OD">OD Premium-<span id="od_premium"></span></label>
+                        
                         <br>
                         <input class="form-check-input" onclick="update_agent_payout_amount()" type="radio" name="my_comission_type" id="NP" value="NP">
-                        <label class="form-check-label" for="NP">NET Premium</label>
-                        <input type="text" id="net_premium" name="net_premium" value="" required="required" readonly="true">
+                        <label class="form-check-label" for="NP">NET Premium-<span id="net_premium"></span></label>
                     </div>
                     <!--Value not entered by admin-->
                     <input type="hidden" id="policy_id" name="policy_id" value="">    
@@ -364,11 +426,11 @@
             <div class="row">
                     <div class="col-md-4">
                         <label for="comission_percentage">Agent Payout</label>
-                        <input type="number" onchange="update_agent_payout_amount()" id="comission_percentage"  name="my_comission_percentage" class="form-control" value="" required="required">
+                        <input type="text" onchange="update_agent_payout_amount()" id="comission_percentage"  name="my_comission_percentage" class="form-control" value="" required="required">
                     </div>
                     <div class="col-md-4">
                         <label for="comission_amount">Agent Payout Amount</label>
-                        <input type="text" id="comission_amount" class="form-control" value="" required="required">
+                        <input type="text" onchange="update_comission_percentage()" id="comission_amount" class="form-control" value="" required="required">
                     </div>
             </div>
             <div class="row">

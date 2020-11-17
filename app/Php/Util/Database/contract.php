@@ -90,6 +90,17 @@
             return self::$table_columns;
         }
     }
+    //recivable transactions
+    class Recivable_Transaction_Contract{
+        private static $table_name="recivable_transaction";
+        private static $table_columns=array("policy_id","amount","remark");
+        public static function get_table_name(){
+            return self::$table_name;
+        }
+        public static function get_table_columns(){
+            return self::$table_columns;
+        }
+    }
     //policy
     class Policy_Contract{
         private static $table_name="policy";

@@ -1,6 +1,6 @@
 <?php 
 
-  error_reporting(0);
+  //error_reporting(0);
 
   include '../Php/main.php';
 
@@ -10,20 +10,18 @@
 
   //creating user object
   $user=new Admin();
-  
-  //fetching document id
-  function get_policy_files_id($policy_id){
-    $policy_files_id_result_set=$GLOBALS['user']->read_selective_policy_files("WHERE policy_id=".$policy_id);
-    $policy_files_id_result=$policy_files_id_result_set->fetch_assoc();
-    return $policy_files_id_result['id'];
+
+  //fetching main
+  //fetching branch manager result set
+  $branch_manager_result_set=$user->read_all_branch_manager();
+
+  //form handelling
+  //inserting transaction
+  if(isset($_POST['submit'])){
+    $user->insert_recivable_transaction();
+    header('Location:menu_utilities_comission_recivable.php');
+    exit();
   }
-  //fetching documents of the policy
-  function get_policy_files($id){
-      $policy_files_result_set=$GLOBALS['user']->read_one_policy_files(get_policy_files_id($id));
-      $policy_files_result=$policy_files_result_set->fetch_assoc();
-      return $policy_files_result;
-  }
-  $policy_files_result=get_policy_files($_GET['id']);
 
 ?>
 <!DOCTYPE html>
@@ -31,7 +29,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Policy Documents</title>
+  <title>Make Recivable Transaction</title>
 
   <!-- CSS -->
   <!--Bootstrap-->
@@ -125,34 +123,42 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <h2>View Policy Files</h2>
+                        <h2>Make Recivable Transaction</h2>
                     </div>
                     <div class="col-md-6">
-                        <a href="javascript:history.go(-1)" style="float:right"><Button>Back <span class="fas fa-arrow-right"></span></button></a>
+                        <a href="<?php if(isset($_GET['transaction_type'])){if($_GET['transaction_type']=='Recived'){echo "menu_utilities_cash_recived.php";}else{echo "menu_utilities_cash_paid.php";}}else{echo "menu_wallet.php";}?>" style="float:right"><Button>Back <span class="fas fa-arrow-right"></span></button></a>
                     </div>
                 </div>
                 
-                <div class="row">
-                    <?php 
-                        if($policy_files_result){
-                            $document_uploaded=0;
-                            for($i=1;$i<5;$i++){
-                                $file_name='file_'.$i;
-                                if($policy_files_result[$file_name]!='Null'){
-                                    echo '<div class="col-md-12">';
-                                    echo '  <embed style="width:100%;height:600px" src="../Php/Util/uploads/policy_documents/'.$policy_files_result[$file_name].'" type="application/pdf">';
-                                    echo '</div>';
-                                    $document_uploaded++;
-                                }
-                            }
-                            if($document_uploaded==0){
-                                echo "<p>No Documents Uploaded</p>";
-                            }
-                        }else{
-                            echo "<p>No documents</p>";
-                        }
-                    ?>    
-                </div>    
+                <ul class="nav nav-tabs">
+                    <li><a data-toggle="tab" href="#transaction" class="active">Make Recivable Transaction</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="transaction" class="tab-pane fade in show active">
+                        <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST">
+                            <div class="row">
+                                <input type="hidden" name="policy_id" value="<?php echo $_GET['policy_id'];?>">
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="company_name">Company Name</label>
+                                    <input type="text" value="<?php echo $_GET['company_name'];?>" class="form-control" id="company_name" name="company_name" placeholder="Company Name" required="required" readonly="true">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="amount">Amount</label>
+                                    <input type="number" class="form-control" id="amount" name="amount" placeholder="Amount" required="required">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="remark">Remark</label>
+                                    <input type="text" class="form-control" id="remark" name="remark" placeholder="Remark">
+                                </div>
+                            </div>
+                            <input type="submit" value="submit" name="submit" class="btn btn-primary">
+                        </form>
+                    </div>
+                </div>
   
           </div>
         </div>
@@ -162,15 +168,45 @@
 
     
     </footer>
-    
 
-  <!-- jQuery and JS bundle w/ Popper.js -->
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-  <!--Font awesome-->
-  <script src="https://kit.fontawesome.com/831f398f58.js" crossorigin="anonymous"></script>
+    <!-- jQuery and JS bundle w/ Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <!--Font awesome-->
+    <script src="https://kit.fontawesome.com/831f398f58.js" crossorigin="anonymous"></script>
+    <!--Custom script-->
+    <script>
+        function set_agent_detail(json){
+            let agent_object=JSON.parse(json);
+
+            $('#bank_name').text(agent_object['bank_name']);
+            $('#bank_branch').text(agent_object['bank_branch']);
+            $('#ifsc_code').text(agent_object['ifsc_code']);
+            $('#micr_number').text(agent_object['micr_number']);
+
+            $('#phonepe_number').text(agent_object['phonepe_number']);
+            $('#paytm_number').text(agent_object['paytm_number']);
+            $('#google_pay_number').text(agent_object['google_pay_number']);
+            $('#upi_id').text(agent_object['upi_id']);
+        }
+        function ajax_call(id) {
+            $.ajax({
+                url:"ajax_transaction.php",
+                type:"post",
+                data: {agent_id: id},
+                success:function(response){
+                    set_agent_detail(response);
+                }
+            });
+        }
+        function fetch_agent_detail(){
+            ajax_call($('#agent_id').val()); 
+        }
+    </script>
 </body>
 </html>
 
                         
-              
+
+
+                        

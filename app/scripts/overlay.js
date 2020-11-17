@@ -15,11 +15,10 @@ function set_policy_values(json,id){
     document.getElementById('policy_number').value=policy_object.policy_number;
     document.getElementById('company_name').value=policy_object.company_name;
     document.getElementById('product').value=policy_object.product;
-    document.getElementById('od_premium').value=policy_object.od_premium;
-    document.getElementById('net_premium').value=policy_object.net_premium;
+    $('#od_premium').text(policy_object.od_premium);
+    $('#net_premium').text(policy_object.od_premium);
     //appending company code 
     for(i in policy_object.company_code){
-        console.log(policy_object.company_code[i]);
         $('#company_code').append('<option value="'+policy_object.company_code[i]+'">'+policy_object.company_code[i]+'</option>');
     }
     document.getElementById('policy_id').value=id;
@@ -41,12 +40,26 @@ function update_agent_payout_amount(){
     var comission_percentage=$('#comission_percentage').val();
     var comission_amount=0;
     if($('#OD').is(':checked')){
-        comission_amount=$('#od_premium').val()*(comission_percentage/100);
+        comission_amount=$('#od_premium').text()*(comission_percentage/100);
         comission_amount=comission_amount.toFixed(2);
     }
     if($('#NP').is(':checked')){
-        comission_amount=$('#net_premium').val()*(comission_percentage/100);
+        comission_amount=$('#net_premium').text()*(comission_percentage/100);
         comission_amount=comission_amount.toFixed(2);
     }
     $('#comission_amount').val(comission_amount);
+}
+
+function update_comission_percentage(){
+    let comission_percentage=0;
+    var comission_amount=$('#comission_amount').val();
+    if($('#OD').is(':checked')){
+        comission_percentage=comission_amount/$('#od_premium').text();
+        comission_percentage=comission_percentage.toFixed(2)*100;
+    }
+    if($('#NP').is(':checked')){
+        comission_percentage=comission_amount/$('#net_premium').text();
+        comission_percentage=comission_percentage.toFixed(2)*100;
+    }
+    $('#comission_percentage').val(comission_percentage);
 }

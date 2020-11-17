@@ -1,6 +1,6 @@
 <?php 
 
-    error_reporting(0);
+    //error_reporting(0);
 
     include '../Php/main.php';
 
@@ -13,9 +13,46 @@
 
     //filtering
     $constraint="";
-    //filter assigning
-    if(isset($_GET['filter_start_date']) && isset($_GET['filter_end_date'])){
-        $constraint="AND issue_date BETWEEN '".$_GET['filter_start_date']."' AND '".$_GET['filter_end_date']."'";
+    //assigning filter
+    //company name
+    if(isset($_POST['company_name']) && $_POST['company_name']!=""){
+        $constraint=$constraint." AND (company_name='".$_POST['company_name']."')";
+    }
+    //company code
+    if(isset($_POST['company_code']) && $_POST['company_code']!=""){
+        $constraint=$constraint." AND (company_code='".$_POST['company_code']."')";
+    }
+    //branch
+    if(isset($_POST['branch']) && $_POST['branch']!=""){
+        //fetching the branch manager id
+        $branch_manager_id=$user->read_selective_branch_manager("WHERE branch='".$_POST['branch']."'")->fetch_assoc()['id'];
+        //fetching the agent with the branch manager id
+        $agent_result_set=$user->read_selective_agent("WHERE branch_manager_id=".$branch_manager_id);
+        if($agent_result_set){
+            $constraint=$constraint." AND (agent_id=".$agent_result_set->fetch_assoc()['id'];
+            while($agent_result=$agent_result_set->fetch_assoc()){
+                $constraint=$constraint." OR agent_id=".$agent_result['id'];
+            }
+            $constraint=$constraint.")";
+        }else{
+            $constraint=$constraint." AND (blue=0)";
+        }
+    }
+    //agent
+    if(isset($_POST['agent']) && $_POST['agent']!=""){
+        $constraint=$constraint." AND (agent_id='".$_POST['agent']."')";
+    }
+    //filter date
+    if(isset($_POST['filter_start_date']) && isset($_POST['filter_end_date']) && $_POST['filter_start_date']!="" && $_POST['filter_end_date']!=""){
+        $constraint=$constraint." AND (issue_date BETWEEN '".$_POST['filter_start_date']."' AND '".$_POST['filter_end_date']."')";
+    }else{
+        //only start date is set
+        if(isset($_POST['filter_start_date'])){
+            $constraint=$constraint." AND (issue_date>='".$_POST['filter_start_date']."')";
+        }
+        if(isset($_POST['filter_end_date']) && $_POST['filter_end_date']!=""){
+            $constraint=$constraint." AND (issue_date<='".$_POST['filter_end_date']."')";
+        }
     }
 
     //fetching main
@@ -31,35 +68,16 @@
     }else{
         $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
     }
+    //company
+    $company_result_set=$user->read_all_company();
+    //company code
+    $company_code_result_set=$user->read_all_company_code();
+    //branch
+    $branch_manager_result_set=$user->read_all_branch_manager();
+    //agent
+    $agent_result_set=$user->read_all_agent();
 
   //form action
-  //search submit
-  if(isset($_POST['search_submit'])){
-      $branch_result_set=$user->read_selective_branch_manager("WHERE branch='".$_POST['search']."'");
-      if($branch_result_set){
-        $agent_result_set=$user->read_selective_agent('WHERE branch_manager_id='.$branch_result_set->fetch_assoc()['id']); 
-        if($agent_result_set){
-            $constraint="AND (agent_id=".$agent_result_set->fetch_assoc()['id'];
-            while($agent_result=$agent_result_set->fetch_assoc()){
-                $constraint=$constraint." OR agent_id=".$agent_result['id'];
-            }
-            $constraint=$constraint.")";
-            $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
-            $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
-        }else{
-            $_SESSION['message']='No Results Found';
-        }
-      }else{
-          $constraint="AND (company_code='".$_POST['search']."' OR company_name='".$_POST['search']."')";
-          $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
-          $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
-          if($pending_policy_result_set || $approved_policy_result_set){
-              //Do nothing
-          }else{
-              $_SESSION['message']='No Results Found';
-          }
-      }
-  }
   //download
   if(isset($_POST['download_excel'])){
     if(isset($_POST['constraint']) && $_POST['constraint'] !=""){
@@ -187,25 +205,54 @@
 
                 <div class="tab-content">
                     <div id="policy" class="tab-pane fade in active show">
-                        <!--Filter-->
                         <div class="row filter">
-                            <div class="col-md-4">
-                                <div class="search-container">
-                                    <form action="" method="POST">
-                                        <input id="search_1" type="text" placeholder="Search" name="search">
-                                        <button type="submit" name="search_submit"><i class="fa fa-search"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <form action="<?php echo $_SERVER['PHP_SELF']?>" method="GET">
-                                    <input type="date" name="filter_start_date" id="filter_start_date" required="required">
-                                    <input type="date" name="filter_end_date" id="filter_end_date" placeholder="" required="required">
+                            <div class="col-md-11">
+                                <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
+                                    <!--Company Name-->
+                                    <input type="text" onfocus="this.value=''" name="company_name" id="company_name" list="company_names" placeholder="Company Name" value="<?php if(isset($_POST['company_name'])){echo $_POST['company_name'];}else{/*Do Nothing */}?>">
+                                    <datalist id="company_names">
+                                        <?php 
+                                            while($company_result=$company_result_set->fetch_assoc()){
+                                                echo '<option value="'.$company_result['company_name'].'">';
+                                            }
+                                        ?>
+                                    </datalist>
+                                    <!--Company Code-->
+                                    <input type="text" onfocus="this.value=''" name="company_code" id="company_code" list="company_codes" placeholder="Company Code" value="<?php if(isset($_POST['company_code'])){echo $_POST['company_code'];}else{/*Do Nothing */}?>">
+                                    <datalist id="company_codes">
+                                        <?php 
+                                            while($company_code_result=$company_code_result_set->fetch_assoc()){
+                                                echo '<option value="'.$company_code_result['company_code'].'">';
+                                            }
+                                        ?>
+                                    </datalist>
+                                    <!--Branch-->
+                                    <input type="text" onfocus="this.value=''" name="branch" id="branch" list="branches" placeholder="Branch" value="<?php if(isset($_POST['branch'])){echo $_POST['branch'];}else{/*Do Nothing */}?>">
+                                    <datalist id="branches">
+                                        <?php 
+                                            while($branch_manager_result=$branch_manager_result_set->fetch_assoc()){
+                                                echo '<option value="'.$branch_manager_result['branch'].'">';
+                                            }
+                                        ?>
+                                    </datalist>
+                                    <!--Agent-->
+                                    <input type="text" onfocus="this.value=''" name="agent" id="agent" list="agents" placeholder="Agent" value="<?php if(isset($_POST['agent'])){echo $_POST['agent'];}else{/*Do Nothing */}?>">
+                                    <datalist id="agents">
+                                        <?php 
+                                            while($agent_result=$agent_result_set->fetch_assoc()){
+                                                echo '<option value="'.$agent_result['id'].'">'.$agent_result['name'].'-'.$agent_result['mobile'].'</option>';
+                                            }
+                                        ?>
+                                    </datalist>
+                                    <!--Date Filter-->
+                                    <input type="date" onfocus="this.value=''" name="filter_start_date" id="filter_start_date" value="<?php if(isset($_POST['filter_start_date'])){echo $_POST['filter_start_date'];}else{/*Do Nothing */}?>">
+                                    <input type="date" onfocus="this.value=''" name="filter_end_date" id="filter_end_date" value="<?php if(isset($_POST['filter_end_date'])){echo $_POST['filter_end_date'];}else{/*Do Nothing */}?>">
+                                    <!--Filter Button-->
                                     <button type="submit" name="filter_submit"><i class="fas fa-sort"></i></button>
                                 </form>
                             </div>
-                            <div class="col-md-4">
-                                <a href="create_policy.php" style="float:right"><Button>Create Policy <span class="fas fa-arrow-right"></span></button></a>
+                            <div class="col-md-1">
+                                <a href="create_policy.php" style="float:right"><Button><i class="fas fa-plus"></i></button></a>
                             </div>
                         </div>
 
