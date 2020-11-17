@@ -401,8 +401,8 @@
                         <input type="text" id="ajax_company_name" name="company_name" class="form-control" value="" required="required">
                     </div>
                     <div class="col-md-4">
-                        <label for="company_code">Company Code</label>
-                        <select id="company_code" name="company_code" class="form-control" required="required">
+                        <label for="ajax_company_code">Company Code</label>
+                        <select id="ajax_company_code" name="company_code" class="form-control" required="required">
                             <option value="">Select Company Code</option>
                         </select>
                     </div>

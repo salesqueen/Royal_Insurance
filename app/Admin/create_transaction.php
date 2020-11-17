@@ -206,11 +206,7 @@
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="payment">Payment</label>
-                                    <select name="payment" class="form-control" id="payment" required="required">
-                                        <option value="<?php if(isset($_GET['transaction_type'])){echo $_GET['transaction_type'];}else{echo "";}?>"><?php if(isset($_GET['transaction_type'])){echo $_GET['transaction_type'];}else{echo "SELECT TRANSACTION TYPE";}?></option>
-                                        <option value="Recived">Recived</option>
-                                        <option value="Paid">Paid</option>
-                                    </select>
+                                    <input type="text" value="<?php if(isset($_GET['transaction_type'])){echo $_GET['transaction_type'];}else{echo "";}?>" class="form-control" id="payment" name="payment" placeholder="Payment" required="required" readonly="true">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">

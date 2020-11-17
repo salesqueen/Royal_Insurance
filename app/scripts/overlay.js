@@ -19,7 +19,7 @@ function set_policy_values(json,id){
     $('#net_premium').text(policy_object.od_premium);
     //appending company code 
     for(i in policy_object.company_code){
-        $('#company_code').append('<option value="'+policy_object.company_code[i]+'">'+policy_object.company_code[i]+'</option>');
+        $('#ajax_company_code').append('<option value="'+policy_object.company_code[i]+'">'+policy_object.company_code[i]+'</option>');
     }
     document.getElementById('policy_id').value=id;
     document.getElementById('view_policy_document_link').setAttribute("href","view_policy_files.php?id="+id);
@@ -34,7 +34,6 @@ function ajax_call(id) {
         }
     });
 }
-
 //autocalculation of the agent payout while approving the policy
 function update_agent_payout_amount(){
     var comission_percentage=$('#comission_percentage').val();
