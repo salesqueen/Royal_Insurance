@@ -152,7 +152,7 @@ $branch_manager_result_set=$user->read_all_branch_manager();
                               </div>
                           </div>  
                           <div class="col-sm-6">
-                              <a href="create_user.php" class="download_excel"><button>Create User</button></a>
+                              <a href="create_user.php" class="download_excel"><button><i class="fas fa-plus"></i></button></a>
                           </div>
                       </div>
                       <div class="table-scroll">

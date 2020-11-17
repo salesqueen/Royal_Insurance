@@ -361,7 +361,7 @@
                             <div class="row">
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="od_disc">OD Disc</label> 
+                                    <label for="od_disc">OD Disc(%)</label> 
                                     <input type="number" class="form-control" id="od_disc" name="od_disc" placeholder="OD Disc" required="required">
                                 </div>
                                 <!--Col-->

@@ -425,7 +425,7 @@
             </div>
             <div class="row">
                     <div class="col-md-4">
-                        <label for="comission_percentage">Agent Payout</label>
+                        <label for="comission_percentage">Agent Payout(%)</label>
                         <input type="text" onchange="update_agent_payout_amount()" id="comission_percentage"  name="my_comission_percentage" class="form-control" value="" required="required">
                     </div>
                     <div class="col-md-4">

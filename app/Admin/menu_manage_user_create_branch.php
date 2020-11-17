@@ -150,7 +150,7 @@
                             </div>
                             <div class="row">
                                 <!--Col-->
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label for="user_id">User ID</label>
                                     <input type="text" class="form-control" id="user_id" name="user_id" placeholder="User ID">
                                 </div>
@@ -165,12 +165,13 @@
                                     <input type="text" class="form-control" id="auth_token" name="auth_token" placeholder="Auth Token">
                                 </div>
                                 <!--Col-->
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label for="remark">Remark</label>
                                     <input type="text" class="form-control" id="remark" name="remark" placeholder="Remark">
                                 </div>
                                 <!--Col-->
-                                <div class="col-md-3">
+                                <div class="col-md-2">
+                                    <br>
                                     <input type="submit" value="Submit" name="branch_submit" class="btn btn-primary">
                                 </div>
                             </div>
