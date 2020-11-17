@@ -6,14 +6,14 @@ function policy_open_overlay(called_element){
 //function for opening overlay for menu wallet page
 function wallet_open_overlay(){
     document.getElementById('overlay').style.right="0";
-}
+} 
 function close_overlay(){
     document.getElementById('overlay').style.right="-4000px";
 }
 function set_policy_values(json,id){
     var policy_object=JSON.parse(json);
     document.getElementById('policy_number').value=policy_object.policy_number;
-    document.getElementById('company_name').value=policy_object.company_name;
+    document.getElementById('ajax_company_name').value=policy_object.company_name;
     document.getElementById('product').value=policy_object.product;
     $('#od_premium').text(policy_object.od_premium);
     $('#net_premium').text(policy_object.od_premium);

@@ -221,56 +221,62 @@
                             <input type="submit" value="submit" name="submit" class="btn btn-primary">
                         </form>
                         <br>
-                        <h4>Bank Details</h4>
-                        <div class="row">
-                            <!--Col-->
-                            <div class="col-md-4">
-                                <label for="bank_name">Bank Name</label>
-                                <p><b id="bank_name"></b></p>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">View Details</a>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                            <h4>Bank Details</h4>
+                            <div class="row">
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="bank_name">Bank Name</label>
+                                    <p><b id="bank_name"></b></p>
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="bank_branch">Branch</label>
+                                    <p><b id="bank_branch"></b></p>
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="ifsc_code">IFSC Code</label>
+                                    <p><b id="ifsc_code"></b></p>
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="micr_number">MICR Number</label>
+                                    <p><b id="micr_number"></b></p>
+                                </div>
                             </div>
-                            <!--Col-->
-                            <div class="col-md-4">
-                                <label for="bank_branch">Branch</label>
-                                <p><b id="bank_branch"></b></p>
-                            </div>
-                            <!--Col-->
-                            <div class="col-md-4">
-                                <label for="ifsc_code">IFSC Code</label>
-                                <p><b id="ifsc_code"></b></p>
-                            </div>
-                            <!--Col-->
-                            <div class="col-md-4">
-                                <label for="micr_number">MICR Number</label>
-                                <p><b id="micr_number"></b></p>
-                            </div>
-                        </div>
 
-                        <hr>
-                        <h4>Wallet Details</h4>
-                        <div class="row">
-                            <!--Col-->
-                            <div class="col-md-4">
-                                <label for="phonepe_number">PhonePe Number</label>
-                                <p><b id="phonepe_number"></b></p>
-                            </div>
-                            <!--Col-->
-                            <div class="col-md-4">
-                                <label for="paytm_number">Paytm Number</label>
-                                <p><b id="paytm_number"></b></p>
-                            </div>
-                            <!--Col-->
-                            <div class="col-md-4">
-                                <label for="google_pay_number">Google Pay Number</label>
-                                <p><b id="google_pay_number"></b></p>
-                            </div>
-                            <!--Col-->
-                            <div class="col-md-4">
-                                <label for="upi_id">UPI ID</label>
-                                <p><b id="upi_id"></b></p>
+                            <hr>
+                            <h4>Wallet Details</h4>
+                            <div class="row">
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="phonepe_number">PhonePe Number</label>
+                                    <p><b id="phonepe_number"></b></p>
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="paytm_number">Paytm Number</label>
+                                    <p><b id="paytm_number"></b></p>
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="google_pay_number">Google Pay Number</label>
+                                    <p><b id="google_pay_number"></b></p>
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="upi_id">UPI ID</label>
+                                    <p><b id="upi_id"></b></p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                            </div>
+                        </div>
+                        
   
           </div>
         </div>

@@ -397,8 +397,8 @@
                         <input type="text" id="policy_number" name="policy_number" class="form-control" value="" required="required">
                     </div>
                     <div class="col-md-4">
-                        <label for="company_name">Company Name</label>
-                        <input type="text" id="company_name" name="company_name" class="form-control" value="" required="required">
+                        <label for="ajax_company_name">Company Name</label>
+                        <input type="text" id="ajax_company_name" name="company_name" class="form-control" value="" required="required">
                     </div>
                     <div class="col-md-4">
                         <label for="company_code">Company Code</label>
