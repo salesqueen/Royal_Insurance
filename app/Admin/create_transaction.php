@@ -221,7 +221,7 @@
                             <input type="submit" value="submit" name="submit" class="btn btn-primary">
                         </form>
                         <br>
-                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">View Details</a>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">View Details</a>
                         <div class="collapse" id="collapseExample">
                             <div class="card card-body">
                             <h4>Bank Details</h4>
@@ -272,12 +272,12 @@
                                     <p><b id="upi_id"></b></p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
                             </div>
                         </div>
-                        
-  
+          
+          
+                </div>
+            </div>
           </div>
         </div>
       </div>
