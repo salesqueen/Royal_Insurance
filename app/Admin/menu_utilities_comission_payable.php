@@ -299,7 +299,10 @@
                                                 echo "  <td></td>";
                                                 echo "  <td></td>";
                                                 echo "  <td>".$user->get_agent_name($pending_policy_result['agent_id'])."</td>";
-                                                echo '  <td><Button onclick="policy_open_overlay(this)" id="'.$pending_policy_result['id'].'">Approve</Button></td>';
+                                                echo '  <td>
+                                                            <Button onclick="policy_open_overlay(this)" id="'.$pending_policy_result['id'].'">Approve</Button>
+                                                            <a href="view_policy.php?id='.$pending_policy_result['id'].'"><span class="fas fa-eye action_button"></span></a>
+                                                        </td>';
                                                 echo "</tr>";
                                             }
                                         }
@@ -314,7 +317,10 @@
                                             echo "  <td></td>";
                                             echo "  <td></td>";
                                             echo "  <td>".$user->get_agent_name($cleared_cheque_pending_policy_array[$i]['agent_id'])."</td>";
-                                            echo '  <td><Button onclick="policy_open_overlay(this)" id="'.$cleared_cheque_pending_policy_array[$i]['id'].'">Approve</Button></td>';
+                                            echo '  <td>
+                                                        <Button onclick="policy_open_overlay(this)" id="'.$cleared_cheque_pending_policy_array[$i]['id'].'">Approve</Button>
+                                                        <a href="view_policy.php?id='.$cleared_cheque_pending_policy_array[$i]['id'].'"><span class="fas fa-eye action_button"></span></a>
+                                                    </td>';
                                             echo "</tr>";
                                         }
                                         //approved policy

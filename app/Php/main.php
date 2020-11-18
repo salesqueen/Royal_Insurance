@@ -903,7 +903,7 @@
                         //filtering based on date and comission percentage
                         if($filter_date_one!="" && $filter_date_two!=""){
                             //checking whether the issue date is between two dates
-                            if($cleared_cheque_pending_policy_result[$comission_percentage]==0 && $cleared_cheque_pending_policy_result['issue_date']>=$filter_date_one && $cleared_cheque_pending_policy_result['issue_date']<=$filter_date_two){
+                            if($cleared_cheque_pending_policy_result['issue_date']>=$filter_date_one && $cleared_cheque_pending_policy_result['issue_date']<=$filter_date_two){
                                 $passed++;
                             }else{
                                 continue;
@@ -911,13 +911,13 @@
                         }else{
                             //checking whether issue date is greater than filter one date
                             if($filter_date_one!=""){
-                                if($cleared_cheque_pending_policy_result[$comission_percentage]==0 && $cleared_cheque_pending_policy_result['issue_date']>=$filter_date_one){
+                                if($cleared_cheque_pending_policy_result['issue_date']>=$filter_date_one){
                                     $passed++;
                                 }else{
                                     continue;
                                 }
                             }elseif($filter_date_one!=""){
-                                if($cleared_cheque_pending_policy_result[$comission_percentage]==0 && $cleared_cheque_pending_policy_result['issue_date']<=$filter_date_two){
+                                if($cleared_cheque_pending_policy_result['issue_date']<=$filter_date_two){
                                     $passed++;
                                 }else{
                                     continue;
@@ -926,8 +926,12 @@
                                 $passed++;
                             }
                         }
+                        //checking for comission percentage
+                        if($cleared_cheque_pending_policy_result[$comission_percentage]==0){
+                            $passed++;
+                        }
                         //checking whether the data passes all the condition
-                        if($passed==5){
+                        if($passed==6){
                             $cleared_cheque_pending_policy_array[$i]=$cleared_cheque_pending_policy_result;
                             $i++;
                         }
