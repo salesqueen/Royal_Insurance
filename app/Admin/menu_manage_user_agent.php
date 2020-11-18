@@ -139,6 +139,7 @@
                                         <th>Mobile</th>
                                         <th>Email</th>
                                         <th>Address</th>
+                                        <th>Branch</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -151,6 +152,7 @@
                                             echo "<td>".$agent_result['mobile']."</td>";
                                             echo "<td>".$agent_result['email']."</td>";
                                             echo "<td>".$agent_result['address']."</td>";
+                                            echo "<td>".$user->get_branch($agent_result['id'])."</td>";
                                             echo '  <td>
                                                         <a href="view_user.php?id='.$agent_result['id'].'&user_type=agent"><span class="fas fa-eye action_button"></span></a>
                                                         <a href="edit_user.php?id='.$agent_result['id'].'&user_type=agent"><span class="fas fa-edit action_button"></span></a>

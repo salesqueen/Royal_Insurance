@@ -1,6 +1,6 @@
 <?php 
 
-  error_reporting(0);
+  //error_reporting(0);
 
   include '../Php/main.php';
 
@@ -30,9 +30,6 @@
     $user_result_set=$user->read_one_agent($_GET['id']);
   }
   $user_result=$user_result_set->fetch_assoc();
-
-  //fetching sub
-  $branch_result_set=$GLOBALS['user']->read_all_branch();
 
   //form handelling
   if(isset($_POST['submit'])){
@@ -64,6 +61,8 @@
     if($_GET['user_type']=='agent'){
         $name_array=Agent_Contract::get_table_columns();
         array_splice($name_array,14,6);
+        //appending branch manager incase of branch change
+        array_push($name_array,"branch_manager_id");
         $user_result_set=$user->update_agent($name_array,$_GET['id']);
         header('Location:menu_manage_user_agent.php');
         exit();
@@ -275,6 +274,35 @@
                                     <input type="text" value="<?php echo $user_result['upi_id'];?>" class="form-control" id="upi_id" name="upi_id" placeholder="UPI ID">
                                 </div>
                             </div>
+                            
+                            <?php 
+                            
+                                //visible only for user
+                                if($_GET['user_type']=='agent'){
+                                    $branch_manager_result_set=$user->read_all_branch_manager();
+                                    ?>
+
+                                    <hr>
+                                    <h4>Branch</h4>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="branch_manager_id">Branch</label>
+                                            <select name="branch_manager_id" class="form-control" id="branch_manager_id" required="required">
+                                                <option disabled value="<?php echo $user_result['branch_manager_id'];?>"><?php echo $user->get_branch($user_result['id']);?></option>
+                                                <?php 
+                                                    if($branch_manager_result_set){
+                                                        while($branch_manager_result=$branch_manager_result_set->fetch_assoc()){
+                                                            echo '<option value="'.$branch_manager_result['id'].'">'.$branch_manager_result['branch'].'</option>';
+                                                        }
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                            <?php
+                                }
+
+                            ?>
 
                             <input type="submit" value="Submit" name="submit" class="btn btn-primary">
                         </form>
