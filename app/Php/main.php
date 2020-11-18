@@ -484,8 +484,13 @@
             $result_set=$crud->select_all($table_name);
             return $result_set;
         }
-        public function delete_cheque(){
-
+        public function delete_cheque($id){
+            //Initializing required variables
+            $crud=new Crud();
+            $table_name=Cheque_Contract::get_table_name();
+            //Getting database values
+            $result_set=$crud->delete($table_name,$id);
+            return null;
         }
         public function read_custom($sql){
             //Initializing required variables
@@ -617,6 +622,26 @@
             $table_name=Policy_Contract::get_table_name();
             //performing updation
             $crud->update($table_name,$id,$form_name_array,$form_value_array);
+            //cheque deletion if conversion from cheque to cash or online
+            if($_POST['previous_payment_mode']=='Cheque' || $_POST['previous_payment_mode'] == 'DD'){
+                //fetching cheque id from policy id
+                $cheque_id=$this->read_selective_cheque("WHERE policy_id='".$id."'")->fetch_assoc()['id'];
+                if($_POST['payment_mode']=='Cash' || $_POST['payment_mode']=='Online'){
+                    //deleting the cheque
+                    $this->delete_cheque($cheque_id);
+                    //overriding deletion successfull message
+                    $_SESSION['message']='Updation Successfull';
+                }else{
+                    $this->update_cheque($cheque_id);
+                }
+            }
+            //cheque insertion if conversion from cash or online to cheque
+            elseif(($_POST['previous_payment_mode']=='Cash' || $_POST['previous_payment_mode'] == 'Online') && ($_POST['payment_mode']=='Cheque' || $_POST['payment_mode']=='DD')){
+                //inserting cheque
+                parent::insert_cheque($id);
+                //overriding insertion successfull message
+                $_SESSION['message']='Updation Successfull';
+            }
         }
         public function read_one_policy($id){
             $crud=new Crud();

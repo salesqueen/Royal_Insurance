@@ -145,6 +145,9 @@
                 <div class="tab-content">
                     <div id="policy" class="tab-pane fade in show active">
                         <form action="<?php echo $_SERVER['PHP_SELF'].'?id='.$_GET['id']; ?>" method="POST" enctype="multipart/form-data">
+                            <!--Form type based on payment type-->
+                            <input type="hidden" id="policy_form_type" name="policy_form_type">
+                            <input type="hidden" name="previous_payment_mode" value="<?php echo $policy_result['payment_mode'];?>">
                             <h4>Policy Details</h4>
                             <hr>
                             <div class="row">
@@ -326,10 +329,59 @@
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="payment_mode">Payment Mode</label>
-                                    <select name="payment_mode" class="form-control" id="payment_mode" required="required" readonly="true">
-                                        <option value="<?php echo $policy_result['payment_mode']; ?>"><?php echo $policy_result['payment_mode']; ?></option>
+                                    <select onchange="view_cheque_form()" name="payment_mode" class="form-control" id="payment_mode" required="required">
+                                        <option value="<?php echo $policy_result['payment_mode']; ?>"><?php echo $policy_result['payment_mode'];?></option>
+                                        <option value="Cash">Cash</option>
+                                        <option value="Online">Online</option>
+                                        <option value="Cheque">Cheque</option>
+                                        <option value="DD">DD</option>
                                     </select>
                                 </div>
+                                <!--Cheque-->
+                            <?php 
+                                //not setting cheque data if it is not of cash or online type
+                                if($policy_result['payment_mode']=='Cash' || $policy_result['payment_mode']=='Online'){
+                            ?>
+                                <!--Col-->
+                                <div class="col-md-4 policy_cheque_data">
+                                    <label for="cheque_number">Cheque Number</label>
+                                    <input type="number" class="form-control policy_cheque_input" id="cheque_number" name="cheque_number" placeholder="Cheque Number">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4 policy_cheque_data">
+                                    <label for="cheque_date">Cheque Date</label>
+                                    <input type="date" class="form-control policy_cheque_input" id="cheque_date" name="cheque_date" placeholder="Cheque Date">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4 policy_cheque_data">
+                                    <label for="bank_name">Bank Name</label>
+                                    <input type="text" class="form-control policy_cheque_input" id="bank_name" name="bank_name" placeholder="Bank Name">
+                                </div>
+                            <?php 
+                                }
+                                //setting values if it is of cheque of dd type
+                                else{
+                                    //fetching cheque values
+                                    $cheque_result=$user->read_selective_cheque("WHERE policy_id='".$_GET['id']."'")->fetch_assoc();
+                            ?>
+                                <!--Col-->
+                                <div class="col-md-4 policy_cheque_data">
+                                    <label for="cheque_number">Cheque Number</label>
+                                    <input type="number" value="<?php echo $cheque_result['cheque_number'];?>" class="form-control policy_cheque_input" id="cheque_number" name="cheque_number" placeholder="Cheque Number">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4 policy_cheque_data">
+                                    <label for="cheque_date">Cheque Date</label>
+                                    <input type="date" value="<?php echo $cheque_result['cheque_date'];?>" class="form-control policy_cheque_input" id="cheque_date" name="cheque_date" placeholder="Cheque Date">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4 policy_cheque_data">
+                                    <label for="bank_name">Bank Name</label>
+                                    <input type="text" value="<?php echo $cheque_result['bank_name'];?>" class="form-control policy_cheque_input" id="bank_name" name="bank_name" placeholder="Bank Name">
+                                </div>
+                            <?php
+                                }
+                            ?>
                             </div>
                             <input type="submit" value="submit" name="submit" class="btn btn-primary">
                         </form>

@@ -288,7 +288,7 @@
                                         <div class="col-md-4">
                                             <label for="branch_manager_id">Branch</label>
                                             <select name="branch_manager_id" class="form-control" id="branch_manager_id" required="required">
-                                                <option disabled value="<?php echo $user_result['branch_manager_id'];?>"><?php echo $user->get_branch($user_result['id']);?></option>
+                                                <option value="<?php echo $user_result['branch_manager_id'];?>"><?php echo $user->get_branch($user_result['id']);?></option>
                                                 <?php 
                                                     if($branch_manager_result_set){
                                                         while($branch_manager_result=$branch_manager_result_set->fetch_assoc()){
