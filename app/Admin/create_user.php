@@ -206,13 +206,13 @@
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="mobile">Mobile Number</label>
-                                    <input type="text" maxlength="10" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number" required="required">
+                                    <label for="mobile">Mobile Number <span id="mobile_error" style="color:red"></span></label>
+                                    <input type="text" onchange="check_mobile_duplication()" maxlength="10" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number" required="required">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="required">
+                                    <label for="email">Email <span id="email_error" style="color:red"></span></label>
+                                    <input type="email" onchange="check_email_duplication()" class="form-control" id="email" name="email" placeholder="Email" required="required">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
@@ -353,6 +353,102 @@
             $('#branch').removeAttr('required');
         }
     }
+    //ajax function for checking duplication of phone number and email
+    function ajax_call() {
+        $.ajax({
+            url:"ajax_users_contact.php",
+            type:"post",
+            success:function(response){
+                ajax_content.set_content(response);
+            }
+        });
+    }
+    var ajax_content={
+        content:"",
+        set_content:function(content){
+            this.content=content;
+        },
+        get_content:function(){
+            return this.content;
+        }
+    };
+    function check_mobile_duplication(){
+        var isDuplicate=false;
+        var entered_mobile=$('#mobile').val();
+        var json=JSON.parse(ajax_content.get_content());
+        //checking for branch manager
+        for(mobile of json['branch_manager']['mobile']){
+            if(mobile.localeCompare(entered_mobile)==0){
+                isDuplicate=true;
+            }
+        }
+        //checking for operator
+        for(mobile of json['operator']['mobile']){
+            if(mobile.localeCompare(entered_mobile)==0){
+                isDuplicate=true;
+            }
+        }
+        //checking for accountant
+        for(mobile of json['accountant']['mobile']){
+            if(mobile.localeCompare(entered_mobile)==0){
+                isDuplicate=true;
+            }
+        }
+        //checking for agent
+        for(mobile of json['agent']['mobile']){
+            if(mobile.localeCompare(entered_mobile)==0){
+                isDuplicate=true;
+            }
+        }
+        //action on duplicate entry
+        if(isDuplicate){
+            //displaying error
+            $('#mobile_error').text('(Number Already exists)');
+            //clearing existing value
+            $('#mobile').val('');
+        }else{
+            $('#mobile_error').text('');
+        }
+    }
+    function check_email_duplication(){
+        var isDuplicate=false;
+        var entered_email=$('#email').val();
+        var json=JSON.parse(ajax_content.get_content());
+        //checking for branch manager
+        for(email of json['branch_manager']['email']){
+            if(email.localeCompare(entered_email)==0){
+                isDuplicate=true;
+            }
+        }
+        //checking for operator
+        for(email of json['operator']['email']){
+            if(email.localeCompare(entered_email)==0){
+                isDuplicate=true;
+            }
+        }
+        //checking for accountant
+        for(email of json['accountant']['email']){
+            if(email.localeCompare(entered_email)==0){
+                isDuplicate=true;
+            }
+        }
+        //checking for agent
+        for(email of json['agent']['email']){
+            if(email.localeCompare(entered_email)==0){
+                isDuplicate=true;
+            }
+        }
+        //action on duplicate entry
+        if(isDuplicate){
+            //displaying error
+            $('#email_error').text('(Email Already exists)');
+            //clearing existing value
+            $('#email').val('');
+        }else{
+            $('#email_error').text('');
+        }
+    }
+    ajax_call();
   </script>
 </body>
 </html>
