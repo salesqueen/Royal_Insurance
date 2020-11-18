@@ -388,7 +388,7 @@
                     </div>
                     <div class="col-md-4">
                         <label for="ajax_company_code">Company Code</label>
-                        <select id="company_code" name="ajax_company_code" class="form-control" required="required">
+                        <select id="ajax_company_code" name="company_code" class="form-control" required="required">
                             <option value="">Select Company Code</option>
                         </select>
                     </div>
@@ -400,12 +400,10 @@
                         <label for="exampleRadios">Comsission Type</label>
                         <br>
                         <input class="form-check-input" onclick="update_agent_payout_amount()" type="radio" name="comission_type" id="OD" value="OD" checked>
-                        <label class="form-check-label" for="OD">OD Premium</label>
-                        <input type="text" id="od_premium" name="od_premium" value="" required="required" readonly="true">
+                        <label class="form-check-label" for="OD">OD Premium-<span id="od_premium"></span></label>
                         <br>
                         <input class="form-check-input" onclick="update_agent_payout_amount()" type="radio" name="comission_type" id="NP" value="NP">
-                        <label class="form-check-label" for="NP">NET Premium</label>
-                        <input type="text" id="net_premium" name="net_premium" value="" required="required" readonly="true">
+                        <label class="form-check-label" for="NP">NET Premium-<span id="net_premium"></span></label>
                     </div>
                     <!--Value not entered by admin-->
                     <input type="hidden" id="policy_id" name="policy_id" value="">    

@@ -18,7 +18,9 @@ function set_policy_values(json,id){
     $('#od_premium').text(policy_object.od_premium);
     $('#net_premium').text(policy_object.od_premium);
     //appending company code 
+    $('#ajax_company_code').empty();
     for(i in policy_object.company_code){
+        console.log(policy_object.company_code[i]);
         $('#ajax_company_code').append('<option value="'+policy_object.company_code[i]+'">'+policy_object.company_code[i]+'</option>');
     }
     document.getElementById('policy_id').value=id;
@@ -30,6 +32,7 @@ function ajax_call(id) {
         type:"post",
         data: {policy_id: id},
         success:function(response){
+            console.log(response);
             set_policy_values(response,id);
         }
     });
