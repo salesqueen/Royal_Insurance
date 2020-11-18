@@ -32,7 +32,6 @@ function ajax_call(id) {
         type:"post",
         data: {policy_id: id},
         success:function(response){
-            console.log(response);
             set_policy_values(response,id);
         }
     });
