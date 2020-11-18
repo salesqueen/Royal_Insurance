@@ -380,24 +380,28 @@
         for(mobile of json['branch_manager']['mobile']){
             if(mobile.localeCompare(entered_mobile)==0){
                 isDuplicate=true;
+                break;
             }
         }
         //checking for operator
         for(mobile of json['operator']['mobile']){
             if(mobile.localeCompare(entered_mobile)==0){
                 isDuplicate=true;
+                break;
             }
         }
         //checking for accountant
         for(mobile of json['accountant']['mobile']){
             if(mobile.localeCompare(entered_mobile)==0){
                 isDuplicate=true;
+                break;
             }
         }
         //checking for agent
         for(mobile of json['agent']['mobile']){
             if(mobile.localeCompare(entered_mobile)==0){
                 isDuplicate=true;
+                break;
             }
         }
         //action on duplicate entry
@@ -418,24 +422,28 @@
         for(email of json['branch_manager']['email']){
             if(email.localeCompare(entered_email)==0){
                 isDuplicate=true;
+                break;
             }
         }
         //checking for operator
         for(email of json['operator']['email']){
             if(email.localeCompare(entered_email)==0){
                 isDuplicate=true;
+                break;
             }
         }
         //checking for accountant
         for(email of json['accountant']['email']){
             if(email.localeCompare(entered_email)==0){
                 isDuplicate=true;
+                break;
             }
         }
         //checking for agent
         for(email of json['agent']['email']){
             if(email.localeCompare(entered_email)==0){
                 isDuplicate=true;
+                break;
             }
         }
         //action on duplicate entry

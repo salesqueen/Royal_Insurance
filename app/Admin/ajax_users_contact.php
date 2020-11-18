@@ -5,7 +5,6 @@
     include '../Php/main.php';
     //json generator
     function generate_json_response($branch_manager_mobile_email_array,$operator_mobile_email_array,$accountant_mobile_email_array,$agent_mobile_email_array){
-        $policy=new Policy();
         $json='{';
         //APPENDING BRANCH MANAGER
         $json=$json.'"branch_manager":{';

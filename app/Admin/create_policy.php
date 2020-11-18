@@ -256,8 +256,8 @@
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="policy_number">Policy Number</label>
-                                    <input type="text" class="form-control" id="policy_number" name="policy_number" placeholder="Policy Number" required="required">
+                                    <label for="policy_number">Policy Number <span id="policy_number_error" style="color:red"></span></label>
+                                    <input type="text" onchange="check_policy_number_duplication()" class="form-control" id="policy_number" name="policy_number" placeholder="Policy Number" required="required">
                                 </div>
                             </div>
 
@@ -281,8 +281,8 @@
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="registration_number">Registration Number</label>
-                                    <input type="text" class="form-control" id="registration_number" name="registration_number" placeholder="Registration Number" required="required">
+                                    <label for="registration_number">Registration Number <span id="registration_number_error" style="color:red"></span></label>
+                                    <input type="text" onchange="check_registration_number_duplication()" class="form-control" id="registration_number" name="registration_number" placeholder="Registration Number" required="required">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
