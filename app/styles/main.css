@@ -127,7 +127,6 @@ header #account #account-menu img{
     font-family: var(--monserrat);
     font-size: 14px;
     font-weight: 600;
-    color: rgba(0,0,0,.5);
 }
 /*====Insert User====*/
 .nav-tabs{

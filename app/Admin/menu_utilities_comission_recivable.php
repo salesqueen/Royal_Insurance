@@ -336,8 +336,8 @@
                                                 }
                                                 //elimating the transactioned amount
                                                 $recivable_transaction_result_set=$user->read_selective_recivable_transaction("WHERE policy_id='".$approved_policy_result['id']."'");
+                                                $recivable_amount=0;
                                                 if($recivable_transaction_result_set){
-                                                    $recived_amount=0;
                                                     while($recivable_transaction_result=$recivable_transaction_result_set->fetch_assoc()){
                                                         $recivable_amount+=$recivable_transaction_result['amount'];
                                                     }
@@ -390,7 +390,7 @@
         <div class="container">
           <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
             <div class="row close_container">
-                <span class="fas fa-times" onclick="close_overlay()"></span>
+                <span class="fa fa-times" onclick="close_overlay()"></span>
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -452,7 +452,7 @@
         <span class="fas fa-exclamation-circle"></span>
         <span class="msg" id="message"></span>
         <div class="close-btn">
-          <span class="fas fa-times"></span>
+          <span class="fa fa-times"></span>
         </div>
     </div>
 

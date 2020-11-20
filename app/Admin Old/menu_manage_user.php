@@ -444,7 +444,7 @@
         <span class="fas fa-exclamation-circle"></span>
         <span class="msg" id="message"></span>
         <div class="close-btn">
-          <span class="fas fa-times"></span>
+          <span class="fa fa-times"></span>
         </div>
     </div>
 

@@ -7,28 +7,38 @@
     //session handelling
     $session=new Session();
     $session->check_session("Admin");
-
+    
     //creating user object
     $user=new Admin();
 
-    //fetching main
+    //fetching
+    //fetching company result set
+    $company_result_set=$user->read_all_company();
+    //fetching policy type result set
+    $policy_type_result_set=$user->read_all_policy_type();
     //fetching product result set
     $product_result_set=$user->read_all_product();
-        
+    //fetching policy period type result set
+    $policy_period_result_set=$user->read_all_policy_period();
+    //fetching branch manager result set
+    $branch_manager_result_set=$user->read_all_branch_manager();
+    
+
     //form handelling
-    //product
-    if(isset($_POST['product_form_submit'])){
-        $user->insert_product();
-        header("location:menu_master_product.php");
-        exit();
+    //create policy
+    if(isset($_POST['submit'])){
+        $user->update_policy_document($_GET['id']);
+        header('Location:menu_policy.php');
     }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product</title>
+  <title>Upload Policy</title>
 
   <!-- CSS -->
   <!--Bootstrap-->
@@ -70,14 +80,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="menu_dashboard.php">Dashboard</a>
                         </li>
-                        <li class="nav-item dropdown active">
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Master</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="menu_master_company.php">Company</a>
                                 <a class="dropdown-item" href="menu_master_company_code.php">Company Code</a>
                                 <a class="dropdown-item" href="menu_master_policy_period.php">Policy Period</a>
                                 <a class="dropdown-item" href="menu_master_policy_type.php">Policy Type</a>
-                                <a class="dropdown-item active" href="menu_master_product.php">Product</a>
+                                <a class="dropdown-item" href="menu_master_product.php">Product</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -119,80 +129,51 @@
         <div class="form-container">
           <div class="row">
             <div class="col-md-12">
-                
-                <h2>Product</h2>
 
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Upload Policy Documents</h2>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="menu_policy.php" style="float:right"><Button>Back <i class="fa fa-arrow-right" aria-hidden="true"></i></button></a>
+                    </div>
+                </div>
+                
                 <ul class="nav nav-tabs">
-                    <li><a data-toggle="tab" href="#product" class="active">Product</a></li>
+                    <li><a data-toggle="tab" href="#policy" class="active">Upload Policy Documents</a></li>
                 </ul>
 
                 <div class="tab-content">
-                    <div id="product" class="tab-pane fade active show">
-                        <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+                    <div id="policy" class="tab-pane fade in show active">
+                        <!--Select branch form-->
+                        <form action="<?php echo $_SERVER['PHP_SELF']."?id=".$_GET['id'];?>" method="POST" enctype="multipart/form-data">
+                            <h4>Files</h4>
+                            <hr>
                             <div class="row">
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="product">Product</label>
-                                    <input type="text" class="form-control" id="product" name="product" placeholder="Product" required="required">
+                                    <label for="file_1">File 1</label>
+                                    <input type="file" class="form-control" id="file_1" name="file_1" placeholder="File 1" accept="application/pdf">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="remark">Remark</label>
-                                    <input type="text" class="form-control" id="remark" name="remark" placeholder="Remark" required="required">
+                                    <label for="file_2">File 2</label>
+                                    <input type="file" class="form-control" id="file_2" name="file_2" placeholder="File 2" accept="application/pdf">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <br>
-                                    <input type="submit" value="Create" name="product_form_submit" class="btn btn-primary">
+                                    <label for="file_3">File 3</label>
+                                    <input type="file" class="form-control" id="file_3" name="file_3" placeholder="File 3" accept="application/pdf">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="file_4">File 4</label>
+                                    <input type="file" class="form-control" id="file_4" name="file_4" placeholder="File 4" accept="application/pdf">
                                 </div>
                             </div>
+                            <input type="submit" value="Upload" name="submit" class="btn btn-primary">
                         </form>
-                        <div class="row filter">
-                            <div class="col-sm-6">
-                                <div class="search-container">
-                                    <form action="" method="POST">
-                                        <input id="search_1" type="text" placeholder="Search" name="search">
-                                    </form>
-                                </div>
-                            </div> 
-                        </div>
-                        <div class="table-scroll">
-                            <table id="table_1" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Remark</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                        if($product_result_set){
-                                            while($product_result=$product_result_set->fetch_assoc()){
-                                                echo "<tr>";
-                                                echo "  <td>".$product_result['product']."</td>";
-                                                echo "  <td>".$product_result['remark']."</td>";
-                                                echo '  <td>
-                                                            <a href="edit_product.php?id='.$product_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                            <a href="delete_product.php?id='.$product_result['id'].'"><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
-                                                        </td>';
-                                                echo "</tr>";
-                                            }
-                                        }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!--<nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </nav>-->
-                    </div>    
+                    </div>
                 </div>
   
           </div>
@@ -203,48 +184,19 @@
 
     
     </footer>
-    <!--Message-->
-    <div class="alert hide">
-        <span class="fas fa-exclamation-circle"></span>
-        <span class="msg" id="message"></span>
-        <div class="close-btn">
-          <span class="fa fa-times"></span>
-        </div>
-    </div>
 
-  <!-- jQuery and JS bundle w/ Popper.js -->
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-  <!--Font awesome-->
-  <script src="https://use.fontawesome.com/793bc63e83.js"></script>
+    <!-- jQuery and JS bundle w/ Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <!--Font awesome-->
+    <script src="https://use.fontawesome.com/793bc63e83.js"></script>
   <style>
     .fa{
         font:normal normal normal 20px/1 FontAwesome;
     }
   </style>
-  <!--Custom script-->
-  <script src="../scripts/main.js"></script>
-  <script src="../scripts/search.js"></script>
-  <?php 
-    //Message handelling
-    if(isset($_SESSION['message'])){
-        echo "<script>
-                $('.alert').addClass('show');
-                $('#message').text('".$_SESSION['message']."');
-                $('.alert').removeClass('hide');
-                $('.alert').addClass('showAlert');
-                $('.alert').css('opacity','1');
-                setTimeout(function(){
-                    $('.alert').removeClass('show');
-                    $('.alert').addClass('hide');
-                    $('.alert').css('opacity','0');
-                },5000);
-            </script>";
-        unset($_SESSION['message']);
-    }else{
-        echo $_SESSION['message'];
-    }
-  ?>
+    <!--Custom script-->
+    <script src="../scripts/policy.js"></script>
 </body>
 </html>
 

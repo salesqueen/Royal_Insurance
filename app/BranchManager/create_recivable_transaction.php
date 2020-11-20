@@ -1,34 +1,35 @@
 <?php 
 
-    error_reporting(0);
+  //error_reporting(0);
 
-    include '../Php/main.php';
+  include '../Php/main.php';
 
-    //session handelling
-    $session=new Session();
-    $session->check_session("Admin");
+  //session handelling
+  $session=new Session();
+  $session->check_session("Admin");
 
-    //creating user object
-    $user=new Admin();
+  //creating user object
+  $user=new Admin();
 
-    //fetching main
-    //fetching product result set
-    $product_result_set=$user->read_all_product();
-        
-    //form handelling
-    //product
-    if(isset($_POST['product_form_submit'])){
-        $user->insert_product();
-        header("location:menu_master_product.php");
-        exit();
-    }
+  //fetching main
+  //fetching branch manager result set
+  $branch_manager_result_set=$user->read_all_branch_manager();
+
+  //form handelling
+  //inserting transaction
+  if(isset($_POST['submit'])){
+    $user->insert_recivable_transaction();
+    header('Location:menu_utilities_comission_recivable.php');
+    exit();
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product</title>
+  <title>Make Recivable Transaction</title>
 
   <!-- CSS -->
   <!--Bootstrap-->
@@ -70,14 +71,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="menu_dashboard.php">Dashboard</a>
                         </li>
-                        <li class="nav-item dropdown active">
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Master</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="menu_master_company.php">Company</a>
                                 <a class="dropdown-item" href="menu_master_company_code.php">Company Code</a>
                                 <a class="dropdown-item" href="menu_master_policy_period.php">Policy Period</a>
                                 <a class="dropdown-item" href="menu_master_policy_type.php">Policy Type</a>
-                                <a class="dropdown-item active" href="menu_master_product.php">Product</a>
+                                <a class="dropdown-item" href="menu_master_product.php">Product</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -119,80 +120,44 @@
         <div class="form-container">
           <div class="row">
             <div class="col-md-12">
-                
-                <h2>Product</h2>
 
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Make Recivable Transaction</h2>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="<?php if(isset($_GET['transaction_type'])){if($_GET['transaction_type']=='Recived'){echo "menu_utilities_cash_recived.php";}else{echo "menu_utilities_cash_paid.php";}}else{echo "menu_wallet.php";}?>" style="float:right"><Button>Back <i class="fa fa-arrow-right" aria-hidden="true"></i></button></a>
+                    </div>
+                </div>
+                
                 <ul class="nav nav-tabs">
-                    <li><a data-toggle="tab" href="#product" class="active">Product</a></li>
+                    <li><a data-toggle="tab" href="#transaction" class="active">Make Recivable Transaction</a></li>
                 </ul>
 
                 <div class="tab-content">
-                    <div id="product" class="tab-pane fade active show">
-                        <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+                    <div id="transaction" class="tab-pane fade in show active">
+                        <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST">
                             <div class="row">
+                                <input type="hidden" name="policy_id" value="<?php echo $_GET['policy_id'];?>">
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="product">Product</label>
-                                    <input type="text" class="form-control" id="product" name="product" placeholder="Product" required="required">
+                                    <label for="company_name">Company Name</label>
+                                    <input type="text" value="<?php echo $_GET['company_name'];?>" class="form-control" id="company_name" name="company_name" placeholder="Company Name" required="required" readonly="true">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="amount">Amount</label>
+                                    <input type="number" class="form-control" id="amount" name="amount" placeholder="Amount" required="required">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="remark">Remark</label>
-                                    <input type="text" class="form-control" id="remark" name="remark" placeholder="Remark" required="required">
-                                </div>
-                                <!--Col-->
-                                <div class="col-md-4">
-                                    <br>
-                                    <input type="submit" value="Create" name="product_form_submit" class="btn btn-primary">
+                                    <input type="text" class="form-control" id="remark" name="remark" placeholder="Remark">
                                 </div>
                             </div>
+                            <input type="submit" value="submit" name="submit" class="btn btn-primary">
                         </form>
-                        <div class="row filter">
-                            <div class="col-sm-6">
-                                <div class="search-container">
-                                    <form action="" method="POST">
-                                        <input id="search_1" type="text" placeholder="Search" name="search">
-                                    </form>
-                                </div>
-                            </div> 
-                        </div>
-                        <div class="table-scroll">
-                            <table id="table_1" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Remark</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                        if($product_result_set){
-                                            while($product_result=$product_result_set->fetch_assoc()){
-                                                echo "<tr>";
-                                                echo "  <td>".$product_result['product']."</td>";
-                                                echo "  <td>".$product_result['remark']."</td>";
-                                                echo '  <td>
-                                                            <a href="edit_product.php?id='.$product_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                            <a href="delete_product.php?id='.$product_result['id'].'"><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
-                                                        </td>';
-                                                echo "</tr>";
-                                            }
-                                        }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!--<nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </nav>-->
-                    </div>    
+                    </div>
                 </div>
   
           </div>
@@ -203,49 +168,50 @@
 
     
     </footer>
-    <!--Message-->
-    <div class="alert hide">
-        <span class="fas fa-exclamation-circle"></span>
-        <span class="msg" id="message"></span>
-        <div class="close-btn">
-          <span class="fa fa-times"></span>
-        </div>
-    </div>
 
-  <!-- jQuery and JS bundle w/ Popper.js -->
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-  <!--Font awesome-->
-  <script src="https://use.fontawesome.com/793bc63e83.js"></script>
+    <!-- jQuery and JS bundle w/ Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <!--Font awesome-->
+    <script src="https://use.fontawesome.com/793bc63e83.js"></script>
   <style>
     .fa{
         font:normal normal normal 20px/1 FontAwesome;
     }
   </style>
-  <!--Custom script-->
-  <script src="../scripts/main.js"></script>
-  <script src="../scripts/search.js"></script>
-  <?php 
-    //Message handelling
-    if(isset($_SESSION['message'])){
-        echo "<script>
-                $('.alert').addClass('show');
-                $('#message').text('".$_SESSION['message']."');
-                $('.alert').removeClass('hide');
-                $('.alert').addClass('showAlert');
-                $('.alert').css('opacity','1');
-                setTimeout(function(){
-                    $('.alert').removeClass('show');
-                    $('.alert').addClass('hide');
-                    $('.alert').css('opacity','0');
-                },5000);
-            </script>";
-        unset($_SESSION['message']);
-    }else{
-        echo $_SESSION['message'];
-    }
-  ?>
+    <!--Custom script-->
+    <script>
+        function set_agent_detail(json){
+            let agent_object=JSON.parse(json);
+
+            $('#bank_name').text(agent_object['bank_name']);
+            $('#bank_branch').text(agent_object['bank_branch']);
+            $('#ifsc_code').text(agent_object['ifsc_code']);
+            $('#micr_number').text(agent_object['micr_number']);
+
+            $('#phonepe_number').text(agent_object['phonepe_number']);
+            $('#paytm_number').text(agent_object['paytm_number']);
+            $('#google_pay_number').text(agent_object['google_pay_number']);
+            $('#upi_id').text(agent_object['upi_id']);
+        }
+        function ajax_call(id) {
+            $.ajax({
+                url:"ajax_transaction.php",
+                type:"post",
+                data: {agent_id: id},
+                success:function(response){
+                    set_agent_detail(response);
+                }
+            });
+        }
+        function fetch_agent_detail(){
+            ajax_call($('#agent_id').val()); 
+        }
+    </script>
 </body>
 </html>
+
+                        
+
 
                         

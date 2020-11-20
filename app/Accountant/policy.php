@@ -311,7 +311,7 @@
         <div class="container">
           <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
             <div class="row close_container">
-                <span class="fas fa-times" onclick="close_overlay()"></span>
+                <span class="fa fa-times" onclick="close_overlay()"></span>
             </div>
             <div class="row">
                     <div class="col-md-4">

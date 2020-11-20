@@ -621,7 +621,7 @@
         <div class="container">
           <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
             <div class="row close_container">
-                <span class="fas fa-times" onclick="close_overlay()"></span>
+                <span class="fa fa-times" onclick="close_overlay()"></span>
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -682,7 +682,7 @@
         <span class="fas fa-exclamation-circle"></span>
         <span class="msg" id="message"></span>
         <div class="close-btn">
-          <span class="fas fa-times"></span>
+          <span class="fa fa-times"></span>
         </div>
     </div>
 

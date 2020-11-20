@@ -1,34 +1,37 @@
 <?php 
 
-    error_reporting(0);
+  error_reporting(0);
 
-    include '../Php/main.php';
+  include '../Php/main.php';
 
-    //session handelling
-    $session=new Session();
-    $session->check_session("Admin");
+  //session handelling
+  $session=new Session();
+  $session->check_session("Admin");
 
-    //creating user object
-    $user=new Admin();
+  //creating user object
+  $user=new Admin();
+  
+  //fetching main
+  //fetching branch result set
+  $company_result_set=$user->read_all_company();
+  //fetching company code result set
+  $company_code_result_set=$user->read_one_company_code($_GET['id']);
+  $company_code_result=$company_code_result_set->fetch_assoc();
 
-    //fetching main
-    //fetching product result set
-    $product_result_set=$user->read_all_product();
-        
-    //form handelling
-    //product
-    if(isset($_POST['product_form_submit'])){
-        $user->insert_product();
-        header("location:menu_master_product.php");
-        exit();
-    }
+  //form handelling
+  if(isset($_POST['submit'])){
+      $user->update_company_code(Company_Code_Contract::get_table_columns(),$_GET['id']);
+      header('Location:menu_master_company_code.php');
+      exit();
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product</title>
+  <title>Edit Company Code</title>
 
   <!-- CSS -->
   <!--Bootstrap-->
@@ -41,7 +44,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
   <!--Montserrat-->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
-
+  
   <!--Custom style sheet-->
   <link rel="stylesheet" href="../styles/main.css">
 </head>
@@ -58,7 +61,7 @@
                 </div>
             </nav>
         </div>
-    </header>
+    </header> 
     <section id="navbar">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -70,14 +73,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="menu_dashboard.php">Dashboard</a>
                         </li>
-                        <li class="nav-item dropdown active">
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Master</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="menu_master_company.php">Company</a>
                                 <a class="dropdown-item" href="menu_master_company_code.php">Company Code</a>
                                 <a class="dropdown-item" href="menu_master_policy_period.php">Policy Period</a>
                                 <a class="dropdown-item" href="menu_master_policy_type.php">Policy Type</a>
-                                <a class="dropdown-item active" href="menu_master_product.php">Product</a>
+                                <a class="dropdown-item" href="menu_master_product.php">Product</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -116,83 +119,59 @@
     </section>
     <section id="main-container">
       <div class="container">
-        <div class="form-container">
+        <div class="table-container">
           <div class="row">
             <div class="col-md-12">
                 
-                <h2>Product</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Edit Company Code</h2>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="menu_create_company_code.php" style="float:right"><Button>Back <i class="fa fa-arrow-right" aria-hidden="true"></i></button></a>
+                    </div>
+                </div>
 
                 <ul class="nav nav-tabs">
-                    <li><a data-toggle="tab" href="#product" class="active">Product</a></li>
+                    <li><a data-toggle="tab" href="#create_branch" class="active">Edit Company Code</a></li>
                 </ul>
 
                 <div class="tab-content">
-                    <div id="product" class="tab-pane fade active show">
-                        <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+                    <div id="create_branch" class="tab-pane fade in active show">
+                        <form action="<?php echo $_SERVER['PHP_SELF']."?id=".$_GET['id'] ?>" method="POST">
                             <div class="row">
                                 <!--Col-->
-                                <div class="col-md-4">
-                                    <label for="product">Product</label>
-                                    <input type="text" class="form-control" id="product" name="product" placeholder="Product" required="required">
+                                <div class="col-md-3">
+                                    <label for="company_name">Company Name</label>
+                                    <select name="company_name" class="form-control" id="company_name" required="required">
+                                            <option value="<?php echo $company_code_result['company_name'];?>"><?php echo $company_code_result['company_name'];?></option>
+                                            <?php 
+                                                if($company_result_set){
+                                                    while($company_result=$company_result_set->fetch_assoc()){
+                                                        echo '<option value="'.$company_result['company_name'].'">'.$company_result['company_name'].'</option>';
+                                                    }
+                                                }
+                                            ?>
+                                    </select>
                                 </div>
                                 <!--Col-->
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <label for="company_code">Company Code</label>
+                                    <input type="text" value="<?php echo $company_code_result['company_code'];?>" class="form-control" id="company_code" name="company_code" placeholder="Company Code" required="required">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-3">
                                     <label for="remark">Remark</label>
-                                    <input type="text" class="form-control" id="remark" name="remark" placeholder="Remark" required="required">
+                                    <input type="text" value="<?php echo $company_code_result['remark'];?>" class="form-control" id="remark" name="remark" placeholder="Remark" required="required">
                                 </div>
                                 <!--Col-->
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <br>
-                                    <input type="submit" value="Create" name="product_form_submit" class="btn btn-primary">
+                                    <input type="submit" value="Update" name="submit" class="btn btn-primary">
                                 </div>
                             </div>
                         </form>
-                        <div class="row filter">
-                            <div class="col-sm-6">
-                                <div class="search-container">
-                                    <form action="" method="POST">
-                                        <input id="search_1" type="text" placeholder="Search" name="search">
-                                    </form>
-                                </div>
-                            </div> 
-                        </div>
-                        <div class="table-scroll">
-                            <table id="table_1" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Remark</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                        if($product_result_set){
-                                            while($product_result=$product_result_set->fetch_assoc()){
-                                                echo "<tr>";
-                                                echo "  <td>".$product_result['product']."</td>";
-                                                echo "  <td>".$product_result['remark']."</td>";
-                                                echo '  <td>
-                                                            <a href="edit_product.php?id='.$product_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                                            <a href="delete_product.php?id='.$product_result['id'].'"><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
-                                                        </td>';
-                                                echo "</tr>";
-                                            }
-                                        }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!--<nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </nav>-->
-                    </div>    
+                    </div>
                 </div>
   
           </div>
@@ -203,14 +182,6 @@
 
     
     </footer>
-    <!--Message-->
-    <div class="alert hide">
-        <span class="fas fa-exclamation-circle"></span>
-        <span class="msg" id="message"></span>
-        <div class="close-btn">
-          <span class="fa fa-times"></span>
-        </div>
-    </div>
 
   <!-- jQuery and JS bundle w/ Popper.js -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -222,29 +193,8 @@
         font:normal normal normal 20px/1 FontAwesome;
     }
   </style>
-  <!--Custom script-->
+  <!--Custom javascript-->
   <script src="../scripts/main.js"></script>
-  <script src="../scripts/search.js"></script>
-  <?php 
-    //Message handelling
-    if(isset($_SESSION['message'])){
-        echo "<script>
-                $('.alert').addClass('show');
-                $('#message').text('".$_SESSION['message']."');
-                $('.alert').removeClass('hide');
-                $('.alert').addClass('showAlert');
-                $('.alert').css('opacity','1');
-                setTimeout(function(){
-                    $('.alert').removeClass('show');
-                    $('.alert').addClass('hide');
-                    $('.alert').css('opacity','0');
-                },5000);
-            </script>";
-        unset($_SESSION['message']);
-    }else{
-        echo $_SESSION['message'];
-    }
-  ?>
 </body>
 </html>
 
