@@ -128,7 +128,7 @@ $operator_result_set=$user->read_all_operator();
                               </div>
                           </div> 
                           <div class="col-sm-6">
-                              <a href="create_user.php" class="download_excel"><button><i class="fas fa-plus"></i></button></a>
+                              <a href="create_user.php" class="download_excel"><button>Create</button></a>
                           </div>
                       </div>
                       <div class="table-scroll">
@@ -152,8 +152,8 @@ $operator_result_set=$user->read_all_operator();
                                           echo "<td>".$operator_result['email']."</td>";
                                           echo "<td>".$operator_result['address']."</td>";
                                           echo '  <td>
-                                                      <a href="view_user.php?id='.$operator_result['id'].'&user_type=operator"><span class="fas fa-eye action_button"></span></a>
-                                                      <a href="edit_user.php?id='.$operator_result['id'].'&user_type=operator"><span class="fas fa-edit action_button"></span></a>
+                                                      <a href="view_user.php?id='.$operator_result['id'].'&user_type=operator"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                      <a href="edit_user.php?id='.$operator_result['id'].'&user_type=operator"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                   </td>';
                                           echo "</tr>";
                                       }

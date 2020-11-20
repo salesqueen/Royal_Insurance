@@ -263,7 +263,7 @@
                                     <input type="date" onfocus="this.value=''" name="filter_start_date" id="filter_start_date" value="<?php if(isset($_POST['filter_start_date'])){echo $_POST['filter_start_date'];}else{/*Do Nothing */}?>">
                                     <input type="date" onfocus="this.value=''" name="filter_end_date" id="filter_end_date" value="<?php if(isset($_POST['filter_end_date'])){echo $_POST['filter_end_date'];}else{/*Do Nothing */}?>">
                                     <!--Filter Button-->
-                                    <button type="submit" name="filter_submit"><i class="fas fa-sort"></i></button>
+                                    <button type="submit" name="filter_submit"><i class="fa fa-sort" aria-hidden="true"></i></button>
                                 </form>
                             </div>
                         </div>
@@ -301,7 +301,7 @@
                                                 echo "  <td>".$user->get_agent_name($pending_policy_result['agent_id'])."</td>";
                                                 echo '  <td>
                                                             <Button onclick="policy_open_overlay(this)" id="'.$pending_policy_result['id'].'">Approve</Button>
-                                                            <a href="view_policy.php?id='.$pending_policy_result['id'].'"><span class="fas fa-eye action_button"></span></a>
+                                                            <a href="view_policy.php?id='.$pending_policy_result['id'].'"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                                         </td>';
                                                 echo "</tr>";
                                             }
@@ -319,7 +319,7 @@
                                             echo "  <td>".$user->get_agent_name($cleared_cheque_pending_policy_array[$i]['agent_id'])."</td>";
                                             echo '  <td>
                                                         <Button onclick="policy_open_overlay(this)" id="'.$cleared_cheque_pending_policy_array[$i]['id'].'">Approve</Button>
-                                                        <a href="view_policy.php?id='.$cleared_cheque_pending_policy_array[$i]['id'].'"><span class="fas fa-eye action_button"></span></a>
+                                                        <a href="view_policy.php?id='.$cleared_cheque_pending_policy_array[$i]['id'].'"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                                     </td>';
                                             echo "</tr>";
                                         }
@@ -356,8 +356,8 @@
                                                 echo "  <td>".$comission."</td>";
                                                 echo "  <td>".$user->get_agent_name($approved_policy_result['agent_id'])."</td>";
                                                 echo '  <td>
-                                                            Approved <a href="view_policy.php?id='.$approved_policy_result['id'].'"><span class="fas fa-eye action_button"></span></a>
-                                                            <a href="create_recivable_transaction.php?company_name='.$approved_policy_result['company_name'].'&policy_id='.$approved_policy_result['id'].'"><i class="fas fa-money-check action_button"></i></a>
+                                                            Approved <a href="view_policy.php?id='.$approved_policy_result['id'].'"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                            <a href="create_recivable_transaction.php?company_name='.$approved_policy_result['company_name'].'&policy_id='.$approved_policy_result['id'].'"><i class="fa fa-credit-card" aria-hidden="true"></i></a>
                                                         </td>';
                                                 echo "</tr>";
                                             }

@@ -172,7 +172,7 @@
                                 <!--Col-->
                                 <div class="col-md-2">
                                     <br>
-                                    <input type="submit" value="Submit" name="branch_submit" class="btn btn-primary">
+                                    <input type="submit" value="Create" name="branch_submit" class="btn btn-primary">
                                 </div>
                             </div>
                         </form>
@@ -204,8 +204,8 @@
                                                 echo "  <td>".$branch_result['branch']."</td>";
                                                 echo "  <td>".$branch_result['remark']."</td>";
                                                 echo '  <td>
-                                                            <a href="edit_branch.php?id='.$branch_result['id'].'"><span class="fas fa-edit action_button"></span></a>
-                                                            <a href="delete_branch.php?id='.$branch_result['id'].'"><span class="fas fa-trash-alt action_button"></span></a>
+                                                            <a href="edit_branch.php?id='.$branch_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                            <a href="delete_branch.php?id='.$branch_result['id'].'"><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
                                                         </td>';
                                                 echo "</tr>";
                                             }

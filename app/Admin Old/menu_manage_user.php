@@ -168,8 +168,8 @@
                                             echo "<td>".$branch_manager_result['address']."</td>";
                                             echo "<td>".$branch_manager_result['branch']."</td>";
                                             echo '  <td>
-                                                        <a href="view_user.php?id='.$branch_manager_result['id'].'&user_type=branch_manager"><span class="fas fa-eye action_button"></span></a>
-                                                        <a href="edit_user.php?id='.$branch_manager_result['id'].'&user_type=branch_manager"><span class="fas fa-edit action_button"></span></a>
+                                                        <a href="view_user.php?id='.$branch_manager_result['id'].'&user_type=branch_manager"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        <a href="edit_user.php?id='.$branch_manager_result['id'].'&user_type=branch_manager"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                     </td>';
                                             echo "</tr>";
                                         }
@@ -225,8 +225,8 @@
                                             echo "<td>".$operator_result['email']."</td>";
                                             echo "<td>".$operator_result['address']."</td>";
                                             echo '  <td>
-                                                        <a href="view_user.php?id='.$operator_result['id'].'&user_type=operator"><span class="fas fa-eye action_button"></span></a>
-                                                        <a href="edit_user.php?id='.$operator_result['id'].'&user_type=operator"><span class="fas fa-edit action_button"></span></a>
+                                                        <a href="view_user.php?id='.$operator_result['id'].'&user_type=operator"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        <a href="edit_user.php?id='.$operator_result['id'].'&user_type=operator"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                     </td>';
                                             echo "</tr>";
                                         }
@@ -282,8 +282,8 @@
                                             echo "<td>".$accountant_result['email']."</td>";
                                             echo "<td>".$accountant_result['address']."</td>";
                                             echo '  <td>
-                                                        <a href="view_user.php?id='.$accountant_result['id'].'&user_type=accountant"><span class="fas fa-eye action_button"></span></a>
-                                                        <a href="edit_user.php?id='.$accountant_result['id'].'&user_type=accountant"><span class="fas fa-edit action_button"></span></a>
+                                                        <a href="view_user.php?id='.$accountant_result['id'].'&user_type=accountant"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        <a href="edit_user.php?id='.$accountant_result['id'].'&user_type=accountant"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                     </td>';
                                             echo "</tr>";
                                         }
@@ -339,8 +339,8 @@
                                             echo "<td>".$agent_result['email']."</td>";
                                             echo "<td>".$agent_result['address']."</td>";
                                             echo '  <td>
-                                                        <a href="view_user.php?id='.$agent_result['id'].'&user_type=agent"><span class="fas fa-eye action_button"></span></a>
-                                                        <a href="edit_user.php?id='.$agent_result['id'].'&user_type=agent"><span class="fas fa-edit action_button"></span></a>
+                                                        <a href="view_user.php?id='.$agent_result['id'].'&user_type=agent"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        <a href="edit_user.php?id='.$agent_result['id'].'&user_type=agent"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                     </td>';
                                             echo "</tr>";
                                         }
@@ -409,8 +409,8 @@
                                                 echo "  <td>".$branch_result['branch']."</td>";
                                                 echo "  <td>".$branch_result['remark']."</td>";
                                                 echo '  <td>
-                                                            <a href="edit_branch.php?id='.$branch_result['id'].'"><span class="fas fa-edit action_button"></span></a>
-                                                            <a href="delete_branch.php?id='.$branch_result['id'].'"><span class="fas fa-trash-alt action_button"></span></a>
+                                                            <a href="edit_branch.php?id='.$branch_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                            <a href="delete_branch.php?id='.$branch_result['id'].'"><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
                                                         </td>';
                                                 echo "</tr>";
                                             }

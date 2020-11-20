@@ -176,8 +176,8 @@ if(isset($_POST['company_form_submit'])){
                                             echo "  <td>".$company_result['company_name']."</td>";
                                             echo "  <td>".$company_result['remark']."</td>";
                                             echo '  <td>
-                                                        <a href="edit_company.php?id='.$company_result['id'].'"><span class="fas fa-edit action_button"></span></a>
-                                                        <a href="delete_company.php?id='.$company_result['id'].'"><span class="fas fa-trash-alt action_button"></span></a>
+                                                        <a href="edit_company.php?id='.$company_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                        <a href="delete_company.php?id='.$company_result['id'].'"><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
                                                     </td>';
                                             echo "</tr>";
                                         }

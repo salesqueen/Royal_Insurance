@@ -211,8 +211,8 @@
                                                 echo "  <td>".$company_result['company_name']."</td>";
                                                 echo "  <td>".$company_result['remark']."</td>";
                                                 echo '  <td>
-                                                            <a href="edit_company.php?id='.$company_result['id'].'"><span class="fas fa-edit action_button"></span></a>
-                                                            <a href="delete_company.php?id='.$company_result['id'].'"><span class="fas fa-trash-alt action_button"></span></a>
+                                                            <a href="edit_company.php?id='.$company_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                            <a href="delete_company.php?id='.$company_result['id'].'"><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
                                                         </td>';
                                                 echo "</tr>";
                                             }
@@ -280,8 +280,8 @@
                                                 echo "  <td>".$policy_period_result['policy_period']."</td>";
                                                 echo "  <td>".$policy_period_result['remark']."</td>";
                                                 echo '  <td>
-                                                            <a href="edit_policy_period.php?id='.$policy_period_result['id'].'"><span class="fas fa-edit action_button"></span></a>
-                                                            <a href="delete_policy_period.php?id='.$policy_period_result['id'].'"><span class="fas fa-trash-alt action_button"></span></a>
+                                                            <a href="edit_policy_period.php?id='.$policy_period_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                            <a href="delete_policy_period.php?id='.$policy_period_result['id'].'"><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
                                                         </td>';
                                                 echo "</tr>";
                                             }
@@ -348,8 +348,8 @@
                                                 echo "  <td>".$policy_type_result['policy_type']."</td>";
                                                 echo "  <td>".$policy_type_result['remark']."</td>";
                                                 echo '  <td>
-                                                            <a href="edit_policy_type.php?id='.$policy_type_result['id'].'"><span class="fas fa-edit action_button"></span></a>
-                                                            <a href="delete_policy_type.php?id='.$policy_type_result['id'].'"><span class="fas fa-trash-alt action_button"></span></a>
+                                                            <a href="edit_policy_type.php?id='.$policy_type_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                            <a href="delete_policy_type.php?id='.$policy_type_result['id'].'"><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
                                                         </td>';
                                                 echo "</tr>";
                                             }
@@ -416,8 +416,8 @@
                                                 echo "  <td>".$product_result['product']."</td>";
                                                 echo "  <td>".$product_result['remark']."</td>";
                                                 echo '  <td>
-                                                            <a href="edit_product.php?id='.$product_result['id'].'"><span class="fas fa-edit action_button"></span></a>
-                                                            <a href="delete_product.php?id='.$product_result['id'].'"><span class="fas fa-trash-alt action_button"></span></a>
+                                                            <a href="edit_product.php?id='.$product_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                            <a href="delete_product.php?id='.$product_result['id'].'"><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
                                                         </td>';
                                                 echo "</tr>";
                                             }

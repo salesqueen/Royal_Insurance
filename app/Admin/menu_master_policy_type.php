@@ -173,8 +173,8 @@
                                                 echo "  <td>".$policy_type_result['policy_type']."</td>";
                                                 echo "  <td>".$policy_type_result['remark']."</td>";
                                                 echo '  <td>
-                                                            <a href="edit_policy_type.php?id='.$policy_type_result['id'].'"><span class="fas fa-edit action_button"></span></a>
-                                                            <a href="delete_policy_type.php?id='.$policy_type_result['id'].'"><span class="fas fa-trash-alt action_button"></span></a>
+                                                            <a href="edit_policy_type.php?id='.$policy_type_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                            <a href="delete_policy_type.php?id='.$policy_type_result['id'].'"><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
                                                         </td>';
                                                 echo "</tr>";
                                             }

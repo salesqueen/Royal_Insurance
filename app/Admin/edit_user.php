@@ -184,7 +184,7 @@
                                         }else{
                                             echo "menu_manage_user_agent.php";
                                         }
-                        ?>" style="float:right"><Button>Back <span class="fas fa-arrow-right"></span></button></a>
+                        ?>" style="float:right"><Button>Back <i class="fa fa-arrow-right" aria-hidden="true"></i></button></a>
                     </div>
                 </div>
 

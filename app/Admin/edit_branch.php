@@ -126,7 +126,7 @@
                         <h2>Edit Branch</h2>
                     </div>
                     <div class="col-md-6">
-                        <a href="menu_manage_user_create_branch.php" style="float:right"><Button>Back <span class="fas fa-arrow-right"></span></button></a>
+                        <a href="menu_manage_user_create_branch.php" style="float:right"><Button>Back <i class="fa fa-arrow-right" aria-hidden="true"></i></button></a>
                     </div>
                 </div>
 

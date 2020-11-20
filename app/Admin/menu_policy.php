@@ -248,11 +248,11 @@
                                     <input type="date" onfocus="this.value=''" name="filter_start_date" id="filter_start_date" value="<?php if(isset($_POST['filter_start_date'])){echo $_POST['filter_start_date'];}else{/*Do Nothing */}?>">
                                     <input type="date" onfocus="this.value=''" name="filter_end_date" id="filter_end_date" value="<?php if(isset($_POST['filter_end_date'])){echo $_POST['filter_end_date'];}else{/*Do Nothing */}?>">
                                     <!--Filter Button-->
-                                    <button type="submit" name="filter_submit"><i class="fas fa-sort"></i></button>
+                                    <button type="submit" name="filter_submit"><i class="fa fa-sort" aria-hidden="true"></i></button>
                                 </form>
                             </div>
                             <div class="col-md-1">
-                                <a href="create_policy.php" style="float:right"><Button><i class="fas fa-plus"></i></button></a>
+                                <a href="create_policy.php" style="float:right"><Button>Create</button></a>
                             </div>
                         </div>
 
@@ -301,9 +301,9 @@
                                                         }
                                                     }
                                                     echo '  <td>
-                                                                <a href="view_policy.php?id='.$pending_policy_result['id'].'"><span class="fas fa-eye action_button"></span></a>
-                                                                <a href="edit_policy.php?id='.$pending_policy_result['id'].'"><span class="fas fa-edit action_button"></span></a>
-                                                                <a href="upload_document_policy.php?id='.$pending_policy_result['id'].'"><span class="fas fa-upload action_button"></span></a>
+                                                                <a href="view_policy.php?id='.$pending_policy_result['id'].'"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                                <a href="edit_policy.php?id='.$pending_policy_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                                <a href="upload_document_policy.php?id='.$pending_policy_result['id'].'"><i class="fa fa-upload" aria-hidden="true"></i></a>
                                                             </td>';
                                                     echo "</tr>";
                                                 }
@@ -324,8 +324,8 @@
                                                     echo "  <td>".$user->get_agent_name($approved_policy_result['agent_id'])."</td>";
                                                     echo "  <td>Approved</td>";
                                                     echo '  <td>
-                                                                <a href="view_policy.php?id='.$approved_policy_result['id'].'"><span class="fas fa-eye action_button"></span></a>
-                                                                <a href="upload_document_policy.php?id='.$approved_policy_result['id'].'"><span class="fas fa-upload action_button"></span></a>
+                                                                <a href="view_policy.php?id='.$approved_policy_result['id'].'"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                                <a href="upload_document_policy.php?id='.$approved_policy_result['id'].'"><i class="fa fa-upload" aria-hidden="true"></i></a>
                                                             </td>';
                                                     echo "</tr>";
                                                 }

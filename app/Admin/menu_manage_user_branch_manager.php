@@ -152,7 +152,7 @@ $branch_manager_result_set=$user->read_all_branch_manager();
                               </div>
                           </div>  
                           <div class="col-sm-6">
-                              <a href="create_user.php" class="download_excel"><button><i class="fas fa-plus"></i></button></a>
+                              <a href="create_user.php" class="download_excel"><button>Create</button></a>
                           </div>
                       </div>
                       <div class="table-scroll">
@@ -178,8 +178,8 @@ $branch_manager_result_set=$user->read_all_branch_manager();
                                           echo "<td>".$branch_manager_result['address']."</td>";
                                           echo "<td>".$branch_manager_result['branch']."</td>";
                                           echo '  <td>
-                                                      <a href="view_user.php?id='.$branch_manager_result['id'].'&user_type=branch_manager"><span class="fas fa-eye action_button"></span></a>
-                                                      <a href="edit_user.php?id='.$branch_manager_result['id'].'&user_type=branch_manager"><span class="fas fa-edit action_button"></span></a>
+                                                      <a href="view_user.php?id='.$branch_manager_result['id'].'&user_type=branch_manager"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                      <a href="edit_user.php?id='.$branch_manager_result['id'].'&user_type=branch_manager"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                   </td>';
                                           echo "</tr>";
                                       }

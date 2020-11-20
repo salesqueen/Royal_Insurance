@@ -173,8 +173,8 @@
                                                 echo "  <td>".$product_result['product']."</td>";
                                                 echo "  <td>".$product_result['remark']."</td>";
                                                 echo '  <td>
-                                                            <a href="edit_product.php?id='.$product_result['id'].'"><span class="fas fa-edit action_button"></span></a>
-                                                            <a href="delete_product.php?id='.$product_result['id'].'"><span class="fas fa-trash-alt action_button"></span></a>
+                                                            <a href="edit_product.php?id='.$product_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                            <a href="delete_product.php?id='.$product_result['id'].'"><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
                                                         </td>';
                                                 echo "</tr>";
                                             }

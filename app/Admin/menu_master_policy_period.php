@@ -174,8 +174,8 @@
                                                 echo "  <td>".$policy_period_result['policy_period']."</td>";
                                                 echo "  <td>".$policy_period_result['remark']."</td>";
                                                 echo '  <td>
-                                                            <a href="edit_policy_period.php?id='.$policy_period_result['id'].'"><span class="fas fa-edit action_button"></span></a>
-                                                            <a href="delete_policy_period.php?id='.$policy_period_result['id'].'"><span class="fas fa-trash-alt action_button"></span></a>
+                                                            <a href="edit_policy_period.php?id='.$policy_period_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                            <a href="delete_policy_period.php?id='.$policy_period_result['id'].'"><i class="fa fa-trash-o" aria-hidden="true"></i></span></a>
                                                         </td>';
                                                 echo "</tr>";
                                             }

@@ -128,7 +128,7 @@
                         <h2>Edit Company Code</h2>
                     </div>
                     <div class="col-md-6">
-                        <a href="menu_create_company_code.php" style="float:right"><Button>Back <span class="fas fa-arrow-right"></span></button></a>
+                        <a href="menu_create_company_code.php" style="float:right"><Button>Back <i class="fa fa-arrow-right" aria-hidden="true"></i></button></a>
                     </div>
                 </div>
 

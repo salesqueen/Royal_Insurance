@@ -154,7 +154,7 @@
                         <h2>Transactions of <?php echo get_agent_name($_GET['agent_id']);?></h2>
                     </div>
                     <div class="col-md-6">
-                        <a href="menu_wallet.php" style="float:right"><Button>Back <span class="fas fa-arrow-right"></span></button></a>
+                        <a href="menu_wallet.php" style="float:right"><Button>Back <i class="fa fa-arrow-right" aria-hidden="true"></i></button></a>
                     </div>
                 </div>
                 
@@ -178,7 +178,7 @@
                                     <input type="date" name="filter_start_date" id="filter_start_date" required="required">
                                     <input type="date" name="filter_end_date" id="filter_end_date" placeholder="" required="required">
                                     <input type="hidden" name="agent_id" value="<?php echo $_GET['agent_id'];?>" required="required">
-                                    <button type="submit" name="filter_submit"><i class="fas fa-sort"></i></button>
+                                    <button type="submit" name="filter_submit"><i class="fa fa-sort" aria-hidden="true"></i></button>
                                 </form>
                             </div>
                         </div>

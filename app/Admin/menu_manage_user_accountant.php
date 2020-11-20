@@ -127,7 +127,7 @@
                                 </div>
                             </div> 
                             <div class="col-sm-6">
-                                <a href="create_user.php" class="download_excel"><button><i class="fas fa-plus"></i></button></a>
+                                <a href="create_user.php" class="download_excel"><button>Create</button></a>
                             </div>
                         </div>
                         <div class="table-scroll">
@@ -151,8 +151,8 @@
                                             echo "<td>".$accountant_result['email']."</td>";
                                             echo "<td>".$accountant_result['address']."</td>";
                                             echo '  <td>
-                                                        <a href="view_user.php?id='.$accountant_result['id'].'&user_type=accountant"><span class="fas fa-eye action_button"></span></a>
-                                                        <a href="edit_user.php?id='.$accountant_result['id'].'&user_type=accountant"><span class="fas fa-edit action_button"></span></a>
+                                                        <a href="view_user.php?id='.$accountant_result['id'].'&user_type=accountant"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        <a href="edit_user.php?id='.$accountant_result['id'].'&user_type=accountant"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                     </td>';
                                             echo "</tr>";
                                         }
