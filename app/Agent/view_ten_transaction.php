@@ -273,7 +273,7 @@
                                                     }elseif($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Paid'){
                                                         echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
                                                     }else{
-                                                        echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
+                                                        echo "  <td>+".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
                                                     }
                                                     echo "</tr>";
                                                 }else{
@@ -395,7 +395,7 @@
                                                         }elseif($transaction_result['payment']=='Paid'){
                                                             echo "  <td>-".$transaction_result['amount']."</td>";
                                                         }else{
-                                                            echo "  <td>-".$transaction_result['amount']."</td>";
+                                                            echo "  <td>+".$transaction_result['amount']."</td>";
                                                         }
                                                         echo "</tr>";
                                                     }

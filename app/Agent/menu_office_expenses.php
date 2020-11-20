@@ -17,7 +17,7 @@
   //inserting transaction
   if(isset($_POST['submit'])){
     $user->insert_transaction();
-    header('Location:menu_office_expenses.php');
+    header('Location:menu_wallet.php');
     exit();
   }
 

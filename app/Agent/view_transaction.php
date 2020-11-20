@@ -257,12 +257,7 @@
                                                 if($sorted_array_of_policy_and_transaction_array[$i][0]=='Transaction'){
                                                     echo "<tr>";
                                                     echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['date']."</td>";
-                                                    if($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Paid'){
-                                                        $transaction='Recived';
-                                                    }else{
-                                                        $transaction='Paid';
-                                                    }
-                                                    echo "  <td>".$transaction."</td>";
+                                                    echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['payment']."</td>";
                                                     echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['remark']."</td>";
                                                     echo "  <td></td>";
                                                     echo "  <td></td>";
@@ -273,8 +268,10 @@
                                                     echo "  <td></td>";
                                                     if($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Recived'){
                                                         echo "  <td>+".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
-                                                    }else{
+                                                    }elseif($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Paid'){
                                                         echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
+                                                    }else{
+                                                        echo "  <td>+".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
                                                     }
                                                     echo "</tr>";
                                                 }else{
@@ -382,12 +379,7 @@
                                                     while($transaction_result=$transaction_result_set->fetch_assoc()){
                                                         echo "<tr>";
                                                         echo "  <td>".$transaction_result['date']."</td>";
-                                                        if($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Paid'){
-                                                            $transaction='Recived';
-                                                        }else{
-                                                            $transaction='Paid';
-                                                        }
-                                                        echo "  <td>".$transaction."</td>";
+                                                        echo "  <td>".$transaction_result['payment']."</td>";
                                                         echo "  <td>".$transaction_result['remark']."</td>";
                                                         echo "  <td></td>";
                                                         echo "  <td></td>";
@@ -398,8 +390,10 @@
                                                         echo "  <td></td>";
                                                         if($transaction_result['payment']=='Recived'){
                                                             echo "  <td>+".$transaction_result['amount']."</td>";
-                                                        }else{
+                                                        }elseif($transaction_result['payment']=='Paid'){
                                                             echo "  <td>-".$transaction_result['amount']."</td>";
+                                                        }else{
+                                                            echo "  <td>+".$transaction_result['amount']."</td>";
                                                         }
                                                         echo "</tr>";
                                                     }
