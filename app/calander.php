@@ -183,6 +183,12 @@
     .tabtab{
         margin: 10px;
     }
+    @media only screen and (max-width: 380px) {
+        .calender{
+            background:green;
+            width: 100%;
+        }
+    }
 </style>
     <div class="calender">
         <div class="calback">
