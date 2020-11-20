@@ -16,7 +16,7 @@ function set_policy_values(json,id){
     document.getElementById('ajax_company_name').value=policy_object.company_name;
     document.getElementById('product').value=policy_object.product;
     $('#od_premium').text(policy_object.od_premium);
-    $('#net_premium').text(policy_object.od_premium);
+    $('#net_premium').text(policy_object.net_premium);
     //appending company code 
     $('#ajax_company_code').empty();
     for(i in policy_object.company_code){

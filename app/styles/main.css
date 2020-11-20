@@ -18,6 +18,9 @@ body{
     height: 100vh;
     overflow-x: hidden;
 }
+p{
+    font-family: var(--monserrat);
+}
 img{
     width: 100%;
 }
@@ -50,6 +53,9 @@ input[type=submit]:hover{
 }
 option,select{
     text-transform: uppercase;
+}
+td{
+    font-family: var(--roboto);
 }
 .container{
     max-width: 98vw;

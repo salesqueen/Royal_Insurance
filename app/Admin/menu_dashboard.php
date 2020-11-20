@@ -106,20 +106,53 @@
     </section>
     <style>
         .card{
-            padding: 10px 34px;
-            margin: 4px;
-            width: 240px;
-            background: rgba(0,255,0,.2);
+            padding:20px 34px;
+            background: rgba(0,0,0,.04);
+            border: 0;
+            border: 1px solid rgba(0,0,0,.1);
         }
-        .comission .col-md-3{
-            border:1px solid rgba(0,0,0,.08);
-            margin: 4px;
-            background: rgba(255,0,0,.2);
+        .wallet{
+            background: rgba(0,255,255,.02);
+            border-radius: 5px;
+            padding:10px 34px;
+            border: 1px solid rgba(0,100,255,.2);
+            display: flex;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            justify-content: center;
+        }
+        .wallet h1{
+            font-size: 60px;
+        }
+        .wallet h2{
+            font-size: 60px;
+            font-family: var(--monserrat);
+            margin-top:5px;
+        }
+        
+        .wallet div{
+            margin-right:20px;
+            text-align:center;
+        }
+        .cash{
+            background: rgba(0,0,255,.06);
             padding: 10px 34px;
             border-radius: 5px;
+            border: 1px solid rgba(0,0,255,.1);
         }
-        .comission .col-md-3 h1{
-            margin-top:28px;
+        .cash h1{
+            margin-top:14px;
+            font-size:24px;
+        }
+        .comission{
+            background: rgba(0,0,255,.06);
+            padding: 10px 34px;
+            border-radius: 5px;
+            border: 1px solid rgba(0,0,255,.1);
+        }
+        .comission h1{
+            margin-top:14px;
+            font-size:24px;
         }
     </style>
     <section id="main-container">
@@ -128,35 +161,55 @@
                 <div class="col-md-8">
                     <!--Count-->
                     <div class="row">
-                        <div class="card">
-                            <h2><i class="fas fa-wallet"></i> <?php echo $user->get_admin_wallet_amount();?></h2>
-                            <h6>Wallet</h6>
+                        <div class="col-md-4 card">
+                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_policy_count();?></h2>
+                            <p>Policies</p>
                         </div>
-                        <div class="card">
-                            <h2><span class="fas fa-file-powerpoint"></span> <?php echo $user->get_policy_count();?></h2>
-                            <h6>Policies</h6>
+                        <div class="col-md-4 card">
+                            <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_branch_manager_count();?></h2>
+                            <p>Branch Manager</p>
                         </div>
-                        <div class="card">
-                            <h2><span class="fas fa-user-tag"></span> <?php echo $user->get_branch_manager_count();?></h2>
-                            <h6>Branch Manager</h6>
-                        </div>
-                        <div class="card">
-                            <h2><span class="fas fa-user"></span> <?php echo $user->get_agent_count();?></h2>
-                            <h6>User</h6>
+                        <div class="col-md-4 card">
+                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_agent_count();?></h2>
+                            <p>User</p>
                         </div>
                     </div>
                     <!--Comission-->
-                    <h4 class="mt-4">Cash</h4>
-                    <div class="row comission">
-                        <div class="col-md-3">
-                            <h2><span class="fas fa-rupee-sign"></span> <?php echo $user->get_admin_cash("Recived");?></h2>
-                            <h1 class="fab fa-atlassian"></h1>
-                            <p>Recived</p>
-                        </div>
-                        <div class="col-md-3">
-                            <h2><span class="fas fa-rupee-sign"></span> <?php echo $user->get_admin_cash("Paid");?></h2>
-                            <h1 class="fab fa-atlassian"></h1>
-                            <p>Paid</p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12 wallet">
+                                    <div>
+                                        <h1 class="fa fa-credit-card" aria-hidden="true"></h1>
+                                        <p>Wallet</p>
+                                    </div>
+                                    <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_wallet_amount();?></h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 cash">
+                                    <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_cash("Recived");?></h2>
+                                    <h1 class="fa fa-plus-square-o" aria-hidden="true"></h1>
+                                    <p>Cash Recived</p>
+                                </div>
+                                <div class="col-md-6 cash">
+                                    <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_cash("Paid");?></h2>
+                                    <h1 class="fa fa-minus-square-o"></h1>
+                                    <p>Cash Paid</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 comission">
+                                    <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_wallet_amount();?></h2>
+                                    <h1 class="fa fa-angle-double-up"></h1>
+                                    <p>Comission Recivable</p>
+                                </div>
+                                <div class="col-md-6 comission">
+                                    <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_wallet_amount();?></h2>
+                                    <h1 class="fa fa-angle-up"></h1>
+                                    <p>Comission Payable</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -185,7 +238,7 @@
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
   <!--Font awesome-->
-  <script src="https://kit.fontawesome.com/831f398f58.js" crossorigin="anonymous"></script>
+  <script src="https://use.fontawesome.com/793bc63e83.js"></script>
   <!--Custom javascript-->
   <script src="../scripts/main.js"></script>
   <?php 
