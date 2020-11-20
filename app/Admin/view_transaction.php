@@ -133,6 +133,9 @@
                             </div>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="menu_office_expenses.php">Office Expenses</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="menu_wallet.php">Wallet</a>
                         </li>
                         <li class="nav-item">
@@ -276,7 +279,7 @@
                                                     echo "<tr>";
                                                     echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['date']."</td>";
                                                     echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['payment']."</td>";
-                                                    echo "  <td></td>";
+                                                    echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['remark']."</td>";
                                                     echo "  <td></td>";
                                                     echo "  <td></td>";
                                                     echo "  <td></td>";
@@ -286,8 +289,10 @@
                                                     echo "  <td></td>";
                                                     if($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Recived'){
                                                         echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
-                                                    }else{
+                                                    }elseif($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Paid'){
                                                         echo "  <td>+".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
+                                                    }else{
+                                                        echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
                                                     }
                                                     echo "</tr>";
                                                 }else{
@@ -315,7 +320,7 @@
                                                     }else{
                                                         echo "  <td>0</td>";
                                                     }
-                                                    //balance
+                                                    //displaying balance
                                                     if($sorted_array_of_policy_and_transaction_array[$i][1]['payment_mode']=='Cash'){
                                                         echo "  <td>+".($sorted_array_of_policy_and_transaction_array[$i][1]['total_premium']-$comission)."</td>";
                                                     }else{
@@ -396,7 +401,7 @@
                                                         echo "<tr>";
                                                         echo "  <td>".$transaction_result['date']."</td>";
                                                         echo "  <td>".$transaction_result['payment']."</td>";
-                                                        echo "  <td></td>";
+                                                        echo "  <td>".$transaction_result['remark']."</td>";
                                                         echo "  <td></td>";
                                                         echo "  <td></td>";
                                                         echo "  <td></td>";
@@ -406,8 +411,10 @@
                                                         echo "  <td></td>";
                                                         if($transaction_result['payment']=='Recived'){
                                                             echo "  <td>-".$transaction_result['amount']."</td>";
-                                                        }else{
+                                                        }elseif($transaction_result['payment']=='Paid'){
                                                             echo "  <td>+".$transaction_result['amount']."</td>";
+                                                        }else{
+                                                            echo "  <td>-".$transaction_result['amount']."</td>";
                                                         }
                                                         echo "</tr>";
                                                     }

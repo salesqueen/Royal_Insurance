@@ -4,9 +4,9 @@
 
   //session handelling
   $session=new Session();
-  $session->check_session("Admin");
+  $session->check_session("Agent");
   //creating user object
-  $user=new Admin();
+  $user=new Agent();
   //fetching comission
   //fetching recivable policy details
   function get_payable_policy_result_set(){

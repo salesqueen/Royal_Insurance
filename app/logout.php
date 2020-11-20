@@ -4,7 +4,7 @@
 
   //session handelling
   $session=new Session();
-  $session->check_session("Admin");
+  $session->check_session("Agent");
   //destroying session
   session_destroy();
   //redirecting to sign in page

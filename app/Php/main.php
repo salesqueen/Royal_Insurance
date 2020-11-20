@@ -404,12 +404,6 @@
             //deletion
             $crud->delete($table_name,$id);
         }
-        public function calculate_total_recivable_amount(){
-            
-        } 
-        public function calculate_total_payable_amount(){
-            
-        }
     }
     class Cheque{
         public function insert_cheque($insert_id){
@@ -672,6 +666,13 @@
             $policy_count_result_set=$crud->select_custom("SELECT count(*) AS count_value FROM ".Policy_Contract::get_table_name());
             return $policy_count_result_set->fetch_assoc()['count_value'];
         }
+        public function get_agent_policy_count($agent_id){
+            //initiallizing required variables
+            $crud=new Crud();
+            //fetching policy count
+            $policy_count_result_set=$crud->select_custom("SELECT count(*) AS count_value FROM ".Policy_Contract::get_table_name()." WHERE agent_id=".$agent_id);
+            return $policy_count_result_set->fetch_assoc()['count_value'];
+        }
     }
     class Agent extends Policy{
         use Company;
@@ -784,12 +785,102 @@
                 while($transaction_result=$transaction_result_set->fetch_assoc()){
                     if($transaction_result['payment']=='Recived'){
                         $wallet_amount-=$transaction_result['amount'];
-                    }else{
+                    }elseif($transaction_result['payment']=='Paid'){
                         $wallet_amount+=$transaction_result['amount'];
+                    }else{
+                        $wallet_amount-=$transaction_result['amount'];
                     }
                 }
             }
             return $wallet_amount;
+        }
+        public function get_agent_cash($payment,$agent_id){
+            $amount=0;
+            $transaction_result_set=$this->read_selective_transaction("WHERE payment='".$payment."' AND agent_id=".$agent_id);
+            if($transaction_result_set){
+                while($transaction_result=$transaction_result_set->fetch_assoc()){
+                    $amount+=$transaction_result['amount'];
+                }
+            }
+            return $amount;
+        }
+        function get_cleared_cheque_pending_policy_agent($comission_percentage,$company_name,$company_code,$filter_date_one,$filter_date_two,$agent_id){
+            //forming cleared cheque pending policy
+            $cleared_cheque_pending_policy_array=array();
+            $cleared_cheque_result_set=$this->read_selective_cheque("WHERE cheque_status='Cleared'");
+            if($cleared_cheque_result_set){
+                $i=0;
+                while($cleared_cheque_result=$cleared_cheque_result_set->fetch_assoc()){
+                    //filter variable
+                    $passed=0;
+                    $cleared_cheque_pending_policy_result_set=$this->read_one_policy($cleared_cheque_result['policy_id']);
+                    if($cleared_cheque_pending_policy_result_set){
+                        $cleared_cheque_pending_policy_result=$cleared_cheque_pending_policy_result_set->fetch_assoc();
+                        //checking for agent
+                        if($agent_id==$cleared_cheque_pending_policy_result['agent_id']){
+                            //echo $agent_id."-".$cleared_cheque_pending_policy_result['agent_id'];
+                            $passed++;
+                        }
+                        //applying filter
+                        //company name
+                        if($company_name!=""){
+                            if(strcasecmp($company_name,$cleared_cheque_pending_policy_result['company_name'])==0){
+                                $passed++;
+                            }else{
+                                continue;
+                            }
+                        }else{
+                            $passed++;
+                        }
+                        //company code
+                        if($company_code!=""){
+                            if(strcasecmp($company_code,$cleared_cheque_pending_policy_result['company_code'])==0){
+                                $passed++;
+                            }else{
+                                continue;
+                            }
+                        }else{
+                            $passed++;
+                        }
+                        //filtering based on date and comission percentage
+                        if($filter_date_one!="" && $filter_date_two!=""){
+                            //checking whether the issue date is between two dates
+                            if($cleared_cheque_pending_policy_result['issue_date']>=$filter_date_one && $cleared_cheque_pending_policy_result['issue_date']<=$filter_date_two){
+                                $passed++;
+                            }else{
+                                continue;
+                            }
+                        }else{
+                            //checking whether issue date is greater than filter one date
+                            if($filter_date_one!=""){
+                                if($cleared_cheque_pending_policy_result['issue_date']>=$filter_date_one){
+                                    $passed++;
+                                }else{
+                                    continue;
+                                }
+                            }elseif($filter_date_one!=""){
+                                if($cleared_cheque_pending_policy_result['issue_date']<=$filter_date_two){
+                                    $passed++;
+                                }else{
+                                    continue;
+                                }
+                            }else{
+                                $passed++;
+                            }
+                        }
+                        //checking for comission percentage
+                        if($cleared_cheque_pending_policy_result[$comission_percentage]==0){
+                            $passed++;
+                        }
+                        //checking whether the data passes all the condition
+                        if($passed==5){
+                            $cleared_cheque_pending_policy_array[$i]=$cleared_cheque_pending_policy_result;
+                            $i++;
+                        }
+                    }
+                }
+            }
+            return $cleared_cheque_pending_policy_array;
         }
     }
     class Branch_Manager extends Agent{

@@ -288,8 +288,10 @@
                                                     echo "  <td></td>";
                                                     if($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Recived'){
                                                         echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
-                                                    }else{
+                                                    }elseif($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Paid'){
                                                         echo "  <td>+".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
+                                                    }else{
+                                                        echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
                                                     }
                                                     echo "</tr>";
                                                 }else{
@@ -408,8 +410,10 @@
                                                         echo "  <td></td>";
                                                         if($transaction_result['payment']=='Recived'){
                                                             echo "  <td>-".$transaction_result['amount']."</td>";
-                                                        }else{
+                                                        }elseif($transaction_result['payment']=='Paid'){
                                                             echo "  <td>+".$transaction_result['amount']."</td>";
+                                                        }else{
+                                                            echo "  <td>-".$transaction_result['amount']."</td>";
                                                         }
                                                         echo "</tr>";
                                                     }
@@ -461,7 +465,7 @@
         <div class="container">
           <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
             <div class="row close_container">
-                <span class="fa fa-times" onclick="close_overlay()"></span>
+                <span class="fas fa-times" onclick="close_overlay()"></span>
             </div>
             <div class="row">
                 <div class="col-md-4">

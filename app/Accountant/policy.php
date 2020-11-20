@@ -6,7 +6,7 @@
 
   //checking session
   $session=new Session();
-  $session->check_session("admin");
+  $session->check_session("Agent");
   //creating admin object
   $admin=new Admin();
   //fetching pending policy details for cash

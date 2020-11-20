@@ -6,9 +6,9 @@
 
   //session handelling
   $session=new Session();
-  $session->check_session("Admin");
+  $session->check_session("Agent");
   //creating user object
-  $user=new Admin();
+  $user=new Agent();
   
   //getting the required content
   $branch_manager_result_set=$user->read_all_branch_manager();
@@ -71,38 +71,20 @@
                         <li class="nav-item">
                             <a class="nav-link" href="menu_dashboard.php">Dashboard</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Master</a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="menu_master_company.php">Company</a>
-                                <a class="dropdown-item" href="menu_master_company_code.php">Company Code</a>
-                                <a class="dropdown-item" href="menu_master_policy_period.php">Policy Period</a>
-                                <a class="dropdown-item" href="menu_master_policy_type.php">Policy Type</a>
-                                <a class="dropdown-item" href="menu_master_product.php">Product</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage User</a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="menu_manage_user_branch_manager.php">Branch Manager</a>
-                                <a class="dropdown-item" href="menu_manage_user_operator.php">Operator</a>
-                                <a class="dropdown-item" href="menu_manage_user_accountant.php">Accoutant</a>
-                                <a class="dropdown-item" href="menu_manage_user_agent.php">User</a>
-                                <a class="dropdown-item" href="menu_manage_user_create_branch.php">Create Branch</a>
-                            </div>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="menu_policy.php">Policy</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilities</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="menu_utilities_comission_recivable.php">Comission Recivable</a>
-                                <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission Payable</a>
+                                <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission</a>
                                 <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
                             </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="menu_office_expenses.php">Office Expenses</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="menu_wallet.php">Wallet</a>

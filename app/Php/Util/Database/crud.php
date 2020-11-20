@@ -1,6 +1,6 @@
 <?php
 
-    error_reporting(0);
+    //error_reporting(0);
 
     //Packages
     include 'connection.php';
@@ -86,6 +86,7 @@
         //Contraint
         public function select_contraint($table,$constraint){
             $sql="SELECT * FROM ".$table." ".$constraint." ORDER BY id DESC;";
+            //echo $sql;
             $result=$GLOBALS['connection']->query($sql);
             if($result->num_rows>0){
                 return $result;

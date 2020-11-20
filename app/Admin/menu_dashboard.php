@@ -94,6 +94,9 @@
                             </div>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="menu_office_expenses.php">Office Expenses</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="menu_wallet.php">Wallet</a>
                         </li>
                         <li class="nav-item">
@@ -210,7 +213,7 @@
                 </div>
                 <!--Calendar-->
                 <div class="col-md-4">
-                  <?php include '../calander.php';?>
+                  <?php include 'calander.php';?>
                 </div>
             </div>
         </div>

@@ -4,9 +4,9 @@
 
   //session handelling
   $session=new Session();
-  $session->check_session("Admin");
+  $session->check_session("Agent");
   //creating user object
-  $user=new Admin();
+  $user=new Agent();
   //fetching the values
   $result_set=$user->read_one_branch_manager($_GET['id']);
   $result=$result_set->fetch_assoc();

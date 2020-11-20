@@ -47,7 +47,7 @@
         $constraint=$constraint." AND (issue_date BETWEEN '".$_POST['filter_start_date']."' AND '".$_POST['filter_end_date']."')";
     }else{
         //only start date is set
-        if(isset($_POST['filter_start_date'])){
+        if(isset($_POST['filter_start_date']) && $_POST['filter_start_date']!=""){
             $constraint=$constraint." AND (issue_date>='".$_POST['filter_start_date']."')";
         }
         if(isset($_POST['filter_end_date']) && $_POST['filter_end_date']!=""){
@@ -169,6 +169,9 @@
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
                             </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="menu_office_expenses.php">Office Expenses</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="menu_wallet.php">Wallet</a>

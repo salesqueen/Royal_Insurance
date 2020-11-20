@@ -6,9 +6,9 @@
 
   //session handelling
   $session=new Session();
-  $session->check_session("Admin");
+  $session->check_session("Agent");
   //creating user object
-  $user=new Admin();
+  $user=new Agent();
   //fetching document id
   function get_policy_files_id($policy_id){
     $policy_files_id_result_set=$GLOBALS['user']->read_selective_policy_files("WHERE policy_id=".$policy_id);

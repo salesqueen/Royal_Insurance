@@ -4,9 +4,9 @@
 
   //session handelling
   $session=new Session();
-  $session->check_session("Admin");
+  $session->check_session("Agent");
   //creating user object
-  $user=new Admin();
+  $user=new Agent();
   //cash recived
   //fetching recived cash data
   function get_cash_recived_result_set(){

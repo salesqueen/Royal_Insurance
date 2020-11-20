@@ -4,7 +4,7 @@
 
   //checking session
   $session=new Session();
-  $session->check_session("Admin");
+  $session->check_session("Agent");
   //creating admin object
   $admin=new Admin();
 

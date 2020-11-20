@@ -28,10 +28,6 @@
     //fetching agent result set
     $agent_result_set=$user->read_selective_agent("WHERE branch_manager_id=".$branch_manager_id);
   }
-  //fetching agent bank details
-  if(isset($_POST['fetch_agent_detail_submit'])){
-
-  }
 
 ?>
 <!DOCTYPE html>
@@ -113,6 +109,9 @@
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
                             </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="menu_office_expenses.php">Office Expenses</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="menu_wallet.php">Wallet</a>
