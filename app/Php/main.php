@@ -534,6 +534,12 @@
             $result_set=$crud->select_all($table_name);
             return $result_set;
         }
+        public function delete_transaction($id){
+            $crud=new Crud();
+            $table_name=Transaction_Contract::get_table_name();
+            $result=$crud->delete($table_name,$id);
+            return $result;
+        }
     }
     trait Recivable_Transaction{
         public function insert_recivable_transaction(){

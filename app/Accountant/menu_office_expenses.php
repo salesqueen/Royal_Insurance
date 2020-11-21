@@ -124,6 +124,7 @@
                                         <th>Branch</th>
                                         <th>Amount</th>
                                         <th>Remark</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -136,6 +137,7 @@
                                                 echo '  <td>'.$user->get_branch($office_expenses_result['agent_id']).'</td>';
                                                 echo '  <td>'.$office_expenses_result['amount'].'</td>';
                                                 echo '  <td>'.$office_expenses_result['remark'].'</td>';
+                                                echo '  <td><a href="create_office_expenses_transaction.php?id='.$office_expenses_result['id'].'">Pay</a></td>';
                                                 echo '</tr>';
                                             }
                                         }

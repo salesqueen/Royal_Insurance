@@ -1,18 +1,32 @@
 <?php 
 
-    error_reporting(0);
+  error_reporting(0);
 
-    include '../Php/main.php';
+  include '../Php/main.php';
 
-    //session handelling
-    $session=new Session();
-    $session->check_session("Admin");
+  //session handelling
+  $session=new Session();
+  $session->check_session("Admin");
 
-    //creating user object
-    $user=new Admin();
+  //creating user object
+  $user=new Admin();
 
-    //fetching main
-    $office_expenses_result_set=$user->read_selective_transaction("WHERE payment='Office_Expenses_Request'");
+  //fetching main
+  $transaction_result_set=$user->read_one_transaction($_GET['id']);
+  if($transaction_result_set){
+    $transaction_result=$transaction_result_set->fetch_assoc();
+  }
+
+  //form handelling
+  //inserting transaction
+  if(isset($_POST['submit'])){
+    //Inserting data
+    $user->insert_transaction();
+    //deleting the existing data
+    $user->delete_transaction($_GET['id']);
+    header('Location:menu_wallet.php');
+    exit();
+  }
 
 ?>
 <!DOCTYPE html>
@@ -20,7 +34,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Office Expenses</title>
+  <title>Make Transaction</title>
 
   <!-- CSS -->
   <!--Bootstrap-->
@@ -95,7 +109,7 @@
                                 <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
                             </div>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="menu_office_expenses.php">Office Expenses</a>
                         </li>
                         <li class="nav-item">
@@ -114,69 +128,39 @@
         <div class="form-container">
           <div class="row">
             <div class="col-md-12">
-                
-                <div class="row"> 
+
+                <div class="row">
                     <div class="col-md-6">
-                        <h2>Office Expenses</h2>
-                    </div>
-                    <div class="col-md-6">
-                        <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST" style="float:right">
-                            <input type="hidden" name="constraint" value="<?php echo $constraint?>">
-                            <input type="submit" name="download_excel" value="Download Excel">
-                        </form>
+                        <h2>Make Transaction</h2>
                     </div>
                 </div>
                 
                 <ul class="nav nav-tabs">
-                    <li><a data-toggle="tab" href="#policy" class="active">Office Expenses</a></li>
+                    <li><a data-toggle="tab" href="#transaction" class="active">Make Transaction</a></li>
                 </ul>
 
                 <div class="tab-content">
-                    <div id="policy" class="tab-pane fade in active show">
-                        <div class="table-scroll">
-                            <table id="table_1" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>User Name</th>
-                                        <th>Branch</th>
-                                        <th>Amount</th>
-                                        <th>Remark</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php 
-                                        if($office_expenses_result_set){
-                                            while($office_expenses_result=$office_expenses_result_set->fetch_assoc()){
-                                                echo '<tr>';
-                                                echo '  <td>'.$office_expenses_result['date'].'</td>';
-                                                echo '  <td>'.$user->get_agent_name($office_expenses_result['agent_id']).'</td>';
-                                                echo '  <td>'.$user->get_branch($office_expenses_result['agent_id']).'</td>';
-                                                echo '  <td>'.$office_expenses_result['amount'].'</td>';
-                                                echo '  <td>'.$office_expenses_result['remark'].'</td>';
-                                                echo '  <td>
-                                                            <a href="create_office_expenses_transaction.php?id='.$office_expenses_result['id'].'">Pay</a>
-                                                        </td>';
-                                                echo '</tr>';
-                                            }
-                                        }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!--<nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </nav>-->
+                    <div id="transaction" class="tab-pane fade in show active">
+                        <form action="" method="POST">
+                            <div class="row">
+                                <input type="hidden" name="payment" value="Office_Expenses">
+                                <input type="hidden" name="agent_id" value="<?php echo $transaction_result['agent_id'];?>">
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="amount">Amount</label>
+                                    <input type="number" value="<?php echo $transaction_result['amount'];?>" class="form-control" id="amount" name="amount" placeholder="Amount" required="required">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="remark">Remark</label>
+                                    <input type="text" class="form-control" id="remark" name="remark" placeholder="Remark">
+                                </div>
+                            </div>
+                            <input type="submit" value="submit" name="submit" class="btn btn-primary">
+                        </form>
                     </div>
-                </div>       
-  
+                </div>
+            </div>
           </div>
         </div>
       </div>
@@ -185,53 +169,21 @@
 
     
     </footer>
-    <!--Message-->
-    <div class="alert hide">
-        <span class="fas fa-exclamation-circle"></span>
-        <span class="msg" id="message"></span>
-        <div class="close-btn">
-          <span class="fa fa-times"></span>
-        </div>
-    </div>
-    
 
-  <!-- jQuery and JS bundle w/ Popper.js -->
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-  <!--Font awesome-->
-  <script src="https://use.fontawesome.com/793bc63e83.js"></script>
+    <!-- jQuery and JS bundle w/ Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <!--Font awesome-->
+    <script src="https://use.fontawesome.com/793bc63e83.js"></script>
   <style>
     .fa{
         font:normal normal normal 20px/1 FontAwesome;
     }
   </style>
-  <!--Custom script-->
-  <script src="../scripts/overlay.js"></script>
-  <!--<script src="../scripts/search.js"></script>-->
-  <script src="../scripts/main.js"></script>
-
-  <?php 
-    //Message handelling
-    if(isset($_SESSION['message'])){
-        echo "<script>
-                $('.alert').addClass('show');
-                $('#message').text('".$_SESSION['message']."');
-                $('.alert').removeClass('hide');
-                $('.alert').addClass('showAlert');
-                $('.alert').css('opacity','1');
-                setTimeout(function(){
-                    $('.alert').removeClass('show');
-                    $('.alert').addClass('hide');
-                    $('.alert').css('opacity','0');
-                },5000);
-            </script>";
-        unset($_SESSION['message']);
-    }else{
-        //Do Nothing
-    }
-  ?>
 </body>
 </html>
 
                         
-              
+
+
+                        
