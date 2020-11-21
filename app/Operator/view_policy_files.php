@@ -1,12 +1,29 @@
 <?php 
 
+  error_reporting(0);
+
   include '../Php/main.php';
 
-  //checking session
+  //session handelling
   $session=new Session();
-  $session->check_session("Agent");
-  //creating admin object
-  $admin=new Admin();
+  $session->check_session("Operator");
+
+  //creating user object
+  $user=new Operator();
+  
+  //fetching document id
+  function get_policy_files_id($policy_id){
+    $policy_files_id_result_set=$GLOBALS['user']->read_selective_policy_files("WHERE policy_id=".$policy_id);
+    $policy_files_id_result=$policy_files_id_result_set->fetch_assoc();
+    return $policy_files_id_result['id'];
+  }
+  //fetching documents of the policy
+  function get_policy_files($id){
+      $policy_files_result_set=$GLOBALS['user']->read_one_policy_files(get_policy_files_id($id));
+      $policy_files_result=$policy_files_result_set->fetch_assoc();
+      return $policy_files_result;
+  }
+  $policy_files_result=get_policy_files($_GET['id']);
 
 ?>
 <!DOCTYPE html>
@@ -14,7 +31,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
+  <title>Policy Documents</title>
 
   <!-- CSS -->
   <!--Bootstrap-->
@@ -27,7 +44,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
   <!--Montserrat-->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
-  
+
   <!--Custom style sheet-->
   <link rel="stylesheet" href="../styles/main.css">
 </head>
@@ -37,7 +54,7 @@
             <nav class="navbar navbar-dark justify-content-between">
                 <a class="navbar-brand">ROYAL BROKERS</a>
                 <div id="account">
-                    <p>Name</p>
+                    <p><?php echo $_SESSION['name']?></p>
                     <div id="account-menu">
                         <img src="../images/sign_in_side.jpg" alt="">
                     </div>
@@ -54,19 +71,19 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="master.php"><span class="fas fa-plus"></span>Master</a>
+                            <a class="nav-link" href="menu_dashboard.php">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="dashboard.php">Dashboard</a>
+                            <a class="nav-link" href="menu_manage_user_agent.php">Manage User</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="manage_user.php">Manage User</a>
+                            <a class="nav-link" href="menu_policy.php">Policy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="policy.php">Policy</a>
+                            <a class="nav-link" href="menu_utilities_cheque_status.php">Cheque Status</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="utility.php">Utility</a>
+                            <a class="nav-link" href="../logout.php">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -75,11 +92,41 @@
     </section>
     <section id="main-container">
       <div class="container">
-        <div class="table-container">
+        <div class="form-container">
           <div class="row">
             <div class="col-md-12">
-                <h6><a href="../Agent/dashboard.php">Create Policy</a></h6>
-            </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>View Policy Files</h2>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="javascript:history.go(-1)" style="float:right"><Button>Back <i class="fa fa-arrow-right" aria-hidden="true"></i></button></a>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <?php 
+                        if($policy_files_result){
+                            $document_uploaded=0;
+                            for($i=1;$i<5;$i++){
+                                $file_name='file_'.$i;
+                                if($policy_files_result[$file_name]!='Null'){
+                                    echo '<div class="col-md-12">';
+                                    echo '  <embed style="width:100%;height:600px" src="../Php/Util/uploads/policy_documents/'.$policy_files_result[$file_name].'" type="application/pdf">';
+                                    echo '</div>';
+                                    $document_uploaded++;
+                                }
+                            }
+                            if($document_uploaded==0){
+                                echo "<p>No Documents Uploaded</p>";
+                            }
+                        }else{
+                            echo "<p>No documents</p>";
+                        }
+                    ?>    
+                </div>    
+  
           </div>
         </div>
       </div>
@@ -88,6 +135,7 @@
 
     
     </footer>
+    
 
   <!-- jQuery and JS bundle w/ Popper.js -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -103,3 +151,4 @@
 </html>
 
                         
+              

@@ -211,9 +211,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="menu_dashboard.php">Dashboard</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="menu_policy.php">Policy</a>
-                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilities</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

@@ -22,6 +22,7 @@
                 $sql=$sql.",'".$values[$i]."'";
             }
             $sql=$sql.");";
+            echo $sql;
             if($GLOBALS['connection']->query($sql)){
                 //Insertion successfull
                 $_SESSION['message']="Insertion successfull";;

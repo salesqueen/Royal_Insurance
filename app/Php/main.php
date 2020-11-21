@@ -664,14 +664,24 @@
             $crud=new Crud();
             //fetching policy count
             $policy_count_result_set=$crud->select_custom("SELECT count(*) AS count_value FROM ".Policy_Contract::get_table_name());
-            return $policy_count_result_set->fetch_assoc()['count_value'];
+            if($policy_count_result_set){
+                $policy_count=$policy_count_result_set->fetch_assoc()['count_value'];
+            }else{
+                $policy_count=0;
+            }
+            return $policy_count;
         }
         public function get_agent_policy_count($agent_id){
             //initiallizing required variables
             $crud=new Crud();
             //fetching policy count
             $policy_count_result_set=$crud->select_custom("SELECT count(*) AS count_value FROM ".Policy_Contract::get_table_name()." WHERE agent_id=".$agent_id);
-            return $policy_count_result_set->fetch_assoc()['count_value'];
+            if($policy_count_result_set){
+                $policy_count=$policy_count_result_set->fetch_assoc()['count_value'];
+            }else{
+                $policy_count=0;
+            }
+            return $policy_count;
         }
     }
     class Agent extends Policy{
@@ -693,7 +703,7 @@
             //forming database insertion variables
             $table_name=Agent_Contract::get_table_name();
             //getting and adding the branch manager id based on the user
-            if($_SESSION['user_type']=='Admin'){
+            if($_SESSION['user_type']=='Admin' || $_SESSION['user_type']=='Accountant' || $_SESSION['user_type']=='Operator'){
                 array_push($form_name_array,"branch_manager_id"); 
                 array_push($form_value_array,$_POST['branch_manager_id']);
             }
@@ -740,8 +750,13 @@
             //initiallizing required variables
             $crud=new Crud();
             //fetching policy count
-            $policy_count_result_set=$crud->select_custom("SELECT count(*) AS count_value FROM ".Agent_Contract::get_table_name());
-            return $policy_count_result_set->fetch_assoc()['count_value'];
+            $agent_result_set=$crud->select_custom("SELECT count(*) AS count_value FROM ".Agent_Contract::get_table_name());
+            if($agent_result_set){
+                $agent_count=$agent_result_set->fetch_assoc()['count_value'];
+            }else{
+                $agent_count=0;
+            }
+            return $agent_count;
         }
         public function get_agent_name($agent_id){
             $agent_result_set=$this->read_one_agent($agent_id);
@@ -931,6 +946,24 @@
             $result_set=$crud->select_all($table_name);
             return $result_set;
         }
+        public function get_branch_manager_policy_count(){
+            $agent_result_set=$this->read_selective_agent("WHERE branch_manager_id=".$_SESSION['id']);
+            $policy_count=0;
+            while($agent_result=$agent_result_set->fetch_assoc()){
+                $policy_count+=$this->get_agent_policy_count($agent_result['id']);
+            }
+            return $policy_count;
+        }
+        public function get_branch_manager_agent_count(){
+            $crud=new Crud();
+            $agent_result_set=$crud->select_custom("SELECT COUNT(*) AS agent_count FROM ".Agent_Contract::get_table_name()." WHERE branch_manager_id=".$_SESSION['id']);
+            if($agent_result_set){
+                $agent_count=$agent_result_set->fetch_assoc()['agent_count'];
+            }else{
+                $agent_count=0;
+            }
+            return $agent_count;
+        }
         public function get_branch_manager_count(){
             //initiallizing required variables
             $crud=new Crud();
@@ -1057,48 +1090,7 @@
             return $cleared_cheque_pending_policy_array;
         }
     }
-    class Accountant extends Branch_Manager{
-        public function insert_accountant(){
-            //Initiallizing required variables
-            $crud=new Crud();
-            $form=new Form();
-            //getting form values
-            $form_name_array=Accountant_Contract::get_table_columns();
-            $form_value_array=$form->get_form_values($form_name_array);
-            //upolading documents and adding it to the array
-            $uploaded_file_name_array=$form->upload_files(array("photo","address_proof","id_proof","educational_proof","pan_card"),"\uploads\accountant");
-            array_splice($form_value_array,14,5,$uploaded_file_name_array);
-            //forming database insertion variables
-            $table_name=Accountant_Contract::get_table_name();
-            //performing insertion
-            $crud->insert($table_name,$form_name_array,$form_value_array);     
-        }
-        public function update_accountant($name_array,$id){
-            //Initiallizing required variables
-            $crud=new Crud();
-            $form=new Form();
-            //getting form values
-            $form_name_array=$name_array;
-            $form_value_array=$form->get_form_values($form_name_array);
-            //forming database insertion variables
-            $table_name=Accountant_Contract::get_table_name();
-            //performing updation
-            $crud->update($table_name,$id,$form_name_array,$form_value_array);
-        }
-        public function read_one_accountant($id){
-            $crud=new Crud();
-            $table_name=Accountant_Contract::get_table_name();
-            $result_set=$crud->select_one($table_name,$id);
-            return $result_set;
-        }
-        public function read_all_accountant(){
-            $crud=new Crud();
-            $table_name=Accountant_Contract::get_table_name();
-            $result_set=$crud->select_all($table_name);
-            return $result_set;
-        }
-    }
-    class Operator extends Accountant{
+    class Operator extends Branch_Manager{
         public function insert_operator(){
             //Initiallizing required variables
             $crud=new Crud();
@@ -1139,25 +1131,45 @@
             return $result_set;
         }
     }
-    class Admin extends Operator{
-        use Recivable_Transaction;
-        public function insert_admin(){
-
+    class Accountant extends Operator{
+        public function insert_accountant(){
+            //Initiallizing required variables
+            $crud=new Crud();
+            $form=new Form();
+            //getting form values
+            $form_name_array=Accountant_Contract::get_table_columns();
+            $form_value_array=$form->get_form_values($form_name_array);
+            //upolading documents and adding it to the array
+            $uploaded_file_name_array=$form->upload_files(array("photo","address_proof","id_proof","educational_proof","pan_card"),"\uploads\accountant");
+            array_splice($form_value_array,14,5,$uploaded_file_name_array);
+            //forming database insertion variables
+            $table_name=Accountant_Contract::get_table_name();
+            //performing insertion
+            $crud->insert($table_name,$form_name_array,$form_value_array);     
         }
-        public function update_admin(){
-
+        public function update_accountant($name_array,$id){
+            //Initiallizing required variables
+            $crud=new Crud();
+            $form=new Form();
+            //getting form values
+            $form_name_array=$name_array;
+            $form_value_array=$form->get_form_values($form_name_array);
+            //forming database insertion variables
+            $table_name=Accountant_Contract::get_table_name();
+            //performing updation
+            $crud->update($table_name,$id,$form_name_array,$form_value_array);
         }
-        public function read_one_admin(){
-
+        public function read_one_accountant($id){
+            $crud=new Crud();
+            $table_name=Accountant_Contract::get_table_name();
+            $result_set=$crud->select_one($table_name,$id);
+            return $result_set;
         }
-        public function read_selective_admin(){
-
-        }
-        public function read_all_admin(){
-
-        }
-        public function delete_admin(){
-
+        public function read_all_accountant(){
+            $crud=new Crud();
+            $table_name=Accountant_Contract::get_table_name();
+            $result_set=$crud->select_all($table_name);
+            return $result_set;
         }
         public function get_admin_cash($payment){
             $amount=0;
@@ -1178,6 +1190,27 @@
                 }
             }
             return $amount;
+        }
+    }
+    class Admin extends Accountant{
+        use Recivable_Transaction;
+        public function insert_admin(){
+
+        }
+        public function update_admin(){
+
+        }
+        public function read_one_admin(){
+
+        }
+        public function read_selective_admin(){
+
+        }
+        public function read_all_admin(){
+
+        }
+        public function delete_admin(){
+
         }
     }
     //document download option

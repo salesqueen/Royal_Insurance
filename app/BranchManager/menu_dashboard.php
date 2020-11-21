@@ -6,10 +6,10 @@
 
   //session handelling
   $session=new Session();
-  $session->check_session("Accountant");
+  $session->check_session("Branch_Manager");
 
   //creating user object
-  $user=new Accountant();
+  $user=new Branch_Manager();
 
 ?>
 <!DOCTYPE html>
@@ -60,29 +60,14 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="menu_dashboard.php">Dashboard</a>
                         </li>
-                        <li class="nav-item dropdown">
-                                <a class="nav-link" href="menu_manage_user_agent.php">Manage User</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="menu_manage_user_agent.php">Manage User</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="menu_policy.php">Policy</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilities</a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission Payable</a>
-                                <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
-                                <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
-                                <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
-                            </div>
-                        </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="menu_office_expenses.php">Office Expenses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="menu_wallet.php">Wallet</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../logout.php" id="logout-link">Logout</a>
+                            <a class="nav-link" href="../logout.php">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -147,47 +132,14 @@
                     <!--Count-->
                     <div class="row">
                         <div class="col-md-6 card">
-                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_policy_count();?></h2>
+                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_branch_manager_policy_count();?></h2>
                             <p>Policies</p>
                         </div>
                         <div class="col-md-6 card">
-                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_agent_count();?></h2>
+                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_branch_manager_agent_count();?></h2>
                             <p>User</p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 wallet">
-                            <div>
-                                <h1 class="fa fa-credit-card" aria-hidden="true"></h1>
-                                <p>Wallet</p>
-                            </div>
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_wallet_amount();?></h2>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 cash">
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_cash("Recived");?></h2>
-                            <h1 class="fa fa-plus-square-o" aria-hidden="true"></h1>
-                            <p>Cash Recived</p>
-                        </div>
-                        <div class="col-md-6 cash">
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_cash("Paid");?></h2>
-                            <h1 class="fa fa-minus-square-o"></h1>
-                            <p>Cash Paid</p>
-                        </div>
-                    </div>
-                    <!--<div class="row">
-                        <div class="col-md-6 comission">
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_wallet_amount();?></h2>
-                            <h1 class="fa fa-angle-double-up"></h1>
-                            <p>Comission Recivable</p>
-                        </div>
-                        <div class="col-md-6 comission">
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_wallet_amount();?></h2>
-                            <h1 class="fa fa-angle-up"></h1>
-                            <p>Comission Payable</p>
-                        </div>
-                    </div>-->
                 </div>
                 <!--Calendar-->
                 <div class="col-md-4">

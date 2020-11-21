@@ -1,44 +1,26 @@
 <?php 
+
+  error_reporting(0);
+
+  include '../Php/main.php';
+
+  //session handelling
+  $session=new Session();
+  $session->check_session("Branch_Manager");
+
+  //creating user object
+  $user=new Branch_Manager();
   
-    error_reporting(0);
+  //getting the required content
+  $agent_result_set=$user->read_all_agent();
 
-    include '../Php/main.php';
-
-    //session handelling
-    $session=new Session();
-    $session->check_session("Accountant");
-    //creating user object
-    $user=new Accountant();
-
-    //filtering
-    $constraint="";
-    //filter assigning
-    if(isset($_GET['filter_start_date']) && isset($_GET['filter_end_date'])){
-        $constraint="AND date BETWEEN '".$_GET['filter_start_date']."' AND '".$_GET['filter_end_date']."'";
-    }
-
-    //fetching main
-    //fetching paid result set
-    if($GLOBALS['constraint']==""){
-          $transaction_result_set=$GLOBALS['user']->read_selective_transaction("WHERE payment='Paid'");
-    }else{
-          $transaction_result_set=$GLOBALS['user']->read_selective_transaction("WHERE payment='Paid' ".$GLOBALS['constraint']);
-    }
-
-    //form handelling
-    if(isset($_POST['download_excel'])){
-        $download=new Download();
-        $download->cash($transaction_result_set);
-        header("Location:menu_utilities_cash_paid.php");
-    }
-    
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cash Paid</title>
+  <title>Manage User</title>
 
   <!-- CSS -->
   <!--Bootstrap-->
@@ -51,10 +33,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
   <!--Montserrat-->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
-
+  
   <!--Custom style sheet-->
   <link rel="stylesheet" href="../styles/main.css">
-  <link rel="stylesheet" href="../styles/policy.css">
 </head>
 <body>
     <header>
@@ -69,7 +50,7 @@
                 </div>
             </nav>
         </div>
-    </header>
+    </header> 
     <section id="navbar">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -81,29 +62,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="menu_dashboard.php">Dashboard</a>
                         </li>
-                        <li class="nav-item dropdown">
-                                <a class="nav-link" href="menu_manage_user_agent.php">Manage User</a>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="menu_manage_user_agent.php">Manage User</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="menu_policy.php">Policy</a>
                         </li>
-                        <li class="nav-item dropdown active">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilities</a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission Payable</a>
-                                <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
-                                <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
-                                <a class="dropdown-item active" href="menu_utilities_cash_paid.php">Cash Paid</a>
-                            </div>
-                        </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="menu_office_expenses.php">Office Expenses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="menu_wallet.php">Wallet</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../logout.php" id="logout-link">Logout</a>
+                            <a class="nav-link" href="../logout.php">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -112,75 +78,60 @@
     </section>
     <section id="main-container">
       <div class="container">
-        <div class="form-container">
+        <div class="table-container">
           <div class="row">
             <div class="col-md-12">
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <h2>Cash Paid</h2>
-                    </div>
-                    <div class="col-md-6">
-                        <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST" style="float:right">
-                            <input type="submit" name="download_excel" value="Download Excel">
-                        </form>
-                    </div>
-                </div>
+                <h2>Manage User</h2> 
 
                 <ul class="nav nav-tabs">
-                    <li><a data-toggle="tab" href="#cash_paid" class="active">Cash Paid</a></li>
+                    <li><a data-toggle="tab" href="#agent" class="active">Manage User</a></li>
                 </ul>
 
-                <div class="tab-content"> 
-                    
-                    <div id="cash_paid" class="tab-pane fade show active">
-                        <!--Filter-->
+                <div class="tab-content">
+                    <div id="agent" class="tab-pane fade active show">
                         <div class="row filter">
-                            <div class="col-md-4">
+                            <div class="col-sm-6">
                                 <div class="search-container">
                                     <form action="" method="POST">
                                         <input id="search_1" type="text" placeholder="Search" name="search">
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <form action="<?php echo $_SERVER['PHP_SELF']?>" method="GET">
-                                    <input type="date" name="filter_start_date" id="filter_start_date" required="required">
-                                    <input type="date" name="filter_end_date" id="filter_end_date" placeholder="" required="required">
-                                    <button type="submit" name="filter_submit"><i class="fa fa-sort" aria-hidden="true"></i></button>
-                                </form>
-                            </div>
-                            <div class="col-md-4">
-                                <a href="create_transaction.php?transaction_type=Paid" style="float:right"><button>New Transaction</button></a>
-                            </div>
+                            <div class="col-sm-6">
+                                <a href="create_user.php" class="download_excel"><button>Create</button></a>
+                            </div> 
                         </div>
                         <div class="table-scroll">
                             <table id="table_1" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Agent Name</th>
+                                        <th>Name</th>
+                                        <th>Mobile</th>
+                                        <th>Email</th>
+                                        <th>Address</th>
                                         <th>Branch</th>
-                                        <th>Remark</th>
-                                        <th>Amount</th>
-                                    </tr>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody> 
+                                <tbody>
                                     <?php
-                                        if($transaction_result_set){
-                                            while($transaction_result=$transaction_result_set->fetch_assoc()){
-                                                echo '<tr>';
-                                                echo '  <td>'.$transaction_result['date'].'</td>';
-                                                echo '  <td>'.$user->get_agent_name($transaction_result['agent_id']).'</td>';
-                                                echo '  <td>'.$user->get_branch($transaction_result['agent_id']).'</td>';
-                                                echo '  <td>'.$transaction_result['remark'].'</td>';
-                                                echo '  <td>'.$transaction_result['amount'].'</td>';
-                                                echo '</tr>';
-                                            }
-                                        }else{
-                                            echo "No Records Found";
+                                    if($agent_result_set){
+                                        while($agent_result=$agent_result_set->fetch_assoc()){
+                                            echo "<tr>";
+                                            echo "<td>".$agent_result['name']."</td>";
+                                            echo "<td>".$agent_result['mobile']."</td>";
+                                            echo "<td>".$agent_result['email']."</td>";
+                                            echo "<td>".$agent_result['address']."</td>";
+                                            echo "<td>".$user->get_branch($agent_result['id'])."</td>";
+                                            echo '  <td>
+                                                        <a href="view_user.php?id='.$agent_result['id'].'&user_type=agent"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        <a href="edit_user.php?id='.$agent_result['id'].'&user_type=agent"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                    </td>';
+                                            echo "</tr>";
                                         }
+                                    }else{
+                                        echo "<tr>No records found</tr>";
+                                    }
                                     ?>
                                 </tbody>
                             </table>
@@ -224,7 +175,7 @@
         font:normal normal normal 20px/1 FontAwesome;
     }
   </style>
-  <!--Custom script-->
+  <!--Custom javascript-->
   <script src="../scripts/search.js"></script>
   <script src="../scripts/main.js"></script>
   <?php 

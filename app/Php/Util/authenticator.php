@@ -1,6 +1,6 @@
 <?php 
 
-    error_reporting(0);
+    //error_reporting(0);
 
     include 'form.php';
     include 'session.php';
@@ -26,6 +26,20 @@
                     $this->agent_session($result_set);
                     $authentication=true;
                 }
+                //checking for accountant
+                $sql="SELECT * FROM accountant WHERE email='".$authentication_variables[0]."' AND password='".$authentication_variables[1]."';";
+                $result_set=$GLOBALS['connection']->query($sql);
+                if($this->isValid($result_set)){
+                    $this->accountant_session($result_set);
+                    $authentication=true;
+                }
+                //checking for operator
+                $sql="SELECT * FROM operator WHERE email='".$authentication_variables[0]."' AND password='".$authentication_variables[1]."';";
+                $result_set=$GLOBALS['connection']->query($sql);
+                if($this->isValid($result_set)){
+                    $this->operator_session($result_set);
+                    $authentication=true;
+                }
                 //checking for branch manager
                 $sql="SELECT * FROM branch_manager WHERE email='".$authentication_variables[0]."' AND password='".$authentication_variables[1]."';";
                 $result_set=$GLOBALS['connection']->query($sql);
@@ -47,6 +61,20 @@
                 $result_set=$GLOBALS['connection']->query($sql);
                 if($this->isValid($result_set)){
                     $this->agent_session($result_set);
+                    $authentication=true;
+                }
+                //checking for accountant
+                $sql="SELECT * FROM accountant WHERE phone='".$authentication_variables[0]."' AND password='".$authentication_variables[1]."';";
+                $result_set=$GLOBALS['connection']->query($sql);
+                if($this->isValid($result_set)){
+                    $this->accountant_session($result_set);
+                    $authentication=true;
+                }
+                //checking for operator
+                $sql="SELECT * FROM operator WHERE phone='".$authentication_variables[0]."' AND password='".$authentication_variables[1]."';";
+                $result_set=$GLOBALS['connection']->query($sql);
+                if($this->isValid($result_set)){
+                    $this->operator_session($result_set);
                     $authentication=true;
                 }
                 //checking for branch manager
@@ -80,6 +108,22 @@
             $this->session_call($key,$value);
             //redirecting to dashboard
             header("location:Agent/menu_dashboard.php");
+        }
+        function accountant_session($result_set){
+            $result=$result_set->fetch_assoc();
+            $key=array("name","id","user_type","photo");
+            $value=array($result['name'],$result['id'],"Accountant",$result['photo']);
+            $this->session_call($key,$value);
+            //redirecting to dashboard
+            header("location:Accountant/menu_dashboard.php");
+        }
+        function operator_session($result_set){
+            $result=$result_set->fetch_assoc();
+            $key=array("name","id","user_type","photo");
+            $value=array($result['name'],$result['id'],"Operator",$result['photo']);
+            $this->session_call($key,$value);
+            //redirecting to dashboard
+            header("location:Operator/menu_dashboard.php");
         }
         function branch_manager_session($result_set){
             $result=$result_set->fetch_assoc();

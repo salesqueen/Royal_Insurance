@@ -6,9 +6,9 @@
 
   //session handelling
   $session=new Session();
-  $session->check_session("Accountant");
+  $session->check_session("Operator");
   //creating user object
-  $user=new Accountant();
+  $user=new Operator();
 
   //filtering
   $constraint="";
@@ -142,29 +142,17 @@
                         <li class="nav-item">
                             <a class="nav-link" href="menu_dashboard.php">Dashboard</a>
                         </li>
-                        <li class="nav-item dropdown">
-                                <a class="nav-link" href="menu_manage_user_agent.php">Manage User</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="menu_manage_user_agent.php">Manage User</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="menu_policy.php">Policy</a>
                         </li>
-                        <li class="nav-item dropdown active">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilities</a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission Payable</a>
-                                <a class="dropdown-item active" href="menu_utilities_cheque_status.php">Cheque Status</a>
-                                <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
-                                <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
-                            </div>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="menu_utilities_cheque_status.php">Cheque Status</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="menu_office_expenses.php">Office Expenses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="menu_wallet.php">Wallet</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../logout.php" id="logout-link">Logout</a>
+                            <a class="nav-link" href="../logout.php">Logout</a>
                         </li>
                     </ul>
                 </div>

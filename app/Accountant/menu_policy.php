@@ -1,5 +1,5 @@
 <?php 
-  
+
     //error_reporting(0);
 
     include '../Php/main.php';
@@ -7,6 +7,7 @@
     //session handelling
     $session=new Session();
     $session->check_session("Accountant");
+
     //creating user object
     $user=new Accountant();
 
@@ -55,19 +56,17 @@
     }
 
     //fetching main
-    //pending policy via cash
+    //fetching pending policy details for cash
     if($constraint==""){
-        $pending_policy_result_set=$user->read_selective_policy('WHERE (comission_percentage=0 AND payment_mode="Cash") OR (comission_percentage=0 AND payment_mode="Online")');
+        $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0");
     }else{
-        $pending_policy_result_set=$user->read_selective_policy('WHERE ((comission_percentage=0 AND payment_mode="Cash") OR (comission_percentage=0 AND payment_mode="Online")) '.$constraint);
+        $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
     }
-    //pending policy via cheque
-    $cleared_cheque_pending_policy_array=$user->get_cleared_cheque_pending_policy("comission_percentage",$_POST['company_name'],$_POST['company_code'],$_POST['branch'],$_POST['agent'],$_POST['filter_start_date'],$_POST['filter_end_date']);
-    //getting approved policy
+    //fetching approved policy details
     if($constraint==""){
-        $approved_policy_result_set=$user->read_selective_policy('WHERE NOT comission_percentage=0');
+        $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0"); 
     }else{
-        $approved_policy_result_set=$user->read_selective_policy('WHERE NOT comission_percentage=0 '.$constraint);
+        $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
     }
     //company
     $company_result_set=$user->read_all_company();
@@ -78,25 +77,25 @@
     //agent
     $agent_result_set=$user->read_all_agent();
 
-    //form handelling
-    //approving policy
-    if(isset($_POST['approve_submit'])){
-        $user->update_policy(array('policy_number','company_code','product','comission_percentage','comission_type'),$_POST['policy_id']);
-        header("Location:menu_utilities_comission_payable.php");
+  //form action
+  //download
+  if(isset($_POST['download_excel'])){
+    if(isset($_POST['constraint']) && $_POST['constraint'] !=""){
+        $constraint=$_POST['constraint'];
+        $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
+        $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
     }
-    //download
-    if(isset($_POST['download_excel'])){
-        $download=new Download();
-        $download->comission_payable($pending_policy_result_set,$cleared_cheque_pending_policy_array,$approved_policy_result_set);
-    }
-    
+    $download=new Download();
+    $download->policy($pending_policy_result_set,$approved_policy_result_set);
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Comission Payable</title>
+  <title>Policy</title>
 
   <!-- CSS -->
   <!--Bootstrap-->
@@ -112,7 +111,6 @@
 
   <!--Custom style sheet-->
   <link rel="stylesheet" href="../styles/main.css">
-  <link rel="stylesheet" href="../styles/policy.css">
 </head>
 <body>
     <header>
@@ -142,13 +140,13 @@
                         <li class="nav-item dropdown">
                                 <a class="nav-link" href="menu_manage_user_agent.php">Manage User</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="menu_policy.php">Policy</a>
                         </li>
-                        <li class="nav-item dropdown active">
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilities</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item active" href="menu_utilities_comission_payable.php">Comission Payable</a>
+                                <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission Payable</a>
                                 <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
@@ -173,40 +171,27 @@
         <div class="form-container">
           <div class="row">
             <div class="col-md-12">
-
-                <div class="row">
+                
+                <div class="row"> 
                     <div class="col-md-6">
-                        <h2>Comission Payable</h2>
+                        <h2>Policy</h2>
                     </div>
                     <div class="col-md-6">
                         <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST" style="float:right">
-                            <!--Company Name-->
-                            <input type="hidden" name="company_name" value="<?php if(isset($_POST['company_name'])){echo $_POST['company_name'];}else{/*Do Nothing */}?>">
-                            <!--Company Code-->
-                            <input type="hidden" name="company_code" value="<?php if(isset($_POST['company_code'])){echo $_POST['company_code'];}else{/*Do Nothing */}?>">
-                            <!--Branch-->
-                            <input type="hidden" name="branch" value="<?php if(isset($_POST['branch'])){echo $_POST['branch'];}else{/*Do Nothing */}?>">
-                             <!--Agent-->
-                            <input type="hidden" name="agent" value="<?php if(isset($_POST['agent'])){echo $_POST['agent'];}else{/*Do Nothing */}?>">
-                            <!--Date Filter-->
-                            <input type="hidden" name="filter_start_date" value="<?php if(isset($_POST['filter_start_date'])){echo $_POST['filter_start_date'];}else{/*Do Nothing */}?>">
-                            <input type="hidden" name="filter_end_date" value="<?php if(isset($_POST['filter_end_date'])){echo $_POST['filter_end_date'];}else{/*Do Nothing */}?>">
-                            <!--Submit Button-->
+                            <input type="hidden" name="constraint" value="<?php echo $constraint?>">
                             <input type="submit" name="download_excel" value="Download Excel">
                         </form>
                     </div>
                 </div>
-
+                
                 <ul class="nav nav-tabs">
-                    <li><a data-toggle="tab" href="#comission-payable" class="active">Comission Payable</a></li>
+                    <li><a data-toggle="tab" href="#policy" class="active">Policy</a></li>
                 </ul>
 
-                <div class="tab-content"> 
-                    
-                    <div id="comission-payable" class="tab-pane fade show active">
-                        <!--Filter-->
+                <div class="tab-content">
+                    <div id="policy" class="tab-pane fade in active show">
                         <div class="row filter">
-                            <div class="col-md-12">
+                            <div class="col-md-11">
                                 <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
                                     <!--Company Name-->
                                     <input type="text" onfocus="this.value=''" name="company_name" id="company_name" list="company_names" placeholder="Company Name" value="<?php if(isset($_POST['company_name'])){echo $_POST['company_name'];}else{/*Do Nothing */}?>">
@@ -251,6 +236,9 @@
                                     <button type="submit" name="filter_submit"><i class="fa fa-sort" aria-hidden="true"></i></button>
                                 </form>
                             </div>
+                            <div class="col-md-1">
+                                <a href="create_policy.php" style="float:right"><Button>Create</button></a>
+                            </div>
                         </div>
 
                         <div class="table-scroll">
@@ -263,75 +251,72 @@
                                         <th>Customer Name</th>
                                         <th>Registration Number</th>
                                         <th>Payment Mode</th>
-                                        <th>Payable From</th>
-                                        <th>Payable Amount</th>
+                                        <th>OD Premium</th>
+                                        <th>Net Premium</th>
+                                        <th>Total Premium</th>
                                         <th>Agent Name</th>
-                                        <th>Approve</th>
+                                        <th>Policy Status</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                        //pending policy
-                                        if($pending_policy_result_set){
-                                            while($pending_policy_result=$pending_policy_result_set->fetch_assoc()){
-                                                echo "<tr>";
-                                                echo "  <td>".$pending_policy_result['issue_date']."</td>";
-                                                echo "  <td>".$pending_policy_result['company_name']."</td>";
-                                                echo "  <td>".$pending_policy_result['policy_number']."</td>";
-                                                echo "  <td>".$pending_policy_result['customer_name']."</td>";
-                                                echo "  <td>".$pending_policy_result['registration_number']."</td>";
-                                                echo "  <td>".$pending_policy_result['payment_mode']."</td>";
-                                                echo "  <td></td>";
-                                                echo "  <td></td>";
-                                                echo "  <td>".$user->get_agent_name($pending_policy_result['agent_id'])."</td>";
-                                                echo '  <td>
-                                                            <Button onclick="policy_open_overlay(this)" id="'.$pending_policy_result['id'].'">Approve</Button>
-                                                            <a href="view_policy.php?id='.$pending_policy_result['id'].'"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                        </td>';
-                                                echo "</tr>";
-                                            }
-                                        }
-                                        for($i=0;$i<count($cleared_cheque_pending_policy_array);$i++){
-                                            echo "<tr>";
-                                            echo "  <td>".$cleared_cheque_pending_policy_array[$i]['issue_date']."</td>";
-                                            echo "  <td>".$cleared_cheque_pending_policy_array[$i]['company_name']."</td>";
-                                            echo "  <td>".$cleared_cheque_pending_policy_array[$i]['policy_number']."</td>";
-                                            echo "  <td>".$cleared_cheque_pending_policy_array[$i]['customer_name']."</td>";
-                                            echo "  <td>".$cleared_cheque_pending_policy_array[$i]['registration_number']."</td>";
-                                            echo "  <td>".$cleared_cheque_pending_policy_array[$i]['payment_mode']."</td>";
-                                            echo "  <td></td>";
-                                            echo "  <td></td>";
-                                            echo "  <td>".$user->get_agent_name($cleared_cheque_pending_policy_array[$i]['agent_id'])."</td>";
-                                            echo '  <td>
-                                                        <Button onclick="policy_open_overlay(this)" id="'.$cleared_cheque_pending_policy_array[$i]['id'].'">Approve</Button>
-                                                        <a href="view_policy.php?id='.$cleared_cheque_pending_policy_array[$i]['id'].'"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    </td>';
-                                            echo "</tr>";
-                                        }
-                                        //approved policy
-                                        if($approved_policy_result_set){
-                                            while($approved_policy_result=$approved_policy_result_set->fetch_assoc()){
-                                                echo "<tr>";
-                                                echo "  <td>".$approved_policy_result['issue_date']."</td>";
-                                                echo "  <td>".$approved_policy_result['company_name']."</td>";
-                                                echo "  <td>".$approved_policy_result['policy_number']."</td>";
-                                                echo "  <td>".$approved_policy_result['customer_name']."</td>";
-                                                echo "  <td>".$approved_policy_result['registration_number']."</td>";
-                                                echo "  <td>".$approved_policy_result['payment_mode']."</td>";
-                                                //calculating comission
-                                                $comission=0;
-                                                if($approved_policy_result['comission_type']=='OD'){
-                                                    $comission=$approved_policy_result['od_premium']*($approved_policy_result['comission_percentage']/100);
+                                        if($approved_policy_result_set || $pending_policy_result_set){
+                                            //pending policy
+                                            if($pending_policy_result_set){
+                                                while($pending_policy_result=$pending_policy_result_set->fetch_assoc()){
+                                                    echo "<tr>";
+                                                    echo "  <td>".$pending_policy_result['issue_date']."</td>";
+                                                    echo "  <td>".$pending_policy_result['company_name']."</td>";
+                                                    echo "  <td>".$pending_policy_result['policy_number']."</td>";
+                                                    echo "  <td>".$pending_policy_result['customer_name']."</td>";
+                                                    echo "  <td>".$pending_policy_result['registration_number']."</td>";
+                                                    echo "  <td>".$pending_policy_result['payment_mode']."</td>";
+                                                    echo "  <td>".$pending_policy_result['od_premium']."</td>";
+                                                    echo "  <td>".$pending_policy_result['net_premium']."</td>";
+                                                    echo "  <td>".$pending_policy_result['total_premium']."</td>";
+                                                    echo "  <td>".$user->get_agent_name($pending_policy_result['agent_id'])."</td>";
+                                                    if($pending_policy_result['payment_mode']=='Cash' || $pending_policy_result['payment_mode']=='Online'){
+                                                        echo "  <td>Pending</td>";
+                                                    }else{
+                                                        if($user->get_cheque_status($pending_policy_result['id'])=='Rejected'){
+                                                            echo "  <td>Rejected</td>";
+                                                        }else{
+                                                            echo "  <td>Pending</td>";
+                                                        }
+                                                    }
+                                                    echo '  <td>
+                                                                <a href="view_policy.php?id='.$pending_policy_result['id'].'"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                                <a href="edit_policy.php?id='.$pending_policy_result['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                                <a href="upload_document_policy.php?id='.$pending_policy_result['id'].'"><i class="fa fa-upload" aria-hidden="true"></i></a>
+                                                            </td>';
+                                                    echo "</tr>";
                                                 }
-                                                if($approved_policy_result['comission_type']=='NP'){
-                                                    $comission=$approved_policy_result['net_premium']*($approved_policy_result['comission_percentage']/100);
-                                                }
-                                                echo "  <td>".$approved_policy_result['comission_type']."</td>";
-                                                echo "  <td>".$comission."</td>";
-                                                echo "  <td>".$user->get_agent_name($approved_policy_result['agent_id'])."</td>"; 
-                                                echo '  <td>Approved <a href="view_policy.php?id='.$approved_policy_result['id'].'"><i class="fa fa-eye" aria-hidden="true"></i></a></td>';
-                                                echo "</tr>";
                                             }
+                                            //approved policy
+                                            if($approved_policy_result_set){
+                                                while($approved_policy_result=$approved_policy_result_set->fetch_assoc()){
+                                                    echo "<tr>";
+                                                    echo "  <td>".$approved_policy_result['issue_date']."</td>";
+                                                    echo "  <td>".$approved_policy_result['company_name']."</td>";
+                                                    echo "  <td>".$approved_policy_result['policy_number']."</td>";
+                                                    echo "  <td>".$approved_policy_result['customer_name']."</td>";
+                                                    echo "  <td>".$approved_policy_result['registration_number']."</td>";
+                                                    echo "  <td>".$approved_policy_result['payment_mode']."</td>";
+                                                    echo "  <td>".$approved_policy_result['od_premium']."</td>";
+                                                    echo "  <td>".$approved_policy_result['net_premium']."</td>";
+                                                    echo "  <td>".$approved_policy_result['total_premium']."</td>";
+                                                    echo "  <td>".$user->get_agent_name($approved_policy_result['agent_id'])."</td>";
+                                                    echo "  <td>Approved</td>";
+                                                    echo '  <td>
+                                                                <a href="view_policy.php?id='.$approved_policy_result['id'].'"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                                <a href="upload_document_policy.php?id='.$approved_policy_result['id'].'"><i class="fa fa-upload" aria-hidden="true"></i></a>
+                                                            </td>';
+                                                    echo "</tr>";
+                                                }
+                                            }
+                                        }else{
+                                            echo "<tr>No records found</tr>";
                                         }
                                     ?>
                                 </tbody>
@@ -347,7 +332,7 @@
                             </ul>
                         </nav>-->
                     </div>
-                </div>
+                </div>       
   
           </div>
         </div>
@@ -357,66 +342,6 @@
 
     
     </footer>
-    <div id='overlay'>
-        <div class="container">
-          <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
-            <div class="row close_container">
-                <span class="fa fa-times" onclick="close_overlay()"></span>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <a href="" id="view_policy_document_link">View Policy Documents</a>
-                </div>
-            </div>
-            <div class="row">
-                    <div class="col-md-4">
-                        <label for="policy_number">Policy Number</label>
-                        <input type="text" id="policy_number" name="policy_number" class="form-control" value="" required="required">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="ajax_company_name">Company Name</label>
-                        <input type="text" id="ajax_company_name" name="company_name" class="form-control" value="" required="required">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="ajax_company_code">Company Code</label>
-                        <select id="ajax_company_code" name="company_code" class="form-control" required="required">
-                            <option value="">Select Company Code</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="product">Product</label>
-                        <input type="text" id="product"  name="product" class="form-control" value="" required="required">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="exampleRadios">Comsission Type</label>
-                        <br>
-                        <input class="form-check-input" onclick="update_agent_payout_amount()" type="radio" name="comission_type" id="OD" value="OD" checked>
-                        <label class="form-check-label" for="OD">OD Premium-<span id="od_premium"></span></label>
-                        <br>
-                        <input class="form-check-input" onclick="update_agent_payout_amount()" type="radio" name="comission_type" id="NP" value="NP">
-                        <label class="form-check-label" for="NP">NET Premium-<span id="net_premium"></span></label>
-                    </div>
-                    <!--Value not entered by admin-->
-                    <input type="hidden" id="policy_id" name="policy_id" value="">    
-            </div>
-            <div class="row">
-                    <div class="col-md-4">
-                        <label for="comission_percentage">Agent Payout(%)</label>
-                        <input type="number" onchange="update_agent_payout_amount()" id="comission_percentage"  name="comission_percentage" class="form-control" value="" required="required">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="comission_amount">Agent Payout Amount</label>
-                        <input type="text" onchange="update_comission_percentage()" id="comission_amount" class="form-control" value="" required="required">
-                    </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <input type="submit" value="Approve" name="approve_submit">
-                </div>
-            </div>
-          </form>
-        </div>
-    </div>
     <!--Message-->
     <div class="alert hide">
         <span class="fas fa-exclamation-circle"></span>
@@ -425,6 +350,7 @@
           <span class="fa fa-times"></span>
         </div>
     </div>
+    
 
   <!-- jQuery and JS bundle w/ Popper.js -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -437,9 +363,10 @@
     }
   </style>
   <!--Custom script-->
+  <script src="../scripts/overlay.js"></script>
   <!--<script src="../scripts/search.js"></script>-->
   <script src="../scripts/main.js"></script>
-  <script src="../scripts/overlay.js"></script>
+
   <?php 
     //Message handelling
     if(isset($_SESSION['message'])){
@@ -457,10 +384,11 @@
             </script>";
         unset($_SESSION['message']);
     }else{
-        echo $_SESSION['message'];
+        //Do Nothing
     }
   ?>
 </body>
 </html>
 
                         
+              

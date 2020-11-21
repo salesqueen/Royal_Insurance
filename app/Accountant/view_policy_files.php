@@ -1,18 +1,29 @@
 <?php 
 
-    //error_reporting(0);
+  error_reporting(0);
 
-    include '../Php/main.php';
+  include '../Php/main.php';
 
-    //session handelling
-    $session=new Session();
-    $session->check_session("Accountant");
+  //session handelling
+  $session=new Session();
+  $session->check_session("Accountant");
 
-    //creating user object
-    $user=new Accountant();
-
-    //fetching main
-    $office_expenses_result_set=$user->read_selective_transaction("WHERE payment='Office_Expenses_Request'");
+  //creating user object
+  $user=new Accountant();
+  
+  //fetching document id
+  function get_policy_files_id($policy_id){
+    $policy_files_id_result_set=$GLOBALS['user']->read_selective_policy_files("WHERE policy_id=".$policy_id);
+    $policy_files_id_result=$policy_files_id_result_set->fetch_assoc();
+    return $policy_files_id_result['id'];
+  }
+  //fetching documents of the policy
+  function get_policy_files($id){
+      $policy_files_result_set=$GLOBALS['user']->read_one_policy_files(get_policy_files_id($id));
+      $policy_files_result=$policy_files_result_set->fetch_assoc();
+      return $policy_files_result;
+  }
+  $policy_files_result=get_policy_files($_GET['id']);
 
 ?>
 <!DOCTYPE html>
@@ -20,7 +31,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Office Expenses</title>
+  <title>Policy Documents</title>
 
   <!-- CSS -->
   <!--Bootstrap-->
@@ -77,7 +88,7 @@
                                 <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
                             </div>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="menu_office_expenses.php">Office Expenses</a>
                         </li>
                         <li class="nav-item">
@@ -96,62 +107,37 @@
         <div class="form-container">
           <div class="row">
             <div class="col-md-12">
-                
-                <div class="row"> 
+
+                <div class="row">
                     <div class="col-md-6">
-                        <h2>Office Expenses</h2>
+                        <h2>View Policy Files</h2>
                     </div>
                     <div class="col-md-6">
-                        <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST" style="float:right">
-                            <input type="hidden" name="constraint" value="<?php echo $constraint?>">
-                            <input type="submit" name="download_excel" value="Download Excel">
-                        </form>
+                        <a href="javascript:history.go(-1)" style="float:right"><Button>Back <i class="fa fa-arrow-right" aria-hidden="true"></i></button></a>
                     </div>
                 </div>
                 
-                <ul class="nav nav-tabs">
-                    <li><a data-toggle="tab" href="#policy" class="active">Office Expenses</a></li>
-                </ul>
-
-                <div class="tab-content">
-                    <div id="policy" class="tab-pane fade in active show">
-                        <div class="table-scroll">
-                            <table id="table_1" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Agent Name</th>
-                                        <th>Branch</th>
-                                        <th>Amount</th>
-                                        <th>Remark</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php 
-                                        if($office_expenses_result_set){
-                                            while($office_expenses_result=$office_expenses_result_set->fetch_assoc()){
-                                                echo '<td>'.$office_expenses_result['date'].'</td>';
-                                                echo '<td>'.$user->get_agent_name($office_expenses_result['agent_id']).'</td>';
-                                                echo '<td>'.$user->get_branch($office_expenses_result['agent_id']).'</td>';
-                                                echo '<td>'.$office_expenses_result['amount'].'</td>';
-                                                echo '<td>'.$office_expenses_result['remark'].'</td>';
-                                            }
-                                        }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!--<nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </nav>-->
-                    </div>
-                </div>       
+                <div class="row">
+                    <?php 
+                        if($policy_files_result){
+                            $document_uploaded=0;
+                            for($i=1;$i<5;$i++){
+                                $file_name='file_'.$i;
+                                if($policy_files_result[$file_name]!='Null'){
+                                    echo '<div class="col-md-12">';
+                                    echo '  <embed style="width:100%;height:600px" src="../Php/Util/uploads/policy_documents/'.$policy_files_result[$file_name].'" type="application/pdf">';
+                                    echo '</div>';
+                                    $document_uploaded++;
+                                }
+                            }
+                            if($document_uploaded==0){
+                                echo "<p>No Documents Uploaded</p>";
+                            }
+                        }else{
+                            echo "<p>No documents</p>";
+                        }
+                    ?>    
+                </div>    
   
           </div>
         </div>
@@ -161,14 +147,6 @@
 
     
     </footer>
-    <!--Message-->
-    <div class="alert hide">
-        <span class="fas fa-exclamation-circle"></span>
-        <span class="msg" id="message"></span>
-        <div class="close-btn">
-          <span class="fa fa-times"></span>
-        </div>
-    </div>
     
 
   <!-- jQuery and JS bundle w/ Popper.js -->
@@ -181,31 +159,6 @@
         font:normal normal normal 20px/1 FontAwesome;
     }
   </style>
-  <!--Custom script-->
-  <script src="../scripts/overlay.js"></script>
-  <!--<script src="../scripts/search.js"></script>-->
-  <script src="../scripts/main.js"></script>
-
-  <?php 
-    //Message handelling
-    if(isset($_SESSION['message'])){
-        echo "<script>
-                $('.alert').addClass('show');
-                $('#message').text('".$_SESSION['message']."');
-                $('.alert').removeClass('hide');
-                $('.alert').addClass('showAlert');
-                $('.alert').css('opacity','1');
-                setTimeout(function(){
-                    $('.alert').removeClass('show');
-                    $('.alert').addClass('hide');
-                    $('.alert').css('opacity','0');
-                },5000);
-            </script>";
-        unset($_SESSION['message']);
-    }else{
-        //Do Nothing
-    }
-  ?>
 </body>
 </html>
 
