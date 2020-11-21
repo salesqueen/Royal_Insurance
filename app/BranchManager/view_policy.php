@@ -164,6 +164,26 @@
                                 </div>
                             </div>
 
+                            <h4>Vehicle Details</h4>
+                            <hr>
+                            <div class="row">
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="cc">CC</label>
+                                    <p><b><?php echo $policy_result['cc'];?></b></p>
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="seating_capacity">Seating Capacity</label>
+                                    <p><b><?php echo $policy_result['seating_capacity'];?></b></p>
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="gbw">GBW</label>
+                                    <p><b><?php echo $policy_result['gbw'];?></b></p>
+                                </div>
+                            </div>
+
                             <h4>OD Policy Date</h4>
                             <hr>
                             <div class="row">

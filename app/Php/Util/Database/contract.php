@@ -106,7 +106,7 @@
         private static $table_name="policy";
         private static $table_columns=array("issue_date","company_name","policy_type","product",
                                     "policy_number","customer_name","mobile","email","registration_number",
-                                    "make_model","od_policy_start_date","od_policy_period","od_policy_end_date",
+                                    "make_model","cc","seating_capacity","gbw","od_policy_start_date","od_policy_period","od_policy_end_date",
                                     "tp_policy_start_date","tp_policy_period","tp_policy_end_date","od_disc",
                                     "od_premium","tp_premium","net_premium","total_premium","payment_mode");
         public static function get_table_name(){

@@ -1,36 +1,35 @@
 <?php 
 
-    error_reporting(0);
+  error_reporting(0);
 
-    include '../Php/main.php';
+  include '../Php/main.php';
 
-    //session handelling
-    $session=new Session();
-    $session->check_session("Agent");
-    
-    //creating user object
-    $user=new Agent();
+  //session handelling
+  $session=new Session();
+  $session->check_session("Accountant");
 
-    //fetching
-    //fetching company result set
-    $company_result_set=$user->read_all_company();
-    //fetching policy type result set
-    $policy_type_result_set=$user->read_all_policy_type();
-    //fetching product result set
-    $product_result_set=$user->read_all_product();
-    //fetching policy period type result set
-    $policy_period_result_set=$user->read_all_policy_period();
-    
+  //creating user object
+  $user=new Accountant();
 
-    //form handelling
-    //create policy
-    if(isset($_POST['submit'])){
-        echo "in";
-        $user->insert_policy();
-        header('Location:menu_policy.php');
-        exit();
-    }
+  //fetching main
+  //fetching policy result set
+  $policy_result_set=$user->read_one_policy($_GET['id']);
+  $policy_result=$policy_result_set->fetch_assoc();
+  //fetching company result set
+  $company_result_set=$user->read_all_company();
+  //fetching policy type result set
+  $policy_type_result_set=$user->read_all_policy_type();
+  //fetching product result set
+  $product_result_set=$user->read_all_product();
+  //fetching policy period type result set
+  $policy_period_result_set=$user->read_all_policy_period();
 
+  //form handelling
+  if(isset($_POST['submit'])){
+    $name_array=Policy_Contract::get_table_columns();  
+    $GLOBALS['user']->update_policy($name_array,$_GET['id']);
+    header('Location:menu_policy.php');
+  }
 
 ?>
 <!DOCTYPE html>
@@ -38,7 +37,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Policy</title>
+  <title>Edit Policy</title>
 
   <!-- CSS -->
   <!--Bootstrap-->
@@ -80,13 +79,34 @@
                         <li class="nav-item">
                             <a class="nav-link" href="menu_dashboard.php">Dashboard</a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Master</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="menu_master_company.php">Company</a>
+                                <a class="dropdown-item" href="menu_master_company_code.php">Booking Code</a>
+                                <a class="dropdown-item" href="menu_master_policy_period.php">Policy Period</a>
+                                <a class="dropdown-item" href="menu_master_policy_type.php">Policy Type</a>
+                                <a class="dropdown-item" href="menu_master_product.php">Product</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage User</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="menu_manage_user_branch_manager.php">Branch Manager</a>
+                                <a class="dropdown-item" href="menu_manage_user_operator.php">Operator</a>
+                                <a class="dropdown-item" href="menu_manage_user_accountant.php">Accoutant</a>
+                                <a class="dropdown-item" href="menu_manage_user_agent.php">User</a>
+                                <a class="dropdown-item" href="menu_manage_user_create_branch.php">Create Branch</a>
+                            </div>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="menu_policy.php">Policy</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilities</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission</a>
+                                <a class="dropdown-item" href="menu_utilities_comission_recivable.php">Comission Recivable</a>
+                                <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission Payable</a>
                                 <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
@@ -99,7 +119,7 @@
                             <a class="nav-link" href="menu_wallet.php">Wallet</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../logout.php">Logout</a>
+                            <a class="nav-link" href="../logout.php" id="logout-link">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -114,7 +134,7 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <h2>Create Policy</h2>
+                        <h2>Edit Policy</h2>
                     </div>
                     <div class="col-md-6">
                         <a href="menu_policy.php" style="float:right"><Button>Back <i class="fa fa-arrow-right" aria-hidden="true"></i></button></a>
@@ -122,29 +142,29 @@
                 </div>
                 
                 <ul class="nav nav-tabs">
-                    <li><a data-toggle="tab" href="#policy" class="active">Create Policy</a></li>
+                    <li><a data-toggle="tab" href="#policy" class="active">Edit Policy</a></li>
                 </ul>
 
                 <div class="tab-content">
                     <div id="policy" class="tab-pane fade in show active">
-                        <!--Create Transaction form-->
-                        <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" enctype="multipart/form-data">
+                        <form action="<?php echo $_SERVER['PHP_SELF'].'?id='.$_GET['id']; ?>" method="POST" enctype="multipart/form-data">
+                            <!--Form type based on payment type-->
+                            <input type="hidden" id="policy_form_type" name="policy_form_type">
+                            <input type="hidden" name="previous_payment_mode" value="<?php echo $policy_result['payment_mode'];?>">
                             <h4>Policy Details</h4>
                             <hr>
                             <div class="row">
-                                <!--Form type based on payment type-->
-                                <input type="hidden" id="policy_form_type" name="policy_form_type">
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="issue_date">Issue Date</label>
-                                    <input type="date" class="form-control" id="issue_date" name="issue_date" placeholder="Issue Date" required="required">
+                                    <input type="date" class="form-control" id="issue_date" name="issue_date" placeholder="Issue Date" required="required" value="<?php echo $policy_result['issue_date']; ?>">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="company_name">Company Name</label>
                                     <select name="company_name" class="form-control" id="company_name" required="required">
-                                        <option value="">Select Company</option>
-                                        <?php 
+                                        <option value="<?php echo $policy_result['company_name']; ?>"><?php echo $policy_result['company_name']; ?></option>
+                                        <?php
                                             if($company_result_set){
                                                 while($company_result=$company_result_set->fetch_assoc()){
                                                     echo '<option value="'.$company_result['company_name'].'">'.$company_result['company_name'].'</option>';
@@ -157,7 +177,7 @@
                                 <div class="col-md-4">
                                     <label for="policy_type">Policy Type</label>
                                     <select name="policy_type" class="form-control" id="policy_type" required="required">
-                                        <option value="">Select Policy Type</option>
+                                        <option value="<?php echo $policy_result['policy_type']; ?>"><?php echo $policy_result['policy_type']; ?></option>
                                         <?php 
                                             if($policy_type_result_set){
                                                 while($policy_type_result=$policy_type_result_set->fetch_assoc()){
@@ -171,7 +191,7 @@
                                 <div class="col-md-4">
                                     <label for="product">Product</label>
                                     <select name="product" class="form-control" id="product" required="required">
-                                        <option value="">Select Product</option>
+                                        <option value="<?php echo $policy_result['product']; ?>"><?php echo $policy_result['product']; ?></option>
                                         <?php 
                                             if($product_result_set){
                                                 while($product_result=$product_result_set->fetch_assoc()){
@@ -183,8 +203,8 @@
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="policy_number">Policy Number <span id="policy_number_error" style="color:red"></span></label>
-                                    <input type="text" onchange="check_policy_number_duplication()" class="form-control" id="policy_number" name="policy_number" placeholder="Policy Number" required="required">
+                                    <label for="policy_number">Policy Number</label>
+                                    <input type="text" class="form-control" id="policy_number" name="policy_number" placeholder="Policy Number" required="required" value="<?php echo $policy_result['policy_number']; ?>">
                                 </div>
                             </div>
 
@@ -194,27 +214,27 @@
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="customer_name">Customer Name</label>
-                                    <input type="text" class="form-control" id="customer_name" name="customer_name" placeholder="Customer Name" required="required">
+                                    <input type="text" class="form-control" id="customer_name" name="customer_name" placeholder="Customer Name" required="required" value="<?php echo $policy_result['customer_name']; ?>">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="mobile">Mobile</label>
-                                    <input type="text" maxlength="10" class="form-control" id="mobile" name="mobile" placeholder="Mobile" required="required">
+                                    <input type="number" class="form-control" id="mobile" name="mobile" placeholder="Mobile" required="required" value='<?php echo $policy_result['mobile']; ?>'>
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="required">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="required" value="<?php echo $policy_result['email']; ?>">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="registration_number">Registration Number <span id="registration_number_error" style="color:red"></span></label>
-                                    <input type="text" maxlength="14" onchange="check_registration_number_duplication()" class="form-control" id="registration_number" name="registration_number" placeholder="Registration Number" required="required">
+                                    <label for="registration_number">Registration Number</label>
+                                    <input type="text" class="form-control" id="registration_number" name="registration_number" placeholder="Registration Number" required="required" value="<?php echo $policy_result['registration_number']; ?>">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="make_model">Make Model</label>
-                                    <input type="text" class="form-control" id="make_model" name="make_model" placeholder="Make Model" required="required">
+                                    <input type="text" class="form-control" id="make_model" name="make_model" placeholder="Make Model" required="required" value="<?php echo $policy_result['make_model']; ?>">
                                 </div>
                             </div>
 
@@ -224,17 +244,17 @@
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="cc">CC</label>
-                                    <input type="number" class="form-control" id="cc" name="cc" placeholder="CC" required="required">
+                                    <input type="number" value="<?php echo $_policy_result['cc'];?>" class="form-control" id="cc" name="cc" placeholder="CC" required="required">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="seating_capacity">Seating Capacity</label>
-                                    <input type="number" maxlength="10" class="form-control" id="seating_capacity" name="seating_capacity" placeholder="Seating Capacity" required="required">
+                                    <input type="number" value="<?php echo $_policy_result['seating_capacity'];?>" maxlength="10" class="form-control" id="seating_capacity" name="seating_capacity" placeholder="Seating Capacity" required="required">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="gbw">GBW</label>
-                                    <input type="number" class="form-control" id="gbw" name="gbw" placeholder="GBW" required="required">
+                                    <input type="number" value="<?php echo $_policy_result['gbw'];?>" class="form-control" id="gbw" name="gbw" placeholder="GBW" required="required">
                                 </div>
                             </div>
 
@@ -244,24 +264,17 @@
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="od_policy_start_date">OD Policy Start Date</label>
-                                    <input type="date" onchange="update_od_policy_end_date()" class="form-control" id="od_policy_start_date" name="od_policy_start_date" placeholder="OD Policy Start Date" required="required">
+                                    <input type="date" onchange="update_od_policy_end_date()" class="form-control" id="od_policy_start_date" name="od_policy_start_date" placeholder="OD Policy Start Date" required="required" value="<?php echo $policy_result['od_policy_start_date']; ?>">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="od_policy_period">OD Policy Period</label>
                                     <select onchange="update_od_policy_end_date()" name="od_policy_period" class="form-control" id="od_policy_period" required="required">
-                                        <option value="">OD Policy Period</option>
+                                        <option value="<?php echo $policy_result['od_policy_period']; ?>"><?php echo $policy_result['od_policy_period']; ?></option>
                                         <?php 
                                             if($policy_period_result_set){
-                                                $policy_period_array=array();
-                                                $i=0;
                                                 while($policy_period_result=$policy_period_result_set->fetch_assoc()){
-                                                    $policy_period_array[$i]=$policy_period_result['policy_period'];
-                                                    $i++;
-                                                }
-                                                sort($policy_period_array);
-                                                for($j=0;$j<count($policy_period_array);$j++){
-                                                    echo '<option value="'.$policy_period_array[$j].'">'.$policy_period_array[$j].'</option>';
+                                                    echo '<option value="'.$policy_period_result['policy_period'].'">'.$policy_period_result['policy_period'].'</option>';
                                                 }
                                             }
                                         ?>
@@ -270,7 +283,7 @@
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="od_policy_end_date">OD Policy End Date</label>
-                                    <input type="date" class="form-control" id="od_policy_end_date" name="od_policy_end_date" placeholder="OD Policy End Date" required="required" readonly="true">
+                                    <input type="date" class="form-control" id="od_policy_end_date" name="od_policy_end_date" placeholder="OD Policy End Date" required="required" readonly="true" value="<?php echo $policy_result['od_policy_end_date']; ?>">
                                 </div>
                             </div>
 
@@ -280,17 +293,17 @@
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="tp_policy_start_date">TP Policy Start Date</label>
-                                    <input type="date" onchange="update_tp_policy_end_date()" class="form-control" id="tp_policy_start_date" name="tp_policy_start_date" placeholder="TP Policy Start Date" required="required">
+                                    <input type="date" onchange="update_od_policy_end_date()" class="form-control" id="tp_policy_start_date" name="tp_policy_start_date" placeholder="TP Policy Start Date" required="required" value="<?php echo $policy_result['tp_policy_end_date']; ?>">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="tp_policy_period">TP Policy Period</label>
                                     <select onchange="update_tp_policy_end_date()" name="tp_policy_period" class="form-control" id="tp_policy_period" required="required">
-                                        <option value="">TP Policy Period</option>
-                                        <?php 
+                                        <option value="<?php echo $policy_result['tp_policy_period']; ?>"><?php echo $policy_result['tp_policy_period']; ?></option>
+                                        <?php
                                             if($policy_period_result_set){
-                                                for($j=0;$j<count($policy_period_array);$j++){
-                                                    echo '<option value="'.$policy_period_array[$j].'">'.$policy_period_array[$j].'</option>';
+                                                while($policy_period_result=$policy_period_result_set->fetch_assoc()){
+                                                    echo '<option value="'.$policy_period_result['policy_period'].'">'.$policy_period_result['policy_period'].'</option>';
                                                 }
                                             }
                                         ?>
@@ -299,7 +312,7 @@
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="tp_policy_end_date">TP Policy End Date</label>
-                                    <input type="date" class="form-control" id="tp_policy_end_date" name="tp_policy_end_date" placeholder="TP Policy End Date" required="required" readonly="true">
+                                    <input type="date" class="form-control" id="tp_policy_end_date" name="tp_policy_end_date" placeholder="TP Policy End Date" required="required" readonly="true" value="<?php echo $policy_result['tp_policy_end_date']; ?>">
                                 </div>
                             </div>
 
@@ -308,53 +321,28 @@
                             <div class="row">
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="od_disc">OD Disc(%)</label> 
-                                    <input type="number" class="form-control" id="od_disc" name="od_disc" placeholder="OD Disc" required="required">
+                                    <label for="od_disc">OD Disc</label> 
+                                    <input type="number" class="form-control" id="od_disc" name="od_disc" placeholder="OD Disc" required="required" value="<?php echo $policy_result['od_disc']; ?>">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="od_premium">OD Premium</label>
-                                    <input type="number" class="form-control" id="od_premium" name="od_premium" placeholder="OD Premium" required="required">
+                                    <input type="number" class="form-control" id="od_premium" name="od_premium" placeholder="OD Premium" required="required" value="<?php echo $policy_result['od_premium']; ?>">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="tp_premium">TP Premium</label>
-                                    <input type="number" class="form-control" id="tp_premium" name="tp_premium" placeholder="TP Premium" required="required">
+                                    <input type="number" class="form-control" id="tp_premium" name="tp_premium" placeholder="TP Premium" required="required" value="<?php echo $policy_result['tp_premium'];?>">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="net_premium">NET Premium</label>
-                                    <input type="number" class="form-control" id="net_premium" name="net_premium" placeholder="NET Premium" required="required">
+                                    <input type="number" class="form-control" id="net_premium" name="net_premium" placeholder="NET Premium" required="required" value="<?php echo $policy_result['net_premium']; ?>">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="total_premium">Total Premium</label>
-                                    <input type="number" class="form-control" id="total_premium" name="total_premium" placeholder="Total Premium" required="required">
-                                </div>
-                            </div>
-
-                            <h4>Files</h4>
-                            <hr>
-                            <div class="row">
-                                <!--Col-->
-                                <div class="col-md-4">
-                                    <label for="file_1">File 1</label>
-                                    <input type="file" class="form-control" id="file_1" name="file_1" placeholder="File 1" accept="application/pdf">
-                                </div>
-                                <!--Col-->
-                                <div class="col-md-4">
-                                    <label for="file_2">File 2</label>
-                                    <input type="file" class="form-control" id="file_2" name="file_2" placeholder="File 2" accept="application/pdf">
-                                </div>
-                                <!--Col-->
-                                <div class="col-md-4">
-                                    <label for="file_3">File 3</label>
-                                    <input type="file" class="form-control" id="file_3" name="file_3" placeholder="File 3" accept="application/pdf">
-                                </div>
-                                <!--Col-->
-                                <div class="col-md-4">
-                                    <label for="file_4">File 4</label>
-                                    <input type="file" class="form-control" id="file_4" name="file_4" placeholder="File 4" accept="application/pdf">
+                                    <input type="number" class="form-control" id="total_premium" name="total_premium" placeholder="Total Premium" required="required" value="<?php echo $policy_result['total_premium']; ?>">
                                 </div>
                             </div>
 
@@ -365,7 +353,7 @@
                                 <div class="col-md-4">
                                     <label for="payment_mode">Payment Mode</label>
                                     <select onchange="view_cheque_form()" name="payment_mode" class="form-control" id="payment_mode" required="required">
-                                        <option value="">Select Payment Mode</option>
+                                        <option value="<?php echo $policy_result['payment_mode']; ?>"><?php echo $policy_result['payment_mode'];?></option>
                                         <option value="Cash">Cash</option>
                                         <option value="Online">Online</option>
                                         <option value="Cheque">Cheque</option>
@@ -373,6 +361,10 @@
                                     </select>
                                 </div>
                                 <!--Cheque-->
+                            <?php 
+                                //not setting cheque data if it is not of cash or online type
+                                if($policy_result['payment_mode']=='Cash' || $policy_result['payment_mode']=='Online'){
+                            ?>
                                 <!--Col-->
                                 <div class="col-md-4 policy_cheque_data">
                                     <label for="cheque_number">Cheque Number</label>
@@ -388,8 +380,33 @@
                                     <label for="bank_name">Bank Name</label>
                                     <input type="text" class="form-control policy_cheque_input" id="bank_name" name="bank_name" placeholder="Bank Name">
                                 </div>
+                            <?php 
+                                }
+                                //setting values if it is of cheque of dd type
+                                else{
+                                    //fetching cheque values
+                                    $cheque_result=$user->read_selective_cheque("WHERE policy_id='".$_GET['id']."'")->fetch_assoc();
+                            ?>
+                                <!--Col-->
+                                <div class="col-md-4 policy_cheque_data">
+                                    <label for="cheque_number">Cheque Number</label>
+                                    <input type="number" value="<?php echo $cheque_result['cheque_number'];?>" class="form-control policy_cheque_input" id="cheque_number" name="cheque_number" placeholder="Cheque Number">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4 policy_cheque_data">
+                                    <label for="cheque_date">Cheque Date</label>
+                                    <input type="date" value="<?php echo $cheque_result['cheque_date'];?>" class="form-control policy_cheque_input" id="cheque_date" name="cheque_date" placeholder="Cheque Date">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4 policy_cheque_data">
+                                    <label for="bank_name">Bank Name</label>
+                                    <input type="text" value="<?php echo $cheque_result['bank_name'];?>" class="form-control policy_cheque_input" id="bank_name" name="bank_name" placeholder="Bank Name">
+                                </div>
+                            <?php
+                                }
+                            ?>
                             </div>
-                            <input type="submit" value="Create" name="submit" class="btn btn-primary">
+                            <input type="submit" value="submit" name="submit" class="btn btn-primary">
                         </form>
                     </div>
                 </div>
