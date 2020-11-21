@@ -1,12 +1,12 @@
 <?php
 
-    error_reporting(0);
+    //error_reporting(0);
     
     //Database parameters
     $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $db_name="royal_insurance";
+    $username = "u357307178_royal";
+    $password = "#jE1GHH>C";
+    $db_name="u357307178_royal";
     // Create connection
     $connection = new mysqli($servername, $username, $password,$db_name);
     // Check connection

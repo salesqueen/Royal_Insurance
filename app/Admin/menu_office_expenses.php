@@ -1,6 +1,6 @@
 <?php 
 
-    //error_reporting(0);
+    error_reporting(0);
 
     include '../Php/main.php';
 
@@ -148,11 +148,13 @@
                                     <?php 
                                         if($office_expenses_result_set){
                                             while($office_expenses_result=$office_expenses_result_set->fetch_assoc()){
-                                                echo '<td>'.$office_expenses_result['date'].'</td>';
-                                                echo '<td>'.$user->get_agent_name($office_expenses_result['agent_id']).'</td>';
-                                                echo '<td>'.$user->get_branch($office_expenses_result['agent_id']).'</td>';
-                                                echo '<td>'.$office_expenses_result['amount'].'</td>';
-                                                echo '<td>'.$office_expenses_result['remark'].'</td>';
+                                                echo '<tr>';
+                                                echo '  <td>'.$office_expenses_result['date'].'</td>';
+                                                echo '  <td>'.$user->get_agent_name($office_expenses_result['agent_id']).'</td>';
+                                                echo '  <td>'.$user->get_branch($office_expenses_result['agent_id']).'</td>';
+                                                echo '  <td>'.$office_expenses_result['amount'].'</td>';
+                                                echo '  <td>'.$office_expenses_result['remark'].'</td>';
+                                                echo '</tr>';
                                             }
                                         }
                                     ?>

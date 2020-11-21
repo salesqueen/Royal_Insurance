@@ -122,7 +122,10 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="menu_wallet.php">Wallet</a>
+                            <a class="nav-link" href="menu_office_expenses.php">Office Expenses</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="menu_wallet.php">Wallet</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../logout.php" id="logout-link">Logout</a>
