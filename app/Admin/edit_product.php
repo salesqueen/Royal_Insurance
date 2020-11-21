@@ -74,7 +74,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Master</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="menu_master_company.php">Company</a>
-                                <a class="dropdown-item" href="menu_master_company_code.php">Company Code</a>
+                                <a class="dropdown-item" href="menu_master_company_code.php">Booking Code</a>
                                 <a class="dropdown-item" href="menu_master_policy_period.php">Policy Period</a>
                                 <a class="dropdown-item" href="menu_master_policy_type.php">Policy Type</a>
                                 <a class="dropdown-item" href="menu_master_product.php">Product</a>

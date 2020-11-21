@@ -14,7 +14,7 @@
   //fetching main
   //fetching branch result set
   $company_result_set=$user->read_all_company();
-  //fetching company code result set
+  //fetching Booking Code result set
   $company_code_result_set=$user->read_one_company_code($_GET['id']);
   $company_code_result=$company_code_result_set->fetch_assoc();
 
@@ -31,7 +31,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit Company Code</title>
+  <title>Edit Booking Code</title>
 
   <!-- CSS -->
   <!--Bootstrap-->
@@ -77,7 +77,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Master</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="menu_master_company.php">Company</a>
-                                <a class="dropdown-item" href="menu_master_company_code.php">Company Code</a>
+                                <a class="dropdown-item" href="menu_master_company_code.php">Booking Code</a>
                                 <a class="dropdown-item" href="menu_master_policy_period.php">Policy Period</a>
                                 <a class="dropdown-item" href="menu_master_policy_type.php">Policy Type</a>
                                 <a class="dropdown-item" href="menu_master_product.php">Product</a>
@@ -128,7 +128,7 @@
                 
                 <div class="row">
                     <div class="col-md-6">
-                        <h2>Edit Company Code</h2>
+                        <h2>Edit Booking Code</h2>
                     </div>
                     <div class="col-md-6">
                         <a href="menu_create_company_code.php" style="float:right"><Button>Back <i class="fa fa-arrow-right" aria-hidden="true"></i></button></a>
@@ -136,7 +136,7 @@
                 </div>
 
                 <ul class="nav nav-tabs">
-                    <li><a data-toggle="tab" href="#create_branch" class="active">Edit Company Code</a></li>
+                    <li><a data-toggle="tab" href="#create_branch" class="active">Edit Booking Code</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -159,8 +159,8 @@
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-3">
-                                    <label for="company_code">Company Code</label>
-                                    <input type="text" value="<?php echo $company_code_result['company_code'];?>" class="form-control" id="company_code" name="company_code" placeholder="Company Code" required="required">
+                                    <label for="company_code">Booking Code</label>
+                                    <input type="text" value="<?php echo $company_code_result['company_code'];?>" class="form-control" id="company_code" name="company_code" placeholder="Booking Code" required="required">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-3">

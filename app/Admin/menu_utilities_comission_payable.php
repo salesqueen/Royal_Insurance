@@ -17,7 +17,7 @@
     if(isset($_POST['company_name']) && $_POST['company_name']!=""){
         $constraint=$constraint." AND (company_name='".$_POST['company_name']."')";
     }
-    //company code
+    //Booking Code
     if(isset($_POST['company_code']) && $_POST['company_code']!=""){
         $constraint=$constraint." AND (company_code='".$_POST['company_code']."')";
     }
@@ -71,7 +71,7 @@
     }
     //company
     $company_result_set=$user->read_all_company();
-    //company code
+    //Booking Code
     $company_code_result_set=$user->read_all_company_code();
     //branch
     $branch_manager_result_set=$user->read_all_branch_manager();
@@ -143,7 +143,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Master</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="menu_master_company.php">Company</a>
-                                <a class="dropdown-item" href="menu_master_company_code.php">Company Code</a>
+                                <a class="dropdown-item" href="menu_master_company_code.php">Booking Code</a>
                                 <a class="dropdown-item" href="menu_master_policy_period.php">Policy Period</a>
                                 <a class="dropdown-item" href="menu_master_policy_type.php">Policy Type</a>
                                 <a class="dropdown-item" href="menu_master_product.php">Product</a>
@@ -200,7 +200,7 @@
                         <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST" style="float:right">
                             <!--Company Name-->
                             <input type="hidden" name="company_name" value="<?php if(isset($_POST['company_name'])){echo $_POST['company_name'];}else{/*Do Nothing */}?>">
-                            <!--Company Code-->
+                            <!--Booking Code-->
                             <input type="hidden" name="company_code" value="<?php if(isset($_POST['company_code'])){echo $_POST['company_code'];}else{/*Do Nothing */}?>">
                             <!--Branch-->
                             <input type="hidden" name="branch" value="<?php if(isset($_POST['branch'])){echo $_POST['branch'];}else{/*Do Nothing */}?>">
@@ -237,8 +237,8 @@
                                             }
                                         ?>
                                     </datalist>
-                                    <!--Company Code-->
-                                    <input type="text" onfocus="this.value=''" name="company_code" id="company_code" list="company_codes" placeholder="Company Code" value="<?php if(isset($_POST['company_code'])){echo $_POST['company_code'];}else{/*Do Nothing */}?>">
+                                    <!--Booking Code-->
+                                    <input type="text" onfocus="this.value=''" name="company_code" id="company_code" list="company_codes" placeholder="Booking Code" value="<?php if(isset($_POST['company_code'])){echo $_POST['company_code'];}else{/*Do Nothing */}?>">
                                     <datalist id="company_codes">
                                         <?php 
                                             if($company_code_result_set){
@@ -404,9 +404,9 @@
                         <input type="text" id="ajax_company_name" name="company_name" class="form-control" value="" required="required">
                     </div>
                     <div class="col-md-4">
-                        <label for="ajax_company_code">Company Code</label>
+                        <label for="ajax_company_code">Booking Code</label>
                         <select id="ajax_company_code" name="company_code" class="form-control" required="required">
-                            <option value="">Select Company Code</option>
+                            <option value="">Select Booking Code</option>
                         </select>
                     </div>
                     <div class="col-md-4">

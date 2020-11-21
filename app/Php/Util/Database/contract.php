@@ -24,7 +24,7 @@
             return self::$table_columns;
         }
     }
-    //company code
+    //Booking Code
     class Company_Code_Contract{
         private static $table_name="company_code";
         private static $table_columns=array("company_name","company_code","remark");

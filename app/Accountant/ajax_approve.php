@@ -10,7 +10,7 @@
         for($i=0;$i<count($key)-1;$i++){
             $json=$json.'"'.$key[$i].'":'.'"'.$value[$i].'",';
         } 
-        //appending company code array
+        //appending Booking Code array
         $json=$json.'"company_code":[';
         $company_code_result_set=$policy->get_company_code_result_set($value[1]);
         if($company_code_result_set){

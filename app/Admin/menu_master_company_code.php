@@ -30,7 +30,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Company Code</title>
+<title>Booking Code</title>
 
 <!-- CSS -->
 <!--Bootstrap-->
@@ -77,7 +77,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Master</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="menu_master_company.php">Company</a>
-                                <a class="dropdown-item active" href="menu_master_company_code.php">Company Code</a>
+                                <a class="dropdown-item active" href="menu_master_company_code.php">Booking Code</a>
                                 <a class="dropdown-item" href="menu_master_policy_period.php">Policy Period</a>
                                 <a class="dropdown-item" href="menu_master_policy_type.php">Policy Type</a>
                                 <a class="dropdown-item" href="menu_master_product.php">Product</a>
@@ -126,10 +126,10 @@
       <div class="row">
         <div class="col-md-12">
             
-            <h2>Company Code</h2>
+            <h2>Booking Code</h2>
 
             <ul class="nav nav-tabs">
-                <li><a data-toggle="tab" href="#company" class="active">Company Code</a></li>
+                <li><a data-toggle="tab" href="#company" class="active">Booking Code</a></li>
             </ul>
 
             <div class="tab-content"> 
@@ -152,8 +152,8 @@
                             </div>
                             <!--Col-->
                             <div class="col-md-3">
-                                <label for="company_code">Company Code</label>
-                                <input type="text" class="form-control" id="company_code" name="company_code" placeholder="Company Code" required="required">
+                                <label for="company_code">Booking Code</label>
+                                <input type="text" class="form-control" id="company_code" name="company_code" placeholder="Booking Code" required="required">
                             </div>
                             <!--Col-->
                             <div class="col-md-3">
@@ -182,7 +182,7 @@
                             <thead>
                                 <tr>
                                     <th>Company Name</th>
-                                    <th>Company Code</th>
+                                    <th>Booking Code</th>
                                     <th>Remark</th>
                                     <th>Action</th>
                                 </tr>

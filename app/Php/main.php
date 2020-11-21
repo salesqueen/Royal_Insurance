@@ -847,7 +847,7 @@
                         }else{
                             $passed++;
                         }
-                        //company code
+                        //Booking Code
                         if($company_code!=""){
                             if(strcasecmp($company_code,$cleared_cheque_pending_policy_result['company_code'])==0){
                                 $passed++;
@@ -1017,7 +1017,7 @@
                         }else{
                             $passed++;
                         }
-                        //company code
+                        //Booking Code
                         if($company_code!=""){
                             if(strcasecmp($company_code,$cleared_cheque_pending_policy_result['company_code'])==0){
                                 $passed++;
@@ -1352,7 +1352,7 @@
                 }
             }
             //call to download excel
-            $this->excel(array("Policy Date","Policy Number","Policy Type","Product","Company","Company Code","Customer Name","Registration Number","Recivable From",
+            $this->excel(array("Policy Date","Policy Number","Policy Type","Product","Company","Booking Code","Customer Name","Registration Number","Recivable From",
             "Recivable%","Recivable Amount","branch","agent_name"),$values_array);
             header("Location:menu_utilities_comission_recivable.php");
         }
@@ -1431,7 +1431,7 @@
                 }
             }
             //call to download excel
-            $this->excel(array("Policy Date","Policy Number","Policy Type","Product","Company","Company Code","Customer Name","Registration Number","Payable From",
+            $this->excel(array("Policy Date","Policy Number","Policy Type","Product","Company","Booking Code","Customer Name","Registration Number","Payable From",
             "Payable Amount","Payment_mode","branch","agent_name"),$values_array);
             header("Location:menu_utilities_comission_payable.php");
         }
