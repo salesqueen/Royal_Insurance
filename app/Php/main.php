@@ -802,7 +802,7 @@
                         $wallet_amount-=$transaction_result['amount'];
                     }elseif($transaction_result['payment']=='Paid'){
                         $wallet_amount+=$transaction_result['amount'];
-                    }else{
+                    }elseif($transaction_result['payment']=='Office_Expenses'){
                         $wallet_amount-=$transaction_result['amount'];
                     }
                 }

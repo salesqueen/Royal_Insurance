@@ -260,25 +260,27 @@
                                             //displaying the sorted content
                                             for($i=0;$i<count($sorted_array_of_policy_and_transaction_array);$i++){
                                                 if($sorted_array_of_policy_and_transaction_array[$i][0]=='Transaction'){
-                                                    echo "<tr>";
-                                                    echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['date']."</td>";
-                                                    echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['payment']."</td>";
-                                                    echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['remark']."</td>";
-                                                    echo "  <td></td>";
-                                                    echo "  <td></td>";
-                                                    echo "  <td></td>";
-                                                    echo "  <td></td>";
-                                                    echo "  <td></td>";
-                                                    echo "  <td></td>";
-                                                    echo "  <td></td>";
-                                                    if($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Recived'){
-                                                        echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
-                                                    }elseif($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Paid'){
-                                                        echo "  <td>+".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
-                                                    }else{
-                                                        echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
+                                                    if(!$sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Office_Expenses_Request'){
+                                                        echo "<tr>";
+                                                        echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['date']."</td>";
+                                                        echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['payment']."</td>";
+                                                        echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['remark']."</td>";
+                                                        echo "  <td></td>";
+                                                        echo "  <td></td>";
+                                                        echo "  <td></td>";
+                                                        echo "  <td></td>";
+                                                        echo "  <td></td>";
+                                                        echo "  <td></td>";
+                                                        echo "  <td></td>";
+                                                        if($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Recived'){
+                                                            echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
+                                                        }elseif($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Paid'){
+                                                            echo "  <td>+".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
+                                                        }elseif($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Office_Expenses'){
+                                                            echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
+                                                        }
+                                                        echo "</tr>";
                                                     }
-                                                    echo "</tr>";
                                                 }else{
                                                     echo "<tr>";
                                                     echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['issue_date']."</td>";
@@ -382,10 +384,11 @@
                                                 }
                                                 if($transaction_result_set){
                                                     while($transaction_result=$transaction_result_set->fetch_assoc()){
+                                                        if(!$sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Office_Expenses_Request'){
                                                         echo "<tr>";
-                                                        echo "  <td>".$transaction_result['date']."</td>";
-                                                        echo "  <td>".$transaction_result['payment']."</td>";
-                                                        echo "  <td>".$transaction_result['remark']."</td>";
+                                                        echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['date']."</td>";
+                                                        echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['payment']."</td>";
+                                                        echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['remark']."</td>";
                                                         echo "  <td></td>";
                                                         echo "  <td></td>";
                                                         echo "  <td></td>";
@@ -393,14 +396,15 @@
                                                         echo "  <td></td>";
                                                         echo "  <td></td>";
                                                         echo "  <td></td>";
-                                                        if($transaction_result['payment']=='Recived'){
-                                                            echo "  <td>-".$transaction_result['amount']."</td>";
-                                                        }elseif($transaction_result['payment']=='Paid'){
-                                                            echo "  <td>+".$transaction_result['amount']."</td>";
-                                                        }else{
-                                                            echo "  <td>-".$transaction_result['amount']."</td>";
+                                                        if($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Recived'){
+                                                            echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
+                                                        }elseif($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Paid'){
+                                                            echo "  <td>+".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
+                                                        }elseif($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Office_Expenses'){
+                                                            echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
                                                         }
                                                         echo "</tr>";
+                                                    }
                                                     }
 
                                                     //displaying balance
