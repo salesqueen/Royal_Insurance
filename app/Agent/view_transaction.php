@@ -255,7 +255,7 @@
                                             //displaying the sorted content
                                             for($i=0;$i<count($sorted_array_of_policy_and_transaction_array);$i++){
                                                 if($sorted_array_of_policy_and_transaction_array[$i][0]=='Transaction'){
-                                                    if(!$sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Office_Expenses_Request'){
+                                                    if($sorted_array_of_policy_and_transaction_array[$i][1]['payment']!='Office_Expenses_Request'){
                                                         echo "<tr>";
                                                         echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['date']."</td>";
                                                         echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['payment']."</td>";
@@ -379,7 +379,7 @@
                                                 }
                                                 if($transaction_result_set){
                                                     while($transaction_result=$transaction_result_set->fetch_assoc()){
-                                                        if(!$transaction_result['payment']=='Office_Expenses_Request'){
+                                                        if($transaction_result['payment']!='Office_Expenses_Request'){
                                                             echo "<tr>";
                                                             echo "  <td>".$transaction_result['date']."</td>";
                                                             echo "  <td>".$transaction_result['payment']."</td>";
