@@ -12,29 +12,9 @@
 
   //fetching main
   //branch manager
-  if($_GET['user_type']=='branch_manager'){
-      $user_type='Branch Manager';
-      $user_result_set=$user->read_one_branch_manager($_GET['id']);
-      $user_result=$user_result_set->fetch_assoc();
-  }
-  //operator
-  if($_GET['user_type']=='operator'){
-    $user_type='Operator';
-    $user_result_set=$user->read_one_operator($_GET['id']);
-    $user_result=$user_result_set->fetch_assoc();
-  }
-  //accountant
-  if($_GET['user_type']=='accountant'){
-    $user_type='Accountant';
-    $user_result_set=$user->read_one_accountant($_GET['id']);
-    $user_result=$user_result_set->fetch_assoc();
-  }
-  //agent
-  if($_GET['user_type']=='agent'){
     $user_type='Agent';
     $user_result_set=$user->read_one_agent($_GET['id']);
     $user_result=$user_result_set->fetch_assoc();
-  }
 
 ?>
 <!DOCTYPE html>

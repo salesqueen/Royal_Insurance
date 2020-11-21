@@ -22,22 +22,6 @@
     if(isset($_POST['company_code']) && $_POST['company_code']!=""){
         $constraint=$constraint." AND (company_code='".$_POST['company_code']."')";
     }
-    //branch
-    if(isset($_POST['branch']) && $_POST['branch']!=""){
-        //fetching the branch manager id
-        $branch_manager_id=$user->read_selective_branch_manager("WHERE branch='".$_POST['branch']."'")->fetch_assoc()['id'];
-        //fetching the agent with the branch manager id
-        $agent_result_set=$user->read_selective_agent("WHERE branch_manager_id=".$branch_manager_id);
-        if($agent_result_set){
-            $constraint=$constraint." AND (agent_id=".$agent_result_set->fetch_assoc()['id'];
-            while($agent_result=$agent_result_set->fetch_assoc()){
-                $constraint=$constraint." OR agent_id=".$agent_result['id'];
-            }
-            $constraint=$constraint.")";
-        }else{
-            $constraint=$constraint." AND (blue=0)";
-        }
-    }
     //agent
     if(isset($_POST['agent']) && $_POST['agent']!=""){
         $constraint=$constraint." AND (agent_id='".$_POST['agent']."')";
@@ -56,17 +40,34 @@
     }
 
     //fetching main
+    //fetching agent of the branch manager
+    $agent_result_set=$user->read_selective_agent("WHERE branch_manager_id=".$_SESSION['id']);
+    $agent_id_array=array();
+    if($agent_result_set){
+        $i=0;
+        while($agent_result=$agent_result_set->fetch_assoc()){
+            $agent_id_array[$i]=$agent_result['id'];
+            $i++;
+        }
+    }
+    //generating agent id constraint
+    $agent_id_constraint=" AND (";
+    foreach($agent_id_array as $agent_id){
+        $agent_id_constraint=$agent_id_constraint."agent_id=".$agent_id." OR";
+    }
+    $agent_id_constraint=substr($agent_id_constraint,0,-2);
+    $agent_id_constraint=$agent_id_constraint.")";
     //fetching pending policy details for cash
     if($constraint==""){
-        $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0");
+        $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0".$agent_id_constraint);
     }else{
-        $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$constraint);
+        $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$agent_id_constraint.$constraint);
     }
     //fetching approved policy details
     if($constraint==""){
-        $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0"); 
+        $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0".$agent_id_constraint); 
     }else{
-        $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$constraint);
+        $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$agent_id_constraint.$constraint);
     }
     //company
     $company_result_set=$user->read_all_company();
@@ -193,15 +194,6 @@
                                         <?php 
                                             while($company_code_result=$company_code_result_set->fetch_assoc()){
                                                 echo '<option value="'.$company_code_result['company_code'].'">';
-                                            }
-                                        ?>
-                                    </datalist>
-                                    <!--Branch-->
-                                    <input type="text" onfocus="this.value=''" name="branch" id="branch" list="branches" placeholder="Branch" value="<?php if(isset($_POST['branch'])){echo $_POST['branch'];}else{/*Do Nothing */}?>">
-                                    <datalist id="branches">
-                                        <?php 
-                                            while($branch_manager_result=$branch_manager_result_set->fetch_assoc()){
-                                                echo '<option value="'.$branch_manager_result['branch'].'">';
                                             }
                                         ?>
                                     </datalist>

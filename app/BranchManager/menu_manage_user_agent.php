@@ -12,7 +12,7 @@
   $user=new Branch_Manager();
   
   //getting the required content
-  $agent_result_set=$user->read_all_agent();
+  $agent_result_set=$user->read_selective_agent("WHERE branch_manager_id=".$_SESSION['id']);
 
 ?>
 <!DOCTYPE html>

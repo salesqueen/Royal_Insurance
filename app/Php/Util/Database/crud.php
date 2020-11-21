@@ -22,7 +22,6 @@
                 $sql=$sql.",'".$values[$i]."'";
             }
             $sql=$sql.");";
-            echo $sql;
             if($GLOBALS['connection']->query($sql)){
                 //Insertion successfull
                 $_SESSION['message']="Insertion successfull";;
@@ -87,7 +86,6 @@
         //Contraint
         public function select_contraint($table,$constraint){
             $sql="SELECT * FROM ".$table." ".$constraint." ORDER BY id DESC;";
-            //echo $sql;
             $result=$GLOBALS['connection']->query($sql);
             if($result->num_rows>0){
                 return $result;
