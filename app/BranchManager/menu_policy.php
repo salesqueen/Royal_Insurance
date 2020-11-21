@@ -73,10 +73,8 @@
     $company_result_set=$user->read_all_company();
     //company code
     $company_code_result_set=$user->read_all_company_code();
-    //branch
-    $branch_manager_result_set=$user->read_all_branch_manager();
     //agent
-    $agent_result_set=$user->read_all_agent();
+    $agent_result_set=$user->read_selective_agent("WHERE branch_manager_id=".$_SESSION['id']);
 
   //form action
   //download
