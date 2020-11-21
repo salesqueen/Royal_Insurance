@@ -291,7 +291,7 @@
                                         <th>Payment Mode</th>
                                         <th>Recivable From</th>
                                         <th>Recivable Amount</th>
-                                        <th>Agent Name</th>
+                                        <th>User Name</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>

@@ -165,7 +165,7 @@
                                         <option value="branch_manager">Branch Manager</option>
                                         <option value="operator">Operator</option>
                                         <option value="accountant">Accountant</option>
-                                        <option value="agent">Agent</option>
+                                        <option value="agent">User</option>
                                     </select>
                                 </div>
                                 <!--Col-->

@@ -153,7 +153,7 @@
                             <table id="table_1" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Agent Name</th>
+                                        <th>User Name</th>
                                         <th>Branch</th>
                                         <th>Balance</th>
                                         <th colspan="2">Transaction</th>

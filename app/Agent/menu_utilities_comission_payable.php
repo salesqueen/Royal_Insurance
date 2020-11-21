@@ -215,7 +215,7 @@
                                         <th>Payment Mode</th>
                                         <th>Comission From</th>
                                         <th>Comission Amount</th>
-                                        <th>Agent Name</th>
+                                        <th>User Name</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>

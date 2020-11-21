@@ -127,9 +127,9 @@
                                 <input type="hidden" id="policy_form_type" name="policy_form_type">
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="agent_id">Agent</label>
+                                    <label for="agent_id">User</label>
                                     <select name="agent_id" class="form-control" id="agent_id" required="required">
-                                        <option value="">Select Agent</option>
+                                        <option value="">Select User</option>
                                         <?php 
                                             if($agent_result_set){
                                                 while($agent_result=$agent_result_set->fetch_assoc()){
@@ -211,7 +211,12 @@
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="required">
                                 </div>
-                                <!--Col-->
+                            </div>
+
+                            <h4>Vehicle Details</h4>
+                            <hr>
+                            <div class="row">
+                            <!--Col-->
                                 <div class="col-md-4">
                                     <label for="registration_number">Registration Number <span id="registration_number_error" style="color:red"></span></label>
                                     <input type="text" maxlength="14" onchange="check_registration_number_duplication()" class="form-control" id="registration_number" name="registration_number" placeholder="Registration Number" required="required">
@@ -221,25 +226,20 @@
                                     <label for="make_model">Make Model</label>
                                     <input type="text" class="form-control" id="make_model" name="make_model" placeholder="Make Model" required="required">
                                 </div>
-                            </div>
-
-                            <h4>Vehicle Details</h4>
-                            <hr>
-                            <div class="row">
                                 <!--Col-->
-                                <div class="col-md-4">
+                                <div class="col-md-1">
                                     <label for="cc">CC</label>
                                     <input type="number" class="form-control" id="cc" name="cc" placeholder="CC" required="required">
                                 </div>
                                 <!--Col-->
-                                <div class="col-md-4">
+                                <div class="col-md-1">
                                     <label for="seating_capacity">Seating Capacity</label>
                                     <input type="number" maxlength="10" class="form-control" id="seating_capacity" name="seating_capacity" placeholder="Seating Capacity" required="required">
                                 </div>
                                 <!--Col-->
-                                <div class="col-md-4">
-                                    <label for="gbw">GBW</label>
-                                    <input type="number" class="form-control" id="gbw" name="gbw" placeholder="GBW" required="required">
+                                <div class="col-md-1">
+                                    <label for="gbw">GVW</label>
+                                    <input type="number" class="form-control" id="gbw" name="gbw" placeholder="GVW" required="required">
                                 </div>
                             </div>
 

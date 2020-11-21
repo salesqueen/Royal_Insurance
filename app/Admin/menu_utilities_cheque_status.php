@@ -240,7 +240,7 @@
                                         <th>Registration Number</th>
                                         <th>Cheque Number</th>
                                         <th>Bank Name</th>
-                                        <th>Agent Name</th>
+                                        <th>User Name</th>
                                         <th>Branch</th>
                                         <!--Action-->
                                         <th>Clear</th>

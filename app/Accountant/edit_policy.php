@@ -253,8 +253,8 @@
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="gbw">GBW</label>
-                                    <input type="number" value="<?php echo $_policy_result['gbw'];?>" class="form-control" id="gbw" name="gbw" placeholder="GBW" required="required">
+                                    <label for="gbw">GVW</label>
+                                    <input type="number" value="<?php echo $_policy_result['gbw'];?>" class="form-control" id="gbw" name="gbw" placeholder="GVW" required="required">
                                 </div>
                             </div>
 

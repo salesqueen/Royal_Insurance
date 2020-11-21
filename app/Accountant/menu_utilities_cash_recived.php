@@ -157,7 +157,7 @@
                                 <thead>
                                     <tr>
                                         <th>Date</th>
-                                        <th>Agent Name</th>
+                                        <th>User Name</th>
                                         <th>Branch</th>
                                         <th>Remark</th>
                                         <th>Amount</th>

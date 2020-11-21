@@ -262,7 +262,7 @@
                                         <th>OD Premium</th>
                                         <th>Net Premium</th>
                                         <th>Total Premium</th>
-                                        <th>Agent Name</th>
+                                        <th>User Name</th>
                                         <th>Policy Status</th>
                                         <th>Actions</th>
                                     </tr>

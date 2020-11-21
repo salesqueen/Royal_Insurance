@@ -179,7 +179,7 @@
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <label for="gbw">GBW</label>
+                                    <label for="gbw">GVW</label>
                                     <p><b><?php echo $policy_result['gbw'];?></b></p>
                                 </div>
                             </div>

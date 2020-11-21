@@ -181,9 +181,9 @@
                             <!--Col-->
                             <div class="col-md-4">
                                 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
-                                    <label for="agent_id">Agent</label>
+                                    <label for="agent_id">User</label>
                                     <select onchange="fetch_agent_detail()" name="agent_id" class="form-control" id="agent_id" required="required">
-                                        <option value="">Select Agent</option>
+                                        <option value="">Select User</option>
                                         <?php 
                                             if($agent_result_set){
                                                 while($agent_result=$agent_result_set->fetch_assoc()){

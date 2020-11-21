@@ -273,7 +273,7 @@
                                         <th>Payment Mode</th>
                                         <th>Payable From</th>
                                         <th>Payable Amount</th>
-                                        <th>Agent Name</th>
+                                        <th>User Name</th>
                                         <th>Approve</th>
                                     </tr>
                                 </thead>
