@@ -181,8 +181,10 @@
                                     <input type="text" onfocus="this.value=''" name="company_name" id="company_name" list="company_names" placeholder="Company Name" value="<?php if(isset($_POST['company_name'])){echo $_POST['company_name'];}else{/*Do Nothing */}?>">
                                     <datalist id="company_names">
                                         <?php 
-                                            while($company_result=$company_result_set->fetch_assoc()){
-                                                echo '<option value="'.$company_result['company_name'].'">';
+                                            if($company_result_set){
+                                                while($company_result=$company_result_set->fetch_assoc()){
+                                                    echo '<option value="'.$company_result['company_name'].'">';
+                                                }
                                             }
                                         ?>
                                     </datalist>
@@ -190,8 +192,10 @@
                                     <input type="text" onfocus="this.value=''" name="company_code" id="company_code" list="company_codes" placeholder="Company Code" value="<?php if(isset($_POST['company_code'])){echo $_POST['company_code'];}else{/*Do Nothing */}?>">
                                     <datalist id="company_codes">
                                         <?php 
-                                            while($company_code_result=$company_code_result_set->fetch_assoc()){
-                                                echo '<option value="'.$company_code_result['company_code'].'">';
+                                            if($company_code_result_set){
+                                                while($company_code_result=$company_code_result_set->fetch_assoc()){
+                                                    echo '<option value="'.$company_code_result['company_code'].'">';
+                                                }
                                             }
                                         ?>
                                     </datalist>
@@ -199,8 +203,10 @@
                                     <input type="text" onfocus="this.value=''" name="agent" id="agent" list="agents" placeholder="Agent" value="<?php if(isset($_POST['agent'])){echo $_POST['agent'];}else{/*Do Nothing */}?>">
                                     <datalist id="agents">
                                         <?php 
-                                            while($agent_result=$agent_result_set->fetch_assoc()){
-                                                echo '<option value="'.$agent_result['id'].'">'.$agent_result['name'].'-'.$agent_result['mobile'].'</option>';
+                                            if($agent_result_set){
+                                                while($agent_result=$agent_result_set->fetch_assoc()){
+                                                    echo '<option value="'.$agent_result['id'].'">'.$agent_result['name'].'-'.$agent_result['mobile'].'</option>';
+                                                }
                                             }
                                         ?>
                                     </datalist>
