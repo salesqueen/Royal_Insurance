@@ -66,14 +66,16 @@
         $date = $ym . '-' . $day;
         //checking for expiry date
         $expiry_date_matches=false;
+        $expiry_date='';
         for($i=0;$i<count($expiry_dates_array);$i++){
             if(strtotime($date)==strtotime($expiry_dates_array[$i])){
                 $expiry_date_matches=true;
+                $expiry_date=$expiry_dates_array[$i];
                 break;
             }
         }
         if($expiry_date_matches){
-            $week .= '<td class="expiry">' . $day;
+            $week .= '<td class="expiry"><form action="menu_policy.php" method="POST"><input type="hidden" name="expiry_date" value="'.$expiry_date.'"/><button class="expiry">' . $day.'</button></form>';
         }elseif ($today == $date) {
             $week .= '<td class="today">' . $day;
         } 

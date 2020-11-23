@@ -12,6 +12,10 @@
 
     //filtering
     $constraint="";
+    //expiry date passed from calander check
+    if(isset($_POST['expiry_date'])){
+        $constraint=$constraint." AND (od_policy_end_date='".$_POST['expiry_date']."')";
+    }
     //assigning filter
     //company name
     if(isset($_POST['company_name']) && $_POST['company_name']!=""){

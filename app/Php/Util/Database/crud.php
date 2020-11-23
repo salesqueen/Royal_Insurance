@@ -17,9 +17,9 @@
             }
             //forming values within ()
             $sql=$sql.") VALUES (";
-            $sql=$sql."'".$values[0]."'";
+            $sql=$sql."UPPER('".$values[0]."')";
             for($i=1;$i<count($values);$i++){
-                $sql=$sql.",'".$values[$i]."'";
+                $sql=$sql.",UPPER('".$values[$i]."')";
             }
             $sql=$sql.");";
             if($GLOBALS['connection']->query($sql)){
@@ -38,9 +38,9 @@
             //forming key value pair
             $iteration=count($values);
             for($i=0;$i<$iteration-1;$i++){
-                $sql=$sql.$columns[$i]."='".$values[$i]."',";
+                $sql=$sql.$columns[$i]."=UPPER('".$values[$i]."'),";
             }
-            $sql=$sql.$columns[$iteration-1]."='".$values[$iteration-1]."' WHERE id='".$id."';";
+            $sql=$sql.$columns[$iteration-1]."=UPPER('".$values[$iteration-1]."') WHERE id='".$id."';";
             if($GLOBALS['connection']->query($sql)){
                 //Updation successfull
                 $_SESSION['message']="Update successfull";
