@@ -111,7 +111,7 @@
             $j=0;
             //eleminating null values
             for($i=0;$i<count($policy_form_file_name_array);$i++){
-                if($policy_form_file_form_value_array[$i]=="Null"){
+                if(strcasecmp($policy_form_file_form_value_array[$i],"Null")==0){
                     
                 }else{
                     $new_policy_file_name_array[$j]=$policy_form_file_name_array[$i];
@@ -591,7 +591,7 @@
             //forming database insertion variables
             $table_name=Policy_Contract::get_table_name();
             //adding the creator of the policy
-            if($_SESSION['user_type']=='Agent'){
+            if(strcasecmp($_SESSION['user_type'],'Agent')==0){
                 array_push($form_name_array,"agent_id");
                 array_push($form_value_array,$_SESSION['id']);
             }else{
@@ -605,7 +605,7 @@
             $this->insert_policy_files($insert_id);
             
             //additional opertion based on payment mode
-            if($_POST['policy_form_type']=='cash'){
+            if(strcasecmp($_POST['policy_form_type'],'cash')==0){
                 //Do nothing
             }else{
                 parent::insert_cheque($insert_id);
@@ -623,10 +623,10 @@
             //performing updation
             $crud->update($table_name,$id,$form_name_array,$form_value_array);
             //cheque deletion if conversion from cheque to cash or online
-            if($_POST['previous_payment_mode']=='Cheque' || $_POST['previous_payment_mode'] == 'DD'){
+            if(strcasecmp($_POST['previous_payment_mode'],'Cheque')==0 || strcasecmp($_POST['previous_payment_mode'] ,'DD')==0){
                 //fetching cheque id from policy id
                 $cheque_id=$this->read_selective_cheque("WHERE policy_id='".$id."'")->fetch_assoc()['id'];
-                if($_POST['payment_mode']=='Cash' || $_POST['payment_mode']=='Online'){
+                if(strcasecmp($_POST['payment_mode'],'Cash')==0 || strcasecmp($_POST['payment_mode'],'Online')==0){
                     //deleting the cheque
                     $this->delete_cheque($cheque_id);
                     //overriding deletion successfull message
@@ -636,7 +636,7 @@
                 }
             }
             //cheque insertion if conversion from cash or online to cheque
-            elseif(($_POST['previous_payment_mode']=='Cash' || $_POST['previous_payment_mode'] == 'Online') && ($_POST['payment_mode']=='Cheque' || $_POST['payment_mode']=='DD')){
+            elseif((strcasecmp($_POST['previous_payment_mode'],'Cash')==0 || strcasecmp($_POST['previous_payment_mode'] , 'Online')==0) && (strcasecmp($_POST['payment_mode'],'Cheque')==0 || strcasecmp($_POST['payment_mode'],'DD')==0)){
                 //inserting cheque
                 parent::insert_cheque($id);
                 //overriding insertion successfull message
@@ -709,11 +709,11 @@
             //forming database insertion variables
             $table_name=Agent_Contract::get_table_name();
             //getting and adding the branch manager id based on the user
-            if($_SESSION['user_type']=='Admin' || $_SESSION['user_type']=='Accountant' || $_SESSION['user_type']=='Operator'){
+            if(strcasecmp($_SESSION['user_type'],'Admin')==0 || strcasecmp($_SESSION['user_type'],'Accountant')==0 || strcasecmp($_SESSION['user_type'],'Operator')==0){
                 array_push($form_name_array,"branch_manager_id"); 
                 array_push($form_value_array,$_POST['branch_manager_id']);
             }
-            if($_SESSION['user_type']=='Branch_Manager'){
+            if(strcasecmp($_SESSION['user_type'],'Branch_Manager')==0){
                 array_push($form_name_array,"branch_manager_id"); 
                 array_push($form_value_array,$_SESSION['id']);
             }
@@ -780,7 +780,7 @@
             if($policy_result_set){
                 //calculating amount based on comission recivable and payable
                 while($policy_result=$policy_result_set->fetch_assoc()){
-                    if($policy_result['payment_mode']=='Cash'){
+                    if(strcasecmp($policy_result['payment_mode'],'Cash')==0){
                         //calculating comission amount
                         if($policy_result['comission_type']=='OD'){
                             $comission=$policy_result['od_premium']*($policy_result['comission_percentage']/100);
@@ -808,11 +808,11 @@
             //fetching transaction of the user
             if($transaction_result_set){
                 while($transaction_result=$transaction_result_set->fetch_assoc()){
-                    if($transaction_result['payment']=='Recived'){
+                    if(strcasecmp($transaction_result['payment'],'Recived')==0){
                         $wallet_amount-=$transaction_result['amount'];
-                    }elseif($transaction_result['payment']=='Paid'){
+                    }elseif(strcasecmp($transaction_result['payment'],'Paid')==0){
                         $wallet_amount+=$transaction_result['amount'];
-                    }elseif($transaction_result['payment']=='Office_Expenses'){
+                    }elseif(strcasecmp($transaction_result['payment'],'Office_Expenses')==0){
                         $wallet_amount-=$transaction_result['amount'];
                     }
                 }

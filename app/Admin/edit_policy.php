@@ -247,17 +247,17 @@
                                 <!--Col-->
                                 <div class="col-md-1">
                                     <label for="cc">CC</label>
-                                    <input type="number" value="<?php echo $policy_result['cc'];?>" class="form-control" id="cc" name="cc" placeholder="CC" required="required">
+                                    <input type="number" value="<?php echo $_policy_result['cc'];?>" class="form-control" id="cc" name="cc" placeholder="CC" required="required">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-1">
                                     <label for="gbw">GVW</label>
-                                    <input type="number" value="<?php echo $policy_result['gbw'];?>" class="form-control" id="gbw" name="gbw" placeholder="GVW" required="required">
+                                    <input type="number" value="<?php echo $_policy_result['gbw'];?>" class="form-control" id="gbw" name="gbw" placeholder="GVW" required="required">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-2">
                                     <label for="seating_capacity">Seating Capacity</label>
-                                    <input type="number" value="<?php echo $policy_result['seating_capacity'];?>" maxlength="10" class="form-control" id="seating_capacity" name="seating_capacity" placeholder="Seating Capacity" required="required">
+                                    <input type="number" value="<?php echo $_policy_result['seating_capacity'];?>" maxlength="10" class="form-control" id="seating_capacity" name="seating_capacity" placeholder="Seating Capacity" required="required">
                                 </div>
                             </div>
 
@@ -366,7 +366,7 @@
                                 <!--Cheque-->
                             <?php 
                                 //not setting cheque data if it is not of cash or online type
-                                if($policy_result['payment_mode']=='Cash' || $policy_result['payment_mode']=='Online'){
+                                if(strcasecmp($policy_result['payment_mode'],'Cash')==0 || strcasecmp($policy_result['payment_mode'],'Online')==0){
                             ?>
                                 <!--Col-->
                                 <div class="col-md-4 policy_cheque_data">

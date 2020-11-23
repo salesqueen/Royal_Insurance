@@ -24,10 +24,10 @@
       while($policy_result=$policy_result_set->fetch_assoc()){
           //comission calculation
           $comission=0;
-          if($policy_result['comission_type']=='OD' && $policy_result['payment_mode']=='Cash'){
+          if($policy_result['comission_type']=='OD' && strcasecmp($policy_result['payment_mode'],'Cash')==0){
             $comission=$policy_result['od_premium']*($policy_result['comission_percentage']/100);
           }
-          if($policy_result['comission_type']=='NP' && $policy_result['payment_mode']=='Cash'){
+          if($policy_result['comission_type']=='NP' && strcasecmp($policy_result['payment_mode'],'Cash')==0){
             $comission=$policy_result['net_premium']*($policy_result['comission_percentage']/100);
           }
            $values_array[$i]=array($policy_result['issue_date'],$policy_result['policy_number'],$policy_result['policy_type'],$policy_result['product'],$policy_result['company_name'],$policy_result['policy_number'],

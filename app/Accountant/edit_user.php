@@ -14,19 +14,19 @@
   //fetching main
   $user_result_set=null;
   //branch manager
-  if($_GET['user_type']=='branch_manager'){
+  if(strcasecmp($_GET['user_type'],'branch_manager')==0){
       $user_result_set=$user->read_one_branch_manager($_GET['id']);
   }
   //operator
-  if($_GET['user_type']=='operator'){
+  if(strcasecmp($_GET['user_type'],'operator')==0){
     $user_result_set=$user->read_one_operator($_GET['id']);
   }
   //accountant
-  if($_GET['user_type']=='accountant'){
+  if(strcasecmp($_GET['user_type'],'accountant')==0){
     $user_result_set=$user->read_one_accountant($_GET['id']);
   }
   //agent
-  if($_GET['user_type']=='agent'){
+  if(strcasecmp($_GET['user_type'],'agent')==0){
     $user_result_set=$user->read_one_agent($_GET['id']);
   }
   $user_result=$user_result_set->fetch_assoc();
@@ -34,7 +34,7 @@
   //form handelling
   if(isset($_POST['submit'])){
     //branch manager
-    if($_GET['user_type']=='branch_manager'){
+    if(strcasecmp($_GET['user_type'],'branch_manager')==0){
         $name_array=Branch_Manager_Contract::get_table_columns();
         array_splice($name_array,14,6);
         $user_result_set=$user->update_branch_manager($name_array,$_GET['id']);
@@ -42,7 +42,7 @@
         exit();
     }
     //operator
-    if($_GET['user_type']=='operator'){
+    if(strcasecmp($_GET['user_type'],'operator')==0){
         $name_array=Operator_Contract::get_table_columns();
         array_splice($name_array,14,5);
         $user_result_set=$user->update_operator($name_array,$_GET['id']);
@@ -50,7 +50,7 @@
         exit();
     }
     //accountant
-    if($_GET['user_type']=='accountant'){
+    if(strcasecmp($_GET['user_type'],'accountant')==0){
         $name_array=Accountant_Contract::get_table_columns();
         array_splice($name_array,14,5);
         $user_result_set=$user->update_accountant($name_array,$_GET['id']);
@@ -58,7 +58,7 @@
         exit();
     }
     //agent
-    if($_GET['user_type']=='agent'){
+    if(strcasecmp($_GET['user_type'],'agent')==0){
         $name_array=Agent_Contract::get_table_columns();
         array_splice($name_array,14,6);
         //appending branch manager incase of branch change
@@ -162,12 +162,12 @@
                     <div class="col-md-6">
                         <a href="<?php  
                                         //printing link based on user_type
-                                        if($_GET['user_type']=='branch_manager')
+                                        if(strcasecmp($_GET['user_type'],'branch_manager')==0)
                                         {
                                             echo "menu_manage_user_branch_manager.php";
-                                        }elseif($_GET['user_type']=='accountant'){
+                                        }elseif(strcasecmp($_GET['user_type'],'accountant')==0){
                                             echo "menu_manage_user_accountant.php";
-                                        }elseif($_GET['user_type']=='operator'){
+                                        }elseif(strcasecmp($_GET['user_type'],'operator')==0){
                                             echo "menu_manage_user_operator.php";
                                         }else{
                                             echo "menu_manage_user_agent.php";
@@ -266,7 +266,7 @@
                             <?php 
                             
                                 //visible only for user
-                                if($_GET['user_type']=='agent'){
+                                if(strcasecmp($_GET['user_type'],'agent')==0){
                                     $branch_manager_result_set=$user->read_all_branch_manager();
                                     ?>
 

@@ -107,7 +107,7 @@
                             <div class="row">
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <img style="width:200px;height:200px" src="<?php if($user_result['photo']!='Null'){echo '../Php/Util/'.$user_type.'/'.$user_result['photo'];}?>" alt="No Profile Picture">
+                                    <img style="width:200px;height:200px" src="<?php if(strcasecmp($user_result['photo'],'Null')!=0){echo '../Php/Util/'.$user_type.'/'.$user_result['photo'];}?>" alt="No Profile Picture">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
@@ -116,7 +116,7 @@
                                 </div>
                                 <?php 
                                 
-                                    if($_GET['user_type']=='branch_manager'){
+                                    if(strcasecmp($_GET['user_type'],'branch_manager')==0){
 
                                 ?>
                                 <!--Col-->

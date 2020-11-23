@@ -12,25 +12,25 @@
 
   //fetching main
   //branch manager
-  if($_GET['user_type']=='branch_manager'){
+  if(strcasecmp($_GET['user_type'],'branch_manager')==0){
       $user_type='Branch Manager';
       $user_result_set=$user->read_one_branch_manager($_GET['id']);
       $user_result=$user_result_set->fetch_assoc();
   }
   //operator
-  if($_GET['user_type']=='operator'){
+  if(strcasecmp($_GET['user_type'],'operator')==0){
     $user_type='Operator';
     $user_result_set=$user->read_one_operator($_GET['id']);
     $user_result=$user_result_set->fetch_assoc();
   }
   //accountant
-  if($_GET['user_type']=='accountant'){
+  if(strcasecmp($_GET['user_type'],'accountant')==0){
     $user_type='Accountant';
     $user_result_set=$user->read_one_accountant($_GET['id']);
     $user_result=$user_result_set->fetch_assoc();
   }
   //agent
-  if($_GET['user_type']=='agent'){
+  if(strcasecmp($_GET['user_type'],'agent')==0){
     $user_type='Agent';
     $user_result_set=$user->read_one_agent($_GET['id']);
     $user_result=$user_result_set->fetch_assoc();
@@ -142,7 +142,7 @@
                             <div class="row">
                                 <!--Col-->
                                 <div class="col-md-4">
-                                    <img style="width:200px;height:200px" src="<?php if($user_result['photo']!='Null'){echo '../Php/Util/'.$user_type.'/'.$user_result['photo'];}?>" alt="No Profile Picture">
+                                    <img style="width:200px;height:200px" src="<?php if(strcasecmp($user_result['photo'],'Null')!=0){echo '../Php/Util/'.$user_type.'/'.$user_result['photo'];}?>" alt="No Profile Picture">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
@@ -151,7 +151,7 @@
                                 </div>
                                 <?php 
                                 
-                                    if($_GET['user_type']=='branch_manager'){
+                                    if(strcasecmp($_GET['user_type'],'branch_manager')==0){
 
                                 ?>
                                 <!--Col-->

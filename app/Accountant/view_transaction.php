@@ -260,8 +260,8 @@
                                             }
                                             //displaying the sorted content
                                             for($i=0;$i<count($sorted_array_of_policy_and_transaction_array);$i++){
-                                                if($sorted_array_of_policy_and_transaction_array[$i][0]=='Transaction'){
-                                                    if($sorted_array_of_policy_and_transaction_array[$i][1]['payment']!='Office_Expenses_Request'){
+                                                if(strcasecmp($sorted_array_of_policy_and_transaction_array[$i][0],'Transaction')==0){
+                                                    if(strcasecmp($sorted_array_of_policy_and_transaction_array[$i][1]['payment'],'Office_Expenses_Request')!=0){
                                                         echo "<tr>";
                                                         echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['date']."</td>";
                                                         echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['payment']."</td>";
@@ -273,11 +273,11 @@
                                                         echo "  <td></td>";
                                                         echo "  <td></td>";
                                                         echo "  <td></td>";
-                                                        if($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Recived'){
+                                                        if(strcasecmp($sorted_array_of_policy_and_transaction_array[$i][1]['payment'],'Recived')==0){
                                                             echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
-                                                        }elseif($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Paid'){
+                                                        }elseif(strcasecmp($sorted_array_of_policy_and_transaction_array[$i][1]['payment'],'Paid')==0){
                                                             echo "  <td>+".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
-                                                        }elseif($sorted_array_of_policy_and_transaction_array[$i][1]['payment']=='Office_Expenses'){
+                                                        }elseif(strcasecmp($sorted_array_of_policy_and_transaction_array[$i][1]['payment'],'Office_Expenses')==0){
                                                             echo "  <td>-".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
                                                         }
                                                         echo "</tr>";
@@ -302,13 +302,13 @@
                                                     }
                                                     echo "  <td>".$comission."</td>";
                                                     //only displaying recivable for cash
-                                                    if($sorted_array_of_policy_and_transaction_array[$i][1]['payment_mode']=='Cash'){
+                                                    if(strcasecmp($sorted_array_of_policy_and_transaction_array[$i][1]['payment_mode'],'Cash')==0){
                                                         echo "  <td>".($sorted_array_of_policy_and_transaction_array[$i][1]['total_premium']-$comission)."</td>";
                                                     }else{
                                                         echo "  <td>0</td>";
                                                     }
                                                     //displaying balance
-                                                    if($sorted_array_of_policy_and_transaction_array[$i][1]['payment_mode']=='Cash'){
+                                                    if(strcasecmp($sorted_array_of_policy_and_transaction_array[$i][1]['payment_mode'],'Cash')==0){
                                                         echo "  <td>+".($sorted_array_of_policy_and_transaction_array[$i][1]['total_premium']-$comission)."</td>";
                                                     }else{
                                                         echo "  <td>-".$comission."</td>";
@@ -354,13 +354,13 @@
                                                         }
                                                         echo "  <td>".$comission."</td>";
                                                         //only showing recivable for cash                                                                          
-                                                        if($approved_policy_result['payment_mode']=="Cash"){
+                                                        if(strcasecmp($approved_policy_result['payment_mode'],"Cash")==0){
                                                             echo "  <td>".($approved_policy_result['total_premium']-$comission)."</td>";
                                                         }else{
                                                             echo "  <td>0</td>";
                                                         }
                                                         //balance
-                                                        if($approved_policy_result['payment_mode']=='Cash'){
+                                                        if(strcasecmp($approved_policy_result['payment_mode'],'Cash')==0){
                                                             echo "  <td>+".($approved_policy_result['total_premium']-$comission)."</td>";
                                                         }else{
                                                             echo "  <td>-".$comission."</td>";
@@ -385,7 +385,7 @@
                                                 }
                                                 if($transaction_result_set){
                                                     while($transaction_result=$transaction_result_set->fetch_assoc()){
-                                                        if($transaction_result['payment']!='Office_Expenses_Request'){
+                                                        if(strcasecmp($transaction_result['payment'],'Office_Expenses_Request')!=0){
                                                             echo "<tr>";
                                                             echo "  <td>".$transaction_result['date']."</td>";
                                                             echo "  <td>".$transaction_result['payment']."</td>";
@@ -397,11 +397,11 @@
                                                             echo "  <td></td>";
                                                             echo "  <td></td>";
                                                             echo "  <td></td>";
-                                                            if($transaction_result['payment']=='Recived'){
+                                                            if(strcasecmp($transaction_result['payment'],'Recived')==0){
                                                                 echo "  <td>-".$transaction_result['amount']."</td>";
-                                                            }elseif($transaction_result['payment']=='Paid'){
+                                                            }elseif(strcasecmp($transaction_result['payment'],'Paid')==0){
                                                                 echo "  <td>+".$transaction_result['amount']."</td>";
-                                                            }elseif($transaction_result['payment']=='Office_Expenses'){
+                                                            }elseif(strcasecmp($transaction_result['payment'],'Office_Expenses')==0){
                                                                 echo "  <td>-".$transaction_result['amount']."</td>";
                                                             }
                                                             echo "</tr>";

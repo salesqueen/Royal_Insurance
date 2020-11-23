@@ -138,7 +138,7 @@
                         <h2>Make Transaction</h2>
                     </div>
                     <div class="col-md-6">
-                        <a href="<?php if(isset($_GET['transaction_type'])){if($_GET['transaction_type']=='Recived'){echo "menu_utilities_cash_recived.php";}else{echo "menu_utilities_cash_paid.php";}}else{echo "menu_wallet.php";}?>" style="float:right"><Button>Back <i class="fa fa-arrow-right" aria-hidden="true"></i></button></a>
+                        <a href="<?php if(isset($_GET['transaction_type'])){if(strcasecmp($_GET['transaction_type'],'Recived')==0){echo "menu_utilities_cash_recived.php";}else{echo "menu_utilities_cash_paid.php";}}else{echo "menu_wallet.php";}?>" style="float:right"><Button>Back <i class="fa fa-arrow-right" aria-hidden="true"></i></button></a>
                     </div>
                 </div>
                 

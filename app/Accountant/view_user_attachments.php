@@ -13,25 +13,25 @@
 
   //fetching main
   //branch manager
-  if($_GET['user_type']=='branch_manager'){
+  if(strcasecmp($_GET['user_type'],'branch_manager')==0){
     $user_type='Branch Manager';
     $user_result_set=$user->read_one_branch_manager($_GET['id']);
     $user_result=$user_result_set->fetch_assoc();
   }
   //operator
-  if($_GET['user_type']=='operator'){
+  if(strcasecmp($_GET['user_type'],'operator')==0){
     $user_type='Operator';
     $user_result_set=$user->read_one_operator($_GET['id']);
     $user_result=$user_result_set->fetch_assoc();
   }
   //accountant
-  if($_GET['user_type']=='accountant'){
+  if(strcasecmp($_GET['user_type'],'accountant')==0){
     $user_type='Accountant';
     $user_result_set=$user->read_one_accountant($_GET['id']);
     $user_result=$user_result_set->fetch_assoc();
   }
   //agent
-  if($_GET['user_type']=='agent'){
+  if(strcasecmp($_GET['user_type'],'agent')==0){
     $user_type='Agent';
     $user_result_set=$user->read_one_agent($_GET['id']);
     $user_result=$user_result_set->fetch_assoc();
@@ -135,25 +135,25 @@
                 <div class="row">
                     <?php
                         $document_count=0;
-                        if($user_result['address_proof']!='Null'){
+                        if(strcasecmp($user_result['address_proof'],'Null')!=0){
                             echo '<div class="col-md-12">';
                             echo '  <embed style="width:100%;height:600px" src="../Php/Util/uploads/'.$_GET['user_type'].'/'.$user_result['address_proof'].'">';
                             echo '</div>';
                             $document_count++;
                         }
-                        if($user_result['id_proof']!='Null'){
+                        if(strcasecmp($user_result['id_proof'],'Null')!=0){
                             echo '<div class="col-md-12">';
                             echo '  <embed style="width:100%;height:600px" src="../Php/Util/uploads/'.$_GET['user_type'].'/'.$user_result['id_proof'].'">';
                             echo '</div>';
                             $document_count++;
                         }
-                        if($user_result['educational_proof']!='Null'){
+                        if(strcasecmp($user_result['educational_proof'],'Null')!=0){
                             echo '<div class="col-md-12">';
                             echo '  <embed style="width:100%;height:600px" src="../Php/Util/uploads/'.$_GET['user_type'].'/'.$user_result['educational_proof'].'">';
                             echo '</div>';
                             $document_count++;
                         }
-                        if($user_result['pan_card']!='Null'){
+                        if(strcasecmp($user_result['pan_card'],'Null')!=0){
                             echo '<div class="col-md-12">';
                             echo '  <embed style="width:100%;height:600px" src="../Php/Util/uploads/'.$_GET['user_type'].'/'.$user_result['pan_card'].'" >';
                             echo '</div>';

@@ -277,7 +277,7 @@
                                 <!--Cheque-->
                                 <?php 
                                 
-                                    if($policy_result['payment_mode']!='Cash' && $policy_result['payment_mode']!='Online'){
+                                    if(strcasecmp($policy_result['payment_mode'],'Cash')!=0 && strcasecmp($policy_result['payment_mode'],'Online')!=0){
                                         $cheque_result_set=$user->read_one_cheque(get_cheque_id($_GET['id']));
                                         $cheque_result=$cheque_result_set->fetch_assoc();
                                 ?>

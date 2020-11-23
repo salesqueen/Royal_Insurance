@@ -111,7 +111,7 @@
                             $document_uploaded=0;
                             for($i=1;$i<5;$i++){
                                 $file_name='file_'.$i;
-                                if($policy_files_result[$file_name]!='Null'){
+                                if(strcasecmp($policy_files_result[$file_name],'Null')!=0){
                                     echo '<div class="col-md-12">';
                                     echo '  <embed style="width:100%;height:600px" src="../Php/Util/uploads/policy_documents/'.$policy_files_result[$file_name].'" type="application/pdf">';
                                     echo '</div>';

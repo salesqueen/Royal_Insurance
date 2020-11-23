@@ -47,7 +47,7 @@ $branch_manager_result_set=$user->read_all_branch_manager();
                   <div id="account-menu">
                       <img src="<?php if($_SESSION['photo'] != 'Null'){
                             //agent
-                            if($_SESSION['user_type']=='Agent'){
+                            if(strcasecmp($_SESSION['user_type'],'Agent')==0){
                                 echo "../agent/".$_SESSION['photo'];
                             }
                             //branch manager
@@ -55,15 +55,15 @@ $branch_manager_result_set=$user->read_all_branch_manager();
                                 echo "../branch_manager/".$_SESSION['photo'];
                             }
                             //opertor
-                            if($_SESSION['user_type']=='Operator'){
+                            if(strcasecmp($_SESSION['user_type'],'Operator')==0){
                                 echo "../operator/".$_SESSION['photo'];
                             }
                             //accountant
-                            if($_SESSION['user_type']=='Accountant'){
+                            if(strcasecmp($_SESSION['user_type'],'Accountant')==0){
                                 echo "../accountant/".$_SESSION['photo'];
                             }
                             //admin
-                            if($_SESSION['user_type']=='Admin'){
+                            if(strcasecmp($_SESSION['user_type'],'Admin')==0){
                                 echo "../admin/".$_SESSION['photo'];
                             }
                         }

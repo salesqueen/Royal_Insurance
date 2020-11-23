@@ -12,7 +12,7 @@
     //update password
     if(isset($_POST['submit'])){
         //admin
-        if($_SESSION['user_type']=='Admin'){
+        if(strcasecmp($_SESSION['user_type'],'Admin')==0){
             $user=new Admin();
             //checking for old password is correct
             $user_result_set=$user->read_one_admin($_SESSION['id']);
@@ -34,7 +34,7 @@
             }
         }
         //accountant
-        if($_SESSION['user_type']=='Accountant'){
+        if(strcasecmp($_SESSION['user_type'],'Accountant')==0){
             $user=new Accountant();
             //checking for old password is correct
             $user_result_set=$user->read_one_accountant($_SESSION['id']);
@@ -56,7 +56,7 @@
             }
         }
         //branch manager
-        if($_SESSION['user_type']=='Branch_Manager'){
+        if(strcasecmp($_SESSION['user_type'],'Branch_Manager')==0){
             $user=new Branch_Manager();
             //checking for old password is correct
             $user_result_set=$user->read_one_branch_manager($_SESSION['id']);
@@ -78,7 +78,7 @@
             }
         }
         //operator
-        if($_SESSION['user_type']=='Operator'){
+        if(strcasecmp($_SESSION['user_type'],'Operator')==0){
             $user=new Operator();
             //checking for old password is correct
             $user_result_set=$user->read_one_operator($_SESSION['id']);
@@ -100,7 +100,7 @@
             }
         }
         //agent
-        if($_SESSION['user_type']=='Agent'){
+        if(strcasecmp($_SESSION['user_type'],'Agent')==0){
             $user=new Agent();
             //checking for old password is correct
             $user_result_set=$user->read_one_agent($_SESSION['id']);

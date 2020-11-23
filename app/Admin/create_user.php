@@ -17,22 +17,22 @@
   //form handelling
   if(isset($_POST['user_form_submit'])){
     //checking user is branch manager
-    if($_POST['user_type']=='branch_manager'){
+    if(strcasecmp($_POST['user_type'],'branch_manager')==0){
         $user->insert_branch_manager();
         header('Location:menu_manage_user_branch_manager.php');
     }
     //checking user is operator
-    if($_POST['user_type']=='operator'){
+    if(strcasecmp($_POST['user_type'],'operator')==0){
         $user->insert_operator();
         header('Location:menu_manage_user_operator.php');
     }
     //checking user is accountant
-    if($_POST['user_type']=='accountant'){
+    if(strcasecmp($_POST['user_type'],'accountant')==0){
         $user->insert_accountant();
         header('Location:menu_manage_user_accountant.php');
     }
     //checking user is agent
-    if($_POST['user_type']=='agent'){
+    if(strcasecmp($_POST['user_type'],'agent')==0){
         $user->insert_agent();
         header('Location:menu_manage_user_agent.php');
     }
