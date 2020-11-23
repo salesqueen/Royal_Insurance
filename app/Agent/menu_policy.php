@@ -326,7 +326,7 @@
   </style>
   <!--Custom script-->
   <script src="../scripts/overlay.js"></script>
-  <!--<script src="../scripts/search.js"></script>-->
+  <script src="../scripts/search.js"></script>
   <script src="../scripts/main.js"></script>
 
   <?php 

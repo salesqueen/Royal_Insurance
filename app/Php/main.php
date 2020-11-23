@@ -817,7 +817,7 @@
                     }
                 }
             }
-            return $wallet_amount;
+            return round($wallet_amount);
         }
         public function get_agent_cash($payment,$agent_id){
             $amount=0;
@@ -1232,7 +1232,7 @@
                     $amount+=$this->get_wallet_amount($user_result['id']);
                 }
             }
-            return $amount;
+            return round($amount);
         }
         public function update_password($id){
             //Initializing required variables

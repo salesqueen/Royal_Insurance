@@ -211,6 +211,8 @@
                         <div class="row filter">
                             <div class="col-md-12">
                                 <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
+                                    <!--Normal search-->
+                                    <input type="text" id="search_1" placeholder="Search">
                                     <!--Company Name-->
                                     <input type="text" onfocus="this.value=''" name="company_name" id="company_name" list="company_names" placeholder="Company Name" value="<?php if(isset($_POST['company_name'])){echo $_POST['company_name'];}else{/*Do Nothing */}?>">
                                     <datalist id="company_names">
@@ -448,7 +450,7 @@
     }
   </style>
   <!--Custom script-->
-  <!--<script src="../scripts/search.js"></script>-->
+  <script src="../scripts/search.js"></script>
   <script src="../scripts/main.js"></script>
   <script src="../scripts/overlay.js"></script>
   <?php 
