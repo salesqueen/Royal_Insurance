@@ -143,7 +143,10 @@
                             <a class="nav-link" href="menu_policy.php">Policy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../logout.php">Logout</a>
+                            <a class="nav-link" href="../reset_password.php" id="logout-link">Reset Password</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../logout.php" id="logout-link">Logout</a>
                         </li>
                     </ul>
                 </div>

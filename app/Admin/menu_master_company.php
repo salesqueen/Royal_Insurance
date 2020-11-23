@@ -112,6 +112,9 @@ if(isset($_POST['company_form_submit'])){
                             <a class="nav-link" href="menu_wallet.php">Wallet</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="../reset_password.php" id="logout-link">Reset Password</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="../logout.php" id="logout-link">Logout</a>
                         </li>
                     </ul>

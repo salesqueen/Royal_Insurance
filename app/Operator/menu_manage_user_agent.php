@@ -72,7 +72,10 @@
                             <a class="nav-link" href="menu_utilities_cheque_status.php">Cheque Status</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../logout.php">Logout</a>
+                            <a class="nav-link" href="../reset_password.php" id="logout-link">Reset Password</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../logout.php" id="logout-link">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -111,7 +114,7 @@
                                         <th>Name</th>
                                         <th>Mobile</th>
                                         <th>Email</th>
-                                        <th>Address</th>
+                                        <th>Password</th>
                                         <th>Branch</th>
                                         <th>Actions</th>
                                     </tr>
@@ -124,7 +127,7 @@
                                             echo "<td>".$agent_result['name']."</td>";
                                             echo "<td>".$agent_result['mobile']."</td>";
                                             echo "<td>".$agent_result['email']."</td>";
-                                            echo "<td>".$agent_result['address']."</td>";
+                                            echo "<td>".$agent_result['password']."</td>";
                                             echo "<td>".$user->get_branch($agent_result['id'])."</td>";
                                             echo '  <td>
                                                         <a href="view_user.php?id='.$agent_result['id'].'&user_type=agent"><i class="fa fa-eye" aria-hidden="true"></i></a>

@@ -171,5 +171,12 @@
             return self::$table_columns;
         }
     }
+    //admin
+    class Admin_Contract{
+        private static $table_name="admin";
+        public static function get_table_name(){
+            return self::$table_name;
+        }
+    }
 
 ?>

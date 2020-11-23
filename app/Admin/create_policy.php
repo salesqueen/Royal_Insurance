@@ -127,6 +127,9 @@
                             <a class="nav-link" href="menu_wallet.php">Wallet</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="../reset_password.php" id="logout-link">Reset Password</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="../logout.php" id="logout-link">Logout</a>
                         </li>
                     </ul>
@@ -274,12 +277,12 @@
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="mobile">Mobile</label>
-                                    <input type="text" maxlength="10" class="form-control" id="mobile" name="mobile" placeholder="Mobile" required="required">
+                                    <input type="text" maxlength="10" class="form-control" id="mobile" name="mobile" placeholder="Mobile">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="required">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                                 </div>
                             </div>
 

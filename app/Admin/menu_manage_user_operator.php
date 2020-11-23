@@ -102,6 +102,9 @@ $operator_result_set=$user->read_all_operator();
                             <a class="nav-link" href="menu_wallet.php">Wallet</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="../reset_password.php" id="logout-link">Reset Password</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="../logout.php" id="logout-link">Logout</a>
                         </li>
                     </ul>
@@ -141,7 +144,7 @@ $operator_result_set=$user->read_all_operator();
                                       <th>Name</th>
                                       <th>Mobile</th>
                                       <th>Email</th>
-                                      <th>Address</th>
+                                      <th>Password</th>
                                       <th>Actions</th>
                                   </tr>
                               </thead>
@@ -153,7 +156,7 @@ $operator_result_set=$user->read_all_operator();
                                           echo "<td>".$operator_result['name']."</td>";
                                           echo "<td>".$operator_result['mobile']."</td>";
                                           echo "<td>".$operator_result['email']."</td>";
-                                          echo "<td>".$operator_result['address']."</td>";
+                                          echo "<td>".$operator_result['password']."</td>";
                                           echo '  <td>
                                                       <a href="view_user.php?id='.$operator_result['id'].'&user_type=operator"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                                       <a href="edit_user.php?id='.$operator_result['id'].'&user_type=operator"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>

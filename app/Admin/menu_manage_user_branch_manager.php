@@ -126,6 +126,9 @@ $branch_manager_result_set=$user->read_all_branch_manager();
                             <a class="nav-link" href="menu_wallet.php">Wallet</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="../reset_password.php" id="logout-link">Reset Password</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="../logout.php" id="logout-link">Logout</a>
                         </li>
                     </ul>
@@ -165,7 +168,7 @@ $branch_manager_result_set=$user->read_all_branch_manager();
                                       <th>Name</th>
                                       <th>Mobile</th>
                                       <th>Email</th>
-                                      <th>Address</th>
+                                      <th>Password</th>
                                       <th>Branch</th>
                                       <th>Actions</th>
                                   </tr>
@@ -178,7 +181,7 @@ $branch_manager_result_set=$user->read_all_branch_manager();
                                           echo "<td>".$branch_manager_result['name']."</td>";
                                           echo "<td>".$branch_manager_result['mobile']."</td>";
                                           echo "<td>".$branch_manager_result['email']."</td>";
-                                          echo "<td>".$branch_manager_result['address']."</td>";
+                                          echo "<td>".$branch_manager_result['password']."</td>";
                                           echo "<td>".$branch_manager_result['branch']."</td>";
                                           echo '  <td>
                                                       <a href="view_user.php?id='.$branch_manager_result['id'].'&user_type=branch_manager"><i class="fa fa-eye" aria-hidden="true"></i></a>

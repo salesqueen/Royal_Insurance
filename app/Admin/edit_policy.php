@@ -119,6 +119,9 @@
                             <a class="nav-link" href="menu_wallet.php">Wallet</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="../reset_password.php" id="logout-link">Reset Password</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="../logout.php" id="logout-link">Logout</a>
                         </li>
                     </ul>
@@ -226,6 +229,11 @@
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="required" value="<?php echo $policy_result['email']; ?>">
                                 </div>
+                            </div>
+        
+                            <h4>Vehicle Details</h4>
+                            <hr>
+                            <div class="row">
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="registration_number">Registration Number</label>
@@ -236,23 +244,18 @@
                                     <label for="make_model">Make Model</label>
                                     <input type="text" class="form-control" id="make_model" name="make_model" placeholder="Make Model" required="required" value="<?php echo $policy_result['make_model']; ?>">
                                 </div>
-                            </div>
-
-                            <h4>Vehicle Details</h4>
-                            <hr>
-                            <div class="row">
                                 <!--Col-->
-                                <div class="col-md-4">
+                                <div class="col-md-1">
                                     <label for="cc">CC</label>
                                     <input type="number" value="<?php echo $_policy_result['cc'];?>" class="form-control" id="cc" name="cc" placeholder="CC" required="required">
                                 </div>
                                 <!--Col-->
-                                <div class="col-md-4">
+                                <div class="col-md-1">
                                     <label for="seating_capacity">Seating Capacity</label>
                                     <input type="number" value="<?php echo $_policy_result['seating_capacity'];?>" maxlength="10" class="form-control" id="seating_capacity" name="seating_capacity" placeholder="Seating Capacity" required="required">
                                 </div>
                                 <!--Col-->
-                                <div class="col-md-4">
+                                <div class="col-md-1">
                                     <label for="gbw">GVW</label>
                                     <input type="number" value="<?php echo $_policy_result['gbw'];?>" class="form-control" id="gbw" name="gbw" placeholder="GVW" required="required">
                                 </div>

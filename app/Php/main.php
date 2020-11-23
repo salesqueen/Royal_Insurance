@@ -717,6 +717,10 @@
                 array_push($form_name_array,"branch_manager_id"); 
                 array_push($form_value_array,$_SESSION['id']);
             }
+            //generating random password
+            array_push($form_name_array,'password');
+            $random_password='User'.rand(100,999).'#';
+            array_push($form_value_array,$random_password);
             //performing insertion
             $crud->insert($table_name,$form_name_array,$form_value_array);
         }
@@ -903,6 +907,13 @@
             }
             return $cleared_cheque_pending_policy_array;
         }
+        public function update_password($id){
+            //Initializing required variables
+            $crud=new Crud();
+            $table_name=Agent_Contract::get_table_name();
+            //updating call
+            $crud->update($table_name,$id,array('password'),array($_POST['new_password']));
+        }
     }
     class Branch_Manager extends Agent{
         public function insert_branch_manager(){
@@ -917,6 +928,10 @@
             array_splice($form_value_array,14,5,$uploaded_file_name_array);
             //forming database insertion variables
             $table_name=Branch_Manager_Contract::get_table_name();
+            //generating random password
+            array_push($form_name_array,'password');
+            $random_password='Branch_Manager'.rand(100,999).'#';
+            array_push($form_value_array,$random_password);
             //performing insertion
             $crud->insert($table_name,$form_name_array,$form_value_array);     
         }
@@ -1095,6 +1110,13 @@
             }
             return $cleared_cheque_pending_policy_array;
         }
+        public function update_password($id){
+            //Initializing required variables
+            $crud=new Crud();
+            $table_name=Branch_Manager_Contract::get_table_name();
+            //updating call
+            $crud->update($table_name,$id,array('password'),array($_POST['new_password']));
+        }
     }
     class Operator extends Branch_Manager{
         public function insert_operator(){
@@ -1109,6 +1131,10 @@
             array_splice($form_value_array,14,5,$uploaded_file_name_array);
             //forming database insertion variables
             $table_name=Operator_Contract::get_table_name();
+            //generating random password
+            array_push($form_name_array,'password');
+            $random_password='Operator'.rand(100,999).'#';
+            array_push($form_value_array,$random_password);
             //performing insertion
             $crud->insert($table_name,$form_name_array,$form_value_array);     
         }
@@ -1136,6 +1162,13 @@
             $result_set=$crud->select_all($table_name);
             return $result_set;
         }
+        public function update_password($id){
+            //Initializing required variables
+            $crud=new Crud();
+            $table_name=Operator_Contract::get_table_name();
+            //updating call
+            $crud->update($table_name,$id,array('password'),array($_POST['new_password']));
+        }
     }
     class Accountant extends Operator{
         public function insert_accountant(){
@@ -1150,6 +1183,10 @@
             array_splice($form_value_array,14,5,$uploaded_file_name_array);
             //forming database insertion variables
             $table_name=Accountant_Contract::get_table_name();
+            //generating random password
+            array_push($form_name_array,'password');
+            $random_password='Accountant'.rand(100,999).'#';
+            array_push($form_value_array,$random_password);
             //performing insertion
             $crud->insert($table_name,$form_name_array,$form_value_array);     
         }
@@ -1197,6 +1234,13 @@
             }
             return $amount;
         }
+        public function update_password($id){
+            //Initializing required variables
+            $crud=new Crud();
+            $table_name=Accountant_Contract::get_table_name();
+            //updating call
+            $crud->update($table_name,$id,array('password'),array($_POST['new_password']));
+        }
     }
     class Admin extends Accountant{
         use Recivable_Transaction;
@@ -1206,8 +1250,11 @@
         public function update_admin(){
 
         }
-        public function read_one_admin(){
-
+        public function read_one_admin($id){
+            $crud=new Crud();
+            $table_name=Admin_Contract::get_table_name();
+            $result_set=$crud->select_one($table_name,$id);
+            return $result_set;
         }
         public function read_selective_admin(){
 
@@ -1216,7 +1263,14 @@
 
         }
         public function delete_admin(){
-
+ 
+        }
+        public function update_password($id){
+            //Initializing required variables
+            $crud=new Crud();
+            $table_name=Admin_Contract::get_table_name();
+            //updating call
+            $crud->update($table_name,$id,array('password'),array($_POST['new_password']));
         }
     }
     //document download option
