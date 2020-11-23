@@ -237,7 +237,7 @@
                                                         }
                                                     }
                                                     //transaction array is over
-                                                    else if($transaction_array_index>=count($transaction_array)){
+                                                    elseif($transaction_array_index>=count($transaction_array)){
                                                         //copying value of non empty array to the sorted array
                                                         for($i=$approved_policy_array_index;$i<count($approved_policy_array);$i++){
                                                             $sorted_array_of_policy_and_transaction_array[ $sorted_array_of_policy_and_transaction_array_index]=$approved_policy_array[$approved_policy_array_index];

@@ -291,7 +291,7 @@
             $('#branch_manager_id').attr('required',"required");
             $('#branch_column').css('visibility','hidden');
             $('#branch').removeAttr('required');
-        }else if(user_type == 'branch_manager'){
+        }elseif(user_type == 'branch_manager'){
             $('#branch_column').css('visibility','visible');
             $('#branch').attr('required',"required");
             $('#branch_manager_id_column').css('visibility','hidden');

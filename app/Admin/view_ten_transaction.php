@@ -242,9 +242,13 @@
 
                                             while(true){
                                                 //base condition
-                                                if($approved_policy_array_index>=count($approved_policy_array) && $transaction_array_index>=count($transaction_array) && $sorted_array_of_policy_and_transaction_array_index<10){
+                                                if(($approved_policy_array_index>=count($approved_policy_array) && $transaction_array_index>=count($transaction_array))){
                                                     break;
                                                 }else{
+                                                    //checking condition for displaying only 10 transactions
+                                                    if($sorted_array_of_policy_and_transaction_array_index>=11){
+                                                        break;
+                                                    }
                                                     //iteration
                                                     //if one has array has been empty
                                                     //approved policy array is over
@@ -254,15 +258,23 @@
                                                             $sorted_array_of_policy_and_transaction_array[ $sorted_array_of_policy_and_transaction_array_index]=$transaction_array[$transaction_array_index];
                                                             $sorted_array_of_policy_and_transaction_array_index++;
                                                             $transaction_array_index++;
+                                                            //checking condition for displaying only 10 transactions
+                                                            if($sorted_array_of_policy_and_transaction_array_index>=11){
+                                                                break;
+                                                            }
                                                         }
                                                     }
                                                     //transaction array is over
-                                                    else if($transaction_array_index>=count($transaction_array)){
+                                                    elseif($transaction_array_index>=count($transaction_array)){
                                                         //copying value of non empty array to the sorted array
                                                         for($i=$approved_policy_array_index;$i<count($approved_policy_array);$i++){
                                                             $sorted_array_of_policy_and_transaction_array[ $sorted_array_of_policy_and_transaction_array_index]=$approved_policy_array[$approved_policy_array_index];
                                                             $sorted_array_of_policy_and_transaction_array_index++;
                                                             $approved_policy_array_index++;
+                                                            //checking condition for displaying only 10 transactions
+                                                            if($sorted_array_of_policy_and_transaction_array_index>=11){
+                                                                break;
+                                                            }
                                                         }
                                                     }else{
                                                         //if both has values
@@ -281,7 +293,7 @@
                                             //displaying the sorted content
                                             for($i=0;$i<count($sorted_array_of_policy_and_transaction_array);$i++){
                                                 if(strcasecmp($sorted_array_of_policy_and_transaction_array[$i][0],'Transaction')==0){
-                                                    if(strcasecmp($sorted_array_of_policy_and_transaction_array[$i][1]['payment'],'Office_Expenses_Request')!=0){
+                                                    if($sorted_array_of_policy_and_transaction_array[$i][1]['payment']!='Office_Expenses_Request'){
                                                         echo "<tr>";
                                                         echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['date']."</td>";
                                                         echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['payment']."</td>";

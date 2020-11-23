@@ -264,7 +264,7 @@
                                                     echo "  <td>".$pending_policy_result['net_premium']."</td>";
                                                     echo "  <td>".$pending_policy_result['total_premium']."</td>";
                                                     echo "  <td>".$user->get_agent_name($pending_policy_result['agent_id'])."</td>";
-                                                    if(strcasecmp($pending_policy_result['payment_mode'],'Cash')==0 || strcasecmp($pending_policy_result['payment_mode'],'Online')){
+                                                    if(strcasecmp($pending_policy_result['payment_mode'],'Cash')==0 || strcasecmp($pending_policy_result['payment_mode'],'Online')==0){
                                                         echo "  <td>Pending</td>";
                                                     }else{
                                                         if($user->get_cheque_status(strcasecmp($pending_policy_result['id']),'Rejected')){

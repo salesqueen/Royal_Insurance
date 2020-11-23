@@ -50,6 +50,8 @@
       $branch_manager_result_set=$GLOBALS['user']->read_one_branch_manager($agent_result_set->fetch_assoc()['branch_manager_id']);
       return $branch_manager_result_set->fetch_assoc()['branch'];
   }
+  
+ 
 
 ?>
 <!DOCTYPE html>
@@ -221,9 +223,13 @@
 
                                             while(true){
                                                 //base condition
-                                                if($approved_policy_array_index>=count($approved_policy_array) && $transaction_array_index>=count($transaction_array) && $sorted_array_of_policy_and_transaction_array_index<10){
+                                                if(($approved_policy_array_index>=count($approved_policy_array) && $transaction_array_index>=count($transaction_array))){
                                                     break;
                                                 }else{
+                                                    //checking condition for displaying only 10 transactions
+                                                    if($sorted_array_of_policy_and_transaction_array_index>=11){
+                                                        break;
+                                                    }
                                                     //iteration
                                                     //if one has array has been empty
                                                     //approved policy array is over
@@ -233,15 +239,23 @@
                                                             $sorted_array_of_policy_and_transaction_array[ $sorted_array_of_policy_and_transaction_array_index]=$transaction_array[$transaction_array_index];
                                                             $sorted_array_of_policy_and_transaction_array_index++;
                                                             $transaction_array_index++;
+                                                            //checking condition for displaying only 10 transactions
+                                                            if($sorted_array_of_policy_and_transaction_array_index>=11){
+                                                                break;
+                                                            }
                                                         }
                                                     }
                                                     //transaction array is over
-                                                    else if($transaction_array_index>=count($transaction_array)){
+                                                    elseif($transaction_array_index>=count($transaction_array)){
                                                         //copying value of non empty array to the sorted array
                                                         for($i=$approved_policy_array_index;$i<count($approved_policy_array);$i++){
                                                             $sorted_array_of_policy_and_transaction_array[ $sorted_array_of_policy_and_transaction_array_index]=$approved_policy_array[$approved_policy_array_index];
                                                             $sorted_array_of_policy_and_transaction_array_index++;
                                                             $approved_policy_array_index++;
+                                                            //checking condition for displaying only 10 transactions
+                                                            if($sorted_array_of_policy_and_transaction_array_index>=11){
+                                                                break;
+                                                            }
                                                         }
                                                     }else{
                                                         //if both has values
