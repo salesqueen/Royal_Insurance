@@ -130,6 +130,7 @@
                                 <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
+                                <a class="dropdown-item" href="menu_utilities_office_expenses.php">Office Expenses</a>
                             </div>
                         </li>
                         <li class="nav-item">
@@ -184,7 +185,7 @@
                                     <input type="date" name="filter_start_date" id="filter_start_date" required="required">
                                     <input type="date" name="filter_end_date" id="filter_end_date" placeholder="" required="required">
                                     <input type="hidden" name="agent_id" value="<?php echo $_GET['agent_id'];?>" required="required">
-                                    <button type="submit" name="filter_submit"><i class="fa fa-sort" aria-hidden="true"></i></button>
+                                    <button type="submit" name="filter_submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </form>
                             </div>
                         </div>

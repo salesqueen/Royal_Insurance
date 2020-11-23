@@ -250,7 +250,7 @@
                                     <input type="date" onfocus="this.value=''" name="filter_start_date" id="filter_start_date" value="<?php if(isset($_POST['filter_start_date'])){echo $_POST['filter_start_date'];}else{/*Do Nothing */}?>">
                                     <input type="date" onfocus="this.value=''" name="filter_end_date" id="filter_end_date" value="<?php if(isset($_POST['filter_end_date'])){echo $_POST['filter_end_date'];}else{/*Do Nothing */}?>">
                                     <!--Filter Button-->
-                                    <button type="submit" name="filter_submit"><i class="fa fa-sort" aria-hidden="true"></i></button>
+                                    <button type="submit" name="filter_submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </form>
                             </div>
                             <div class="col-md-1">

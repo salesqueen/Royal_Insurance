@@ -179,18 +179,7 @@
                             <p>Cash Paid</p>
                         </div>
                     </div>
-                    <!--<div class="row">
-                        <div class="col-md-6 comission">
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_wallet_amount();?></h2>
-                            <h1 class="fa fa-angle-double-up"></h1>
-                            <p>Comission Recivable</p>
-                        </div>
-                        <div class="col-md-6 comission">
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_wallet_amount();?></h2>
-                            <h1 class="fa fa-angle-up"></h1>
-                            <p>Comission Payable</p>
-                        </div>
-                    </div>-->
+                    
                 </div>
                 <!--Calendar-->
                 <div class="col-md-4">

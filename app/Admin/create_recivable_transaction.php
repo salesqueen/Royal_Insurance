@@ -102,6 +102,7 @@
                                 <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
+                                <a class="dropdown-item" href="menu_utilities_office_expenses.php">Office Expenses</a>
                             </div>
                         </li>
                         <li class="nav-item">
@@ -146,6 +147,16 @@
                                 <div class="col-md-4">
                                     <label for="company_name">Company Name</label>
                                     <input type="text" value="<?php echo $_GET['company_name'];?>" class="form-control" id="company_name" name="company_name" placeholder="Company Name" required="required" readonly="true">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="company_code">Company Code</label>
+                                    <input type="text" value="<?php echo $_GET['company_code'];?>" class="form-control" id="company_code" name="company_code" placeholder="Company Code" required="required" readonly="true">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
+                                    <label for="policy_number">Policy Number</label>
+                                    <input type="text" value="<?php echo $_GET['policy_number'];?>" class="form-control" id="policy_number" name="policy_number" placeholder="Policy Number" required="required" readonly="true">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">

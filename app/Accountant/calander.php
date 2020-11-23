@@ -109,7 +109,7 @@
         font-weight:600;
         text-transform:uppercase;
         height: 45px;
-        font-size:small;
+        font-size:small; 
         text-align: center;
         font-style:var(--sans);
     }
@@ -125,6 +125,11 @@
     .expiry{
         background:rgb(255,0,0);
         color: white;
+        overflow: hidden;
+        box-shadow:none;
+    }
+    .expiry:hover{
+        background:red;
     }
     .today {
         background:rgba(0, 140, 0,.8) ;
@@ -136,6 +141,8 @@
         font-family: 'Noto Sans', sans-serif;
         border-radius:5px;
         box-shadow:2px 5px 20px -5px rgba(0,0,0,0.4);
+        margin:auto;
+        margin-top: 25px;
     }
     .flexcal{
         top:0%;

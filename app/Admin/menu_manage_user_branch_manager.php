@@ -117,6 +117,7 @@ $branch_manager_result_set=$user->read_all_branch_manager();
                                 <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
+                                <a class="dropdown-item" href="menu_utilities_office_expenses.php">Office Expenses</a>
                             </div>
                         </li>
                         <li class="nav-item">

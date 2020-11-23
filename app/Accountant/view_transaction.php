@@ -166,7 +166,7 @@
                                     <input type="date" name="filter_start_date" id="filter_start_date" required="required">
                                     <input type="date" name="filter_end_date" id="filter_end_date" placeholder="" required="required">
                                     <input type="hidden" name="agent_id" value="<?php echo $_GET['agent_id'];?>" required="required">
-                                    <button type="submit" name="filter_submit"><i class="fa fa-sort" aria-hidden="true"></i></button>
+                                    <button type="submit" name="filter_submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </form>
                             </div>
                         </div>

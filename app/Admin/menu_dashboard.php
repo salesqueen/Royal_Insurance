@@ -33,7 +33,57 @@
 
   <!--Custom style sheet-->
   <link rel="stylesheet" href="../styles/main.css">
-
+  <style>
+        .card{
+            padding:20px 34px;
+            background: rgba(0,0,0,.04);
+            border: 0;
+            border: 1px solid rgba(0,0,0,.1);
+        }
+        .wallet{
+            background: rgba(0,255,255,.02);
+            border-radius: 5px;
+            padding:10px 34px;
+            border: 1px solid rgba(0,100,255,.2);
+            display: flex;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            justify-content: center;
+        }
+        .wallet h1{
+            font-size: 60px;
+        }
+        .wallet h2{
+            font-size: 60px;
+            font-family: var(--monserrat);
+            margin-top:5px;
+        }
+        
+        .wallet div{
+            margin-right:20px;
+            text-align:center;
+        }
+        .cash{
+            background: rgba(0,0,255,.06);
+            padding: 10px 34px;
+            border-radius: 5px;
+            border: 1px solid rgba(0,0,255,.1);
+        }
+        .cash h1{
+            margin-top:14px;
+            font-size:24px;
+        }
+        .comission{
+            background: rgba(0,0,255,.06);
+            padding: 10px 34px;
+            border-radius: 5px;
+            border: 1px solid rgba(0,0,255,.1);
+        }
+        .comission h1{
+            margin-top:14px;
+            font-size:24px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -91,10 +141,8 @@
                                 <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
+                                <a class="dropdown-item" href="menu_utilities_office_expenses.php">Office Expenses</a>
                             </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="menu_office_expenses.php">Office Expenses</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="menu_wallet.php">Wallet</a>
@@ -110,57 +158,6 @@
           </nav>
         </div>
     </section>
-    <style>
-        .card{
-            padding:20px 34px;
-            background: rgba(0,0,0,.04);
-            border: 0;
-            border: 1px solid rgba(0,0,0,.1);
-        }
-        .wallet{
-            background: rgba(0,255,255,.02);
-            border-radius: 5px;
-            padding:10px 34px;
-            border: 1px solid rgba(0,100,255,.2);
-            display: flex;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            justify-content: center;
-        }
-        .wallet h1{
-            font-size: 60px;
-        }
-        .wallet h2{
-            font-size: 60px;
-            font-family: var(--monserrat);
-            margin-top:5px;
-        }
-        
-        .wallet div{
-            margin-right:20px;
-            text-align:center;
-        }
-        .cash{
-            background: rgba(0,0,255,.06);
-            padding: 10px 34px;
-            border-radius: 5px;
-            border: 1px solid rgba(0,0,255,.1);
-        }
-        .cash h1{
-            margin-top:14px;
-            font-size:24px;
-        }
-        .comission{
-            background: rgba(0,0,255,.06);
-            padding: 10px 34px;
-            border-radius: 5px;
-            border: 1px solid rgba(0,0,255,.1);
-        }
-        .comission h1{
-            margin-top:14px;
-            font-size:24px;
-        }
-    </style>
     <section id="main-container">
         <div class="container">
             <div class="row">
@@ -201,18 +198,7 @@
                             <p>Cash Paid</p>
                         </div>
                     </div>
-                    <!--<div class="row">
-                        <div class="col-md-6 comission">
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_wallet_amount();?></h2>
-                            <h1 class="fa fa-angle-double-up"></h1>
-                            <p>Comission Recivable</p>
-                        </div>
-                        <div class="col-md-6 comission">
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_wallet_amount();?></h2>
-                            <h1 class="fa fa-angle-up"></h1>
-                            <p>Comission Payable</p>
-                        </div>
-                    </div>-->
+                    
                 </div>
                 <!--Calendar-->
                 <div class="col-md-4">

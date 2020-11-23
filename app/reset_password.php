@@ -155,7 +155,7 @@
                 <div id="account">
                     <p><?php echo $_SESSION['name']?></p>
                     <div id="account-menu">
-                        <img src="../images/sign_in_side.jpg" alt="">
+                        <img src="images/sign_in_side.jpg" alt="">
                     </div>
                 </div>
             </nav>
