@@ -230,13 +230,13 @@
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-1">
-                                    <label for="seating_capacity">Seating Capacity</label>
-                                    <input type="number" maxlength="10" class="form-control" id="seating_capacity" name="seating_capacity" placeholder="Seating Capacity" required="required">
-                                </div>
-                                <!--Col-->
-                                <div class="col-md-1">
                                     <label for="gbw">GVW</label>
                                     <input type="number" class="form-control" id="gbw" name="gbw" placeholder="GVW" required="required">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-2">
+                                    <label for="seating_capacity">Seating Capacity</label>
+                                    <input type="number" maxlength="10" class="form-control" id="seating_capacity" name="seating_capacity" placeholder="Seating Capacity" required="required">
                                 </div>
                             </div>
 

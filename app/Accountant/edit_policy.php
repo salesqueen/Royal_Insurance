@@ -221,13 +221,18 @@
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
+                                    <label for="customer_name">Customer Name</label>
+                                    <input type="text" class="form-control" id="customer_name" name="customer_name" placeholder="Customer Name" required="required" value="<?php echo $policy_result['customer_name']; ?>">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-4">
                                     <label for="mobile">Mobile</label>
-                                    <input type="number" class="form-control" id="mobile" name="mobile" placeholder="Mobile" required="required" value='<?php echo $policy_result['mobile']; ?>'>
+                                    <input type="number" class="form-control" id="mobile" name="mobile" placeholder="Mobile" value='<?php echo $policy_result['mobile']; ?>'>
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="required" value="<?php echo $policy_result['email']; ?>">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo $policy_result['email']; ?>">
                                 </div>
                             </div>
 
@@ -247,17 +252,17 @@
                                 <!--Col-->
                                 <div class="col-md-1">
                                     <label for="cc">CC</label>
-                                    <input type="number" value="<?php echo $_policy_result['cc'];?>" class="form-control" id="cc" name="cc" placeholder="CC" required="required">
-                                </div>
-                                <!--Col-->
-                                <div class="col-md-1">
-                                    <label for="seating_capacity">Seating Capacity</label>
-                                    <input type="number" value="<?php echo $_policy_result['seating_capacity'];?>" maxlength="10" class="form-control" id="seating_capacity" name="seating_capacity" placeholder="Seating Capacity" required="required">
+                                    <input type="number" value="<?php echo $policy_result['cc'];?>" class="form-control" id="cc" name="cc" placeholder="CC" required="required">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-1">
                                     <label for="gbw">GVW</label>
-                                    <input type="number" value="<?php echo $_policy_result['gbw'];?>" class="form-control" id="gbw" name="gbw" placeholder="GVW" required="required">
+                                    <input type="number" value="<?php echo $policy_result['gbw'];?>" class="form-control" id="gbw" name="gbw" placeholder="GVW" required="required">
+                                </div>
+                                <!--Col-->
+                                <div class="col-md-2">
+                                    <label for="seating_capacity">Seating Capacity</label>
+                                    <input type="number" value="<?php echo $policy_result['seating_capacity'];?>" maxlength="10" class="form-control" id="seating_capacity" name="seating_capacity" placeholder="Seating Capacity" required="required">
                                 </div>
                             </div>
 
