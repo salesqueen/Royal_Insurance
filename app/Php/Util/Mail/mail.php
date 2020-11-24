@@ -1,9 +1,9 @@
 <?php 
 
-require("PHPMailer/PHPMailer.php");
-require("PHPMailer/SMTP.php");
-require("PHPMailer/Exception.php");
-require("PHPMailer/MailProcessing.php");
+require("PHPMailer.php");
+require("SMTP.php");
+require("Exception.php");
+require("MailProcessing.php");
   
 function send($receiver,$subject,$message){
 
