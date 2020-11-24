@@ -1,6 +1,6 @@
 <?php 
 
-    error_reporting(0);
+    //error_reporting(0);
 
     class Form{
         public function get_form_values($input_name_list){

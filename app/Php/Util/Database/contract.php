@@ -1,6 +1,6 @@
 <?php 
 
-    error_reporting(0);
+    //error_reporting(0);
 
     //branch
     class Branch_Contract{

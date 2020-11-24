@@ -1,6 +1,6 @@
 <?php 
 
-  error_reporting(0);
+  //error_reporting(0);
 
   include '../Php/main.php';
 
@@ -289,7 +289,7 @@
             $('#branch_manager_id').attr('required',"required");
             $('#branch_column').css('visibility','hidden');
             $('#branch').removeAttr('required');
-        }elseif(user_type == 'branch_manager'){
+        }else if(user_type == 'branch_manager'){
             $('#branch_column').css('visibility','visible');
             $('#branch').attr('required',"required");
             $('#branch_manager_id_column').css('visibility','hidden');

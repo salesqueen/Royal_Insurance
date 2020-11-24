@@ -1,12 +1,14 @@
 <?php 
 
-    error_reporting(0);
+    //error_reporting(0);
 
+    //define('SITE_ROOT', __DIR__);
     include 'Util/session.php';
     include 'Util/form.php';
     include 'Util/Database/crud.php';
     include 'Util/Database/contract.php';
     include 'Util/export.php'; 
+    include '/Mail/mail.php';
 
     trait Branch{
         public function insert_branch(){
@@ -723,6 +725,9 @@
             array_push($form_value_array,$random_password);
             //performing insertion
             $crud->insert($table_name,$form_name_array,$form_value_array);
+            //sending mail after insertion
+            $message='Mr/Ms.'.$_POST['name'].' you are appointed as User in Royal Insurance. Your User ID: '.$_POST['mobile'].' and Password: '.$random_password.'. You can also use your mobile number as User ID. Login URL: https://salesqueen.in/app/app/ . Thank you. Contact Number: +91-1111111111';
+            send($_POST['mail'],'Successfull Registration',$message);
         }
         public function update_agent($name_array,$id){
             //Initiallizing required variables
