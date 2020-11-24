@@ -74,7 +74,7 @@
             $policy_form_file_table_name=Policy_Files_Contract::get_table_name();
             $policy_form_file_name_array=Policy_Files_Contract::get_table_columns();
             //getting form values
-            $policy_form_file_form_value_array=$form->upload_files($policy_form_file_name_array,"\uploads\policy_documents");
+            $policy_form_file_form_value_array=$form->upload_files($policy_form_file_name_array,"/uploads/policy_documents");
             //forming database insertion variables
             array_push($policy_form_file_name_array,"policy_id");
             array_push($policy_form_file_form_value_array,$insert_id);
@@ -94,34 +94,6 @@
             //Getting database values
             $result_set=$crud->select_contraint($table_name,$constraint);
             return $result_set;
-        }
-        public function update_policy_document($policy_id){
-            //getting id of the policy files table
-            $id=$this->read_selective_policy_files("WHERE policy_id=".$policy_id)->fetch_assoc()['id'];
-            //Initiallizing required variables
-            $crud=new Crud();
-            $form=new Form();
-            //Initializing required variables
-            $policy_form_file_table_name=Policy_Files_Contract::get_table_name();
-            $policy_form_file_name_array=Policy_Files_Contract::get_table_columns();
-            //getting form values
-            $policy_form_file_form_value_array=$form->upload_files($policy_form_file_name_array,"\uploads\policy_documents");
-            //Initiating new array for name and value
-            $new_policy_file_name_array=array();
-            $new_policy_file_value_array=array();
-            $j=0;
-            //eleminating null values
-            for($i=0;$i<count($policy_form_file_name_array);$i++){
-                if(strcasecmp($policy_form_file_form_value_array[$i],"Null")==0){
-                    
-                }else{
-                    $new_policy_file_name_array[$j]=$policy_form_file_name_array[$i];
-                    $new_policy_file_value_array[$j]=$policy_form_file_form_value_array[$i];
-                    $j++;
-                }
-            }
-            //updating values
-            $crud->update($policy_form_file_table_name,$id,$new_policy_file_name_array,$new_policy_file_value_array);
         }
     }
     trait Company{
@@ -690,6 +662,34 @@
             }
             return $policy_count;
         }
+        public function update_policy_document($policy_id){
+            //getting id of the policy files table
+            $id=$this->read_selective_policy_files("WHERE policy_id=".$policy_id)->fetch_assoc()['id'];
+            //Initiallizing required variables
+            $crud=new Crud();
+            $form=new Form();
+            //Initializing required variables
+            $policy_form_file_table_name=Policy_Files_Contract::get_table_name();
+            $policy_form_file_name_array=Policy_Files_Contract::get_table_columns();
+            //getting form values
+            $policy_form_file_form_value_array=$form->upload_files($policy_form_file_name_array,"/uploads/policy_documents");
+            //Initiating new array for name and value
+            $new_policy_file_name_array=array();
+            $new_policy_file_value_array=array();
+            $j=0;
+            //eleminating null values
+            for($i=0;$i<count($policy_form_file_name_array);$i++){
+                if(strcasecmp($policy_form_file_form_value_array[$i],"Null")==0){
+                    
+                }else{
+                    $new_policy_file_name_array[$j]=$policy_form_file_name_array[$i];
+                    $new_policy_file_value_array[$j]=$policy_form_file_form_value_array[$i];
+                    $j++;
+                }
+            }
+            //updating values
+            $crud->update($policy_form_file_table_name,$id,$new_policy_file_name_array,$new_policy_file_value_array);
+        }
     }
     class Agent extends Policy{
         use Company;
@@ -705,7 +705,7 @@
             $form_name_array=Agent_Contract::get_table_columns();
             $form_value_array=$form->get_form_values($form_name_array);
             //upolading documents and adding it to the array
-            $uploaded_file_name_array=$form->upload_files(array("photo","address_proof","id_proof","educational_proof","pan_card"),"\uploads\agent");
+            $uploaded_file_name_array=$form->upload_files(array("photo","address_proof","id_proof","educational_proof","pan_card"),"/uploads/agent");
             array_splice($form_value_array,14,5,$uploaded_file_name_array);
             //forming database insertion variables
             $table_name=Agent_Contract::get_table_name();
@@ -928,7 +928,7 @@
             $form_name_array=Branch_Manager_Contract::get_table_columns();
             $form_value_array=$form->get_form_values($form_name_array);
             //upolading documents and adding it to the array
-            $uploaded_file_name_array=$form->upload_files(array("photo","address_proof","id_proof","educational_proof","pan_card"),"\uploads\branch_manager");
+            $uploaded_file_name_array=$form->upload_files(array("photo","address_proof","id_proof","educational_proof","pan_card"),"/uploads/branch_manager");
             array_splice($form_value_array,14,5,$uploaded_file_name_array);
             //forming database insertion variables
             $table_name=Branch_Manager_Contract::get_table_name();
@@ -1134,7 +1134,7 @@
             $form_name_array=Operator_Contract::get_table_columns();
             $form_value_array=$form->get_form_values($form_name_array);
             //upolading documents and adding it to the array
-            $uploaded_file_name_array=$form->upload_files(array("photo","address_proof","id_proof","educational_proof","pan_card"),"\uploads\operator");
+            $uploaded_file_name_array=$form->upload_files(array("photo","address_proof","id_proof","educational_proof","pan_card"),"./uploads/operator");
             array_splice($form_value_array,14,5,$uploaded_file_name_array);
             //forming database insertion variables
             $table_name=Operator_Contract::get_table_name();
@@ -1189,7 +1189,7 @@
             $form_name_array=Accountant_Contract::get_table_columns();
             $form_value_array=$form->get_form_values($form_name_array);
             //upolading documents and adding it to the array
-            $uploaded_file_name_array=$form->upload_files(array("photo","address_proof","id_proof","educational_proof","pan_card"),"\uploads\accountant");
+            $uploaded_file_name_array=$form->upload_files(array("photo","address_proof","id_proof","educational_proof","pan_card"),"/uploads/accountant");
             array_splice($form_value_array,14,5,$uploaded_file_name_array);
             //forming database insertion variables
             $table_name=Accountant_Contract::get_table_name();
