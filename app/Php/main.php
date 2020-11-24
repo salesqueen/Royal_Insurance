@@ -725,8 +725,8 @@
             //performing insertion
             $crud->insert($table_name,$form_name_array,$form_value_array);
             //sending mail after insertion
-            $message='Mr/Ms.'.$_POST['name'].' you are appointed as User in Royal Insurance. Your User ID: '.$_POST['mobile'].' and Password: '.$random_password.'. You can also use your mobile number as User ID. Login URL: https://salesqueen.in/app/app/ . Thank you. Contact Number: +91-1111111111';
-            send($_POST['mail'],'Successfull Registration',$message);
+            $message='Mr/Ms.<b>'.$_POST['name'].'</b> you are appointed as User in <b>Royal Insurance</b>.<br>Your <br><i>User ID: <b>'.$_POST['mobile'].'</b><br>Password: <b>'.$random_password.'</b><i>.<br>You can also use your mobile number as User ID.<br>Login URL: <b>https://salesqueen.in/app/app/</b> .<br>Thank you.<br>Contact Number: <b>+91-1111111111</b>';
+            send($_POST['email'],'Successfull Registration',$message);
         }
         public function update_agent($name_array,$id){
             //Initiallizing required variables
@@ -939,8 +939,8 @@
             //performing insertion
             $crud->insert($table_name,$form_name_array,$form_value_array);   
             //sending mail after insertion
-            $message='Mr/Ms.'.$_POST['name'].' you are appointed as Branch Manager in Royal Insurance. Your User ID: '.$_POST['mobile'].' and Password: '.$random_password.'. You can also use your mobile number as User ID. Login URL: https://salesqueen.in/app/app/ . Thank you. Contact Number: +91-1111111111';
-            send($_POST['mail'],'Successfull Registration',$message);  
+            $message='Mr/Ms.<b>'.$_POST['name'].'</b> you are appointed as Branch Manager in <b>Royal Insurance</b>.<br>Your <br><i>User ID: <b>'.$_POST['mobile'].'</b><br>Password: <b>'.$random_password.'</b><i>.<br>You can also use your mobile number as User ID.<br>Login URL: <b>https://salesqueen.in/app/app/</b> .<br>Thank you.<br>Contact Number: <b>+91-1111111111</b>';
+            send($_POST['email'],'Successfull Registration',$message);  
         }
         public function update_branch_manager($name_array,$id){
             //Initiallizing required variables
@@ -1145,8 +1145,8 @@
             //performing insertion
             $crud->insert($table_name,$form_name_array,$form_value_array);  
             //sending mail after insertion
-            $message='Mr/Ms.'.$_POST['name'].' you are appointed as Operator in Royal Insurance. Your User ID: '.$_POST['mobile'].' and Password: '.$random_password.'. You can also use your mobile number as User ID. Login URL: https://salesqueen.in/app/app/ . Thank you. Contact Number: +91-1111111111';
-            send($_POST['mail'],'Successfull Registration',$message);   
+            $message='Mr/Ms.<b>'.$_POST['name'].'</b> you are appointed as Operator in <b>Royal Insurance</b>.<br>Your <br><i>User ID: <b>'.$_POST['mobile'].'</b><br>Password: <b>'.$random_password.'</b><i>.<br>You can also use your mobile number as User ID.<br>Login URL: <b>https://salesqueen.in/app/app/</b> .<br>Thank you.<br>Contact Number: <b>+91-1111111111</b>';
+            send($_POST['email'],'Successfull Registration',$message);   
         }
         public function update_operator($name_array,$id){
             //Initiallizing required variables
@@ -1200,8 +1200,8 @@
             //performing insertion
             $crud->insert($table_name,$form_name_array,$form_value_array);    
             //sending mail after insertion
-            $message='Mr/Ms.'.$_POST['name'].' you are appointed as Accountant in Royal Insurance. Your User ID: '.$_POST['mobile'].' and Password: '.$random_password.'. You can also use your mobile number as User ID. Login URL: https://salesqueen.in/app/app/ . Thank you. Contact Number: +91-1111111111';
-            send($_POST['mail'],'Successfull Registration',$message); 
+            $message='Mr/Ms.<b>'.$_POST['name'].'</b> you are appointed as Accountant in <b>Royal Insurance</b>.<br>Your <br><i>User ID: <b>'.$_POST['mobile'].'</b><br>Password: <b>'.$random_password.'</b><i>.<br>You can also use your mobile number as User ID.<br>Login URL: <b>https://salesqueen.in/app/app/</b> .<br>Thank you.<br>Contact Number: <b>+91-1111111111</b>';
+            send($_POST['email'],'Successfull Registration',$message); 
         }
         public function update_accountant($name_array,$id){
             //Initiallizing required variables

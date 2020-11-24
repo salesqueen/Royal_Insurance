@@ -29,10 +29,13 @@ function send($receiver,$subject,$message){
         $mail->isHTML(true);                                   
         $mail->Subject = $subject; 
         $mail->Body    = $message; 
-        $mail->send();
-
-        $_SESSION['message']='Mail has been sent successfully';
-        return true;
+        if($mail->send()){
+            $_SESSION['message']='Mail has been sent successfully';
+            return true;
+        }else{
+            $_SESSION['message']='Sending mail failed';
+            return false;
+        }
     } catch (Exception $e) { 
         $_SESSION['message']='Sending mail failed';
         return false;
