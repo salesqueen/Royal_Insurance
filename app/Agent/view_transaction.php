@@ -266,8 +266,6 @@
                                                         echo "  <td></td>";
                                                         echo "  <td></td>";
                                                         echo "  <td></td>";
-                                                        echo "  <td></td>";
-                                                        echo "  <td></td>";
                                                         if(strcasecmp($sorted_array_of_policy_and_transaction_array[$i][1]['payment'],'Recived')==0){
                                                             echo "  <td>+".$sorted_array_of_policy_and_transaction_array[$i][1]['amount']."</td>";
                                                         }elseif(strcasecmp($sorted_array_of_policy_and_transaction_array[$i][1]['payment'],'Paid')==0){
@@ -287,21 +285,6 @@
                                                     echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['customer_name']."</td>";
                                                     echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['payment_mode']."</td>";
                                                     echo "  <td>".$sorted_array_of_policy_and_transaction_array[$i][1]['total_premium']."</td>";
-                                                    //calculating comission
-                                                    $comission=0;
-                                                    if($sorted_array_of_policy_and_transaction_array[$i][1]['comission_type']=="OD"){
-                                                        $comission=$sorted_array_of_policy_and_transaction_array[$i][1]['od_premium']*($sorted_array_of_policy_and_transaction_array[$i][1]['comission_percentage']/100);
-                                                    }
-                                                    if($sorted_array_of_policy_and_transaction_array[$i][1]['comission_type']=="NP"){
-                                                        $comission=$sorted_array_of_policy_and_transaction_array[$i][1]['net_premium']*($sorted_array_of_policy_and_transaction_array[$i][1]['comission_percentage']/100);
-                                                    }
-                                                    echo "  <td>".$comission."</td>";
-                                                    //only displaying recivable for cash
-                                                    if(strcasecmp($sorted_array_of_policy_and_transaction_array[$i][1]['payment_mode'],'Cash')==0){
-                                                        echo "  <td>".($sorted_array_of_policy_and_transaction_array[$i][1]['total_premium']-$comission)."</td>";
-                                                    }else{
-                                                        echo "  <td>0</td>";
-                                                    }
                                                     //displaying balance
                                                     if(strcasecmp($sorted_array_of_policy_and_transaction_array[$i][1]['payment_mode'],'Cash')==0){
                                                         echo "  <td>-".($sorted_array_of_policy_and_transaction_array[$i][1]['total_premium']-$comission)."</td>";
@@ -315,8 +298,6 @@
                                             echo "<tr>";
                                             echo "  <td>".date('Y-m-d')."</td>";
                                             echo "  <td><b>Balance</b></td>";
-                                            echo "  <td></td>";
-                                            echo "  <td></td>";
                                             echo "  <td></td>";
                                             echo "  <td></td>";
                                             echo "  <td></td>";
@@ -339,21 +320,6 @@
                                                         echo "  <td>".$approved_policy_result['customer_name']."</td>";
                                                         echo "  <td>".$approved_policy_result['payment_mode']."</td>";
                                                         echo "  <td>".$approved_policy_result['total_premium']."</td>";
-                                                        //calculating comission
-                                                        $comission=0;
-                                                        if($approved_policy_result['comission_type']=='OD'){
-                                                            $comission=$approved_policy_result['od_premium']*($approved_policy_result['comission_percentage']/100);
-                                                        }
-                                                        if($approved_policy_result['comission_type']=='NP'){
-                                                            $comission=$approved_policy_result['net_premium']*($approved_policy_result['comission_percentage']/100);
-                                                        }
-                                                        echo "  <td>".$comission."</td>";
-                                                        //only showing recivable for cash                                                                          
-                                                        if(strcasecmp($approved_policy_result['payment_mode'],"Cash")==0){
-                                                            echo "  <td>".($approved_policy_result['total_premium']-$comission)."</td>";
-                                                        }else{
-                                                            echo "  <td>0</td>";
-                                                        }
                                                         //balance
                                                         if(strcasecmp($approved_policy_result['payment_mode'],'Cash')==0){
                                                             echo "  <td>-".($approved_policy_result['total_premium']-$comission)."</td>";
@@ -367,8 +333,6 @@
                                                     echo "<tr>";
                                                     echo "  <td>".date('Y-m-d')."</td>";
                                                     echo "  <td><b>Balance</b></td>";
-                                                    echo "  <td></td>";
-                                                    echo "  <td></td>";
                                                     echo "  <td></td>";
                                                     echo "  <td></td>";
                                                     echo "  <td></td>";
@@ -390,8 +354,6 @@
                                                             echo "  <td></td>";
                                                             echo "  <td></td>";
                                                             echo "  <td></td>";
-                                                            echo "  <td></td>";
-                                                            echo "  <td></td>";
                                                             if(strcasecmp($transaction_result['payment'],'Recived')==0){
                                                                 echo "  <td>+".$transaction_result['amount']."</td>";
                                                             }elseif(strcasecmp($transaction_result['payment'],'Paid')==0){
@@ -407,8 +369,6 @@
                                                     echo "<tr>";
                                                     echo "  <td>".date('Y-m-d')."</td>";
                                                     echo "  <td><b>Balance</b></td>";
-                                                    echo "  <td></td>";
-                                                    echo "  <td></td>";
                                                     echo "  <td></td>";
                                                     echo "  <td></td>";
                                                     echo "  <td></td>";

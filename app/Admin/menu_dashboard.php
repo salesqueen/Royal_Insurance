@@ -11,6 +11,11 @@
   //creating user object
   $user=new Admin();
 
+  //form handelling
+  if($_POST['announce']){
+      $user->announce();
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,57 +38,6 @@
 
   <!--Custom style sheet-->
   <link rel="stylesheet" href="../styles/main.css">
-  <style>
-        .card{
-            padding:20px 34px;
-            background: rgba(0,0,0,.04);
-            border: 0;
-            border: 1px solid rgba(0,0,0,.1);
-        }
-        .wallet{
-            background: rgba(0,255,255,.02);
-            border-radius: 5px;
-            padding:10px 34px;
-            border: 1px solid rgba(0,100,255,.2);
-            display: flex;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            justify-content: center;
-        }
-        .wallet h1{
-            font-size: 60px;
-        }
-        .wallet h2{
-            font-size: 60px;
-            font-family: var(--monserrat);
-            margin-top:5px;
-        }
-        
-        .wallet div{
-            margin-right:20px;
-            text-align:center;
-        }
-        .cash{
-            background: rgba(0,0,255,.06);
-            padding: 10px 34px;
-            border-radius: 5px;
-            border: 1px solid rgba(0,0,255,.1);
-        }
-        .cash h1{
-            margin-top:14px;
-            font-size:24px;
-        }
-        .comission{
-            background: rgba(0,0,255,.06);
-            padding: 10px 34px;
-            border-radius: 5px;
-            border: 1px solid rgba(0,0,255,.1);
-        }
-        .comission h1{
-            margin-top:14px;
-            font-size:24px;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -137,6 +91,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilities</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="menu_utilities_comission_recivable.php">Comission Recivable</a>
+                                <a class="dropdown-item" href="menu_utilities_comission_recivable_approved.php">Comission Recivable Approved</a>
                                 <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission Payable</a>
                                 <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
@@ -162,11 +117,17 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
+                    <div class="row">
+                        <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
+                            <textarea name="announcement" id="announcement" row="2" class="form-control" placeholder="Announcement"></textarea>
+                            <input name="announce" type="submit" value="Announce">
+                        </form>
+                    </div>
                     <!--Count-->
                     <div class="row">
                         <div class="col-md-4 card">
-                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_policy_count();?></h2>
-                            <p>Policies</p>
+                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_approved_policy_count();?></h2>
+                            <p>Approved Policies</p>
                         </div>
                         <div class="col-md-4 card">
                             <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_branch_manager_count();?></h2>
@@ -177,25 +138,64 @@
                             <p>User</p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 wallet">
-                            <div>
-                                <h1 class="fa fa-credit-card" aria-hidden="true"></h1>
-                                <p>Wallet</p>
-                            </div>
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_wallet_amount();?></h2>
+                    <div class="row payment-details">
+                        <div class="col-md-4">
+                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_recivable();?></h2>
+                            <p>Payment Recivable</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_payable();?></h2>
+                            <p>Payment Payable</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_cleared_cheque_count();?></h2>
+                            <p>Cheque Status Cleared</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_recivable_pending_policy_count();?></h2>
+                            <p>Approval Pending Recivable</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_payable_pending_policy_count();?></h2>
+                            <p>Approval Pending Payable</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_pending_cheque_count();?></h2>
+                            <p>Approval Pending Cheque</p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 cash">
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_cash("Recived");?></h2>
-                            <h1 class="fa fa-plus-square-o" aria-hidden="true"></h1>
-                            <p>Cash Recived</p>
+                    <div class="row policy-details">
+                        <div class="col-md-3">
+                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_total_premium_this_year();?></h2>
+                            <p>Total Policy Premium this year</p>
                         </div>
-                        <div class="col-md-6 cash">
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_cash("Paid");?></h2>
-                            <h1 class="fa fa-minus-square-o"></h1>
-                            <p>Cash Paid</p>
+                        <div class="col-md-3">
+                            <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_total_premium_last_year();?></h2>
+                            <p>Total Policy Premium Last Year</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_total_premium_this_month();?></h2>
+                            <p>Total Policy Premium this Month</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_total_premium_last_year_same_month();?></h2>
+                            <p>Total Policy Last year same Month</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_total_policy_count_this_year();?></h2>
+                            <p>Total Policy Count this Year</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_total_policy_count_last_year();?></h2>
+                            <p>Total Policy Count Last Year</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_total_policy_count_this_month();?></h2>
+                            <p>Policy Count This Month</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_policy_count_last_year_same_month();?></h2>
+                            <p>Policy Count Last Year Same Month</p>
                         </div>
                     </div>
                     

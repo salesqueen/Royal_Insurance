@@ -114,6 +114,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilities</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="menu_utilities_comission_recivable.php">Comission Recivable</a>
+                                <a class="dropdown-item" href="menu_utilities_comission_recivable_approved.php">Comission Recivable Approved</a>
                                 <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission Payable</a>
                                 <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
@@ -415,7 +416,7 @@
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="file_1">File 1</label>
-                                    <input type="file" class="form-control" id="file_1" name="file_1" placeholder="File 1" accept="application/pdf">
+                                    <input type="file" class="form-control" id="file_1" name="file_1" placeholder="File 1" accept="application/pdf" required="required">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">

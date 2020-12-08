@@ -9,6 +9,27 @@
     include 'Util/export.php'; 
     include 'Util/Mail/mail.php';
 
+    trait Announcement{
+        public function announce(){
+            //Initiallizing required variables
+            $crud=new Crud();
+            $form=new Form();
+            //getting form values
+            $form_name_array=Announcement_Contract::get_table_columns();
+            $form_value_array=$form->get_form_values($form_name_array);
+            //forming database insertion variables
+            $table_name=Announcement_Contract::get_table_name();
+            //perform update
+            $crud->update($table_name,1,$form_name_array,$form_value_array);
+            $_SESSION['message']="Announced";
+        }
+        public function read_announcement(){
+            $crud=new Crud();
+            $table_name=Announcement_Contract::get_table_name();
+            $result_set=$crud->select_one($table_name,1);
+            return $result_set;
+        }
+    }
     trait Branch{
         public function insert_branch(){
             //Initiallizing required variables
@@ -554,6 +575,7 @@
         use Export;
         use Branch;
         use Company_Code;
+        use Announcement;
         public function insert_policy(){
             //Initiallizing required variables
             $crud=new Crud();
@@ -638,18 +660,6 @@
             $result_set=$crud->select_all($table_name);
             return $result_set;
         }
-        public function get_policy_count(){
-            //initiallizing required variables
-            $crud=new Crud();
-            //fetching policy count
-            $policy_count_result_set=$crud->select_custom("SELECT count(*) AS count_value FROM ".Policy_Contract::get_table_name());
-            if($policy_count_result_set){
-                $policy_count=$policy_count_result_set->fetch_assoc()['count_value'];
-            }else{
-                $policy_count=0;
-            }
-            return $policy_count;
-        }
         public function get_agent_policy_count($agent_id){
             //initiallizing required variables
             $crud=new Crud();
@@ -689,6 +699,179 @@
             }
             //updating values
             $crud->update($policy_form_file_table_name,$id,$new_policy_file_name_array,$new_policy_file_value_array);
+        }
+        public function get_approved_policy_count(){
+            $crud=new Crud();
+            $policy_result_set=$crud->select_custom('SELECT count(*) AS counts FROM policy WHERE NOT comission_percentage=0');
+            return $policy_result_set->fetch_assoc()['counts'];
+        }
+        //center of dashboard
+        public function get_recivable(){
+            $policy_result_set=$this->read_selective_policy("WHERE NOT my_comission_percentage=0 AND (NOT payment_mode='Cash')");
+            $recivable_amount=0;
+            //calculating recivable amount
+            if($policy_result_set){
+                while($policy_result=$policy_result_set->fetch_assoc()){
+                    if($policy_result['my_comission_type']=='OD'){
+                        $comission=$policy_result['od_premium']*($policy_result['my_comission_percentage']/100);
+                    }else{
+                        $comission=$policy_result['net_premium']*($policy_result['my_comission_percentage']/100);
+                    }
+                    $recivable_amount+=$comission;
+                }
+            }
+            //calculating transaction amount
+            $transaction_result_set=$this->read_all_recivable_transaction();
+            $transaction_amount=0;
+            if($transaction_result_set){
+                while($transaction_result=$transaction_result_set->fetch_assoc()){
+                    $transaction+=$transaction_result['amount'];
+                }
+            }
+            //calculating amount
+            $amount=$recivable_amount-$transaction_amount;
+            return round($amount);
+        }
+        public function get_payable(){
+            $policy_result_set=$this->read_selective_policy("WHERE NOT comission_percentage=0 AND (NOT payment_mode='Cash')");
+            $payable_amount=0;
+            //calculating recivable amount
+            if($policy_result_set){
+                while($policy_result=$policy_result_set->fetch_assoc()){
+                    if($policy_result['my_comission_type']=='OD'){
+                        $comission=$policy_result['od_premium']*($policy_result['comission_percentage']/100);
+                    }else{
+                        $comission=$policy_result['net_premium']*($policy_result['comission_percentage']/100);
+                    }
+                    $payable_amount+=$comission;
+                }
+            }
+            //calculating transaction amount
+            $transaction_result_set=$this->read_all_transaction();
+            $transaction_amount=0;
+            if($transaction_result_set){
+                while($transaction_result=$transaction_result_set->fetch_assoc()){
+                    if(strcasecmp($transaction_result['payment'],'Paid') || strcasecmp($transaction_result['payment'],'Recived')){
+                        $transaction+=$transaction_result['amount'];
+                    }
+                }
+            }
+            //calculating amount
+            $amount=$payable_amount-$transaction_amount;
+            return round($amount);
+        }
+        public function get_cleared_cheque_count(){
+            $crud=new Crud();
+            $cheque_result_set=$crud->select_custom("SELECT count(*) AS counts FROM cheque WHERE cheque_status='Cleared'");
+            return $cheque_result_set->fetch_assoc()['counts'];
+        }
+        public function get_recivable_pending_policy_count(){
+            $crud=new Crud();
+            $cheque_result_set=$crud->select_custom("SELECT count(*) AS counts FROM policy WHERE my_comission_percentage=0");
+            return $cheque_result_set->fetch_assoc()['counts'];
+        }
+        public function get_payable_pending_policy_count(){
+            $crud=new Crud();
+            $cheque_result_set=$crud->select_custom("SELECT count(*) AS counts FROM policy WHERE comission_percentage=0");
+            return $cheque_result_set->fetch_assoc()['counts'];
+        }
+        public function get_pending_cheque_count(){
+            $crud=new Crud();
+            $cheque_result_set=$crud->select_custom("SELECT count(*) AS counts FROM cheque WHERE cheque_status='Pending'");
+            return $cheque_result_set->fetch_assoc()['counts'];
+        }
+        //Bottom of Dashboard
+        //row 1
+        public function get_total_premium_this_year(){
+            $crud=new Crud();
+            $year = date("Y");
+            $date1=$year.'-01-01';
+            $date2=($year+1).'-01-01';
+            $policy_result_set=$this->read_selective_policy("WHERE (NOT comission_percentage=0) AND (issue_date BETWEEN '".$date1."' AND '".$date2."')");
+            $premium=0;
+            if($policy_result_set){
+                while($policy_result=$policy_result_set->fetch_assoc()){
+                    $premium+=$policy_result['total_premium'];
+                }
+            }
+            return $premium;
+        }
+        public function get_total_premium_last_year(){
+            $crud=new Crud();
+            $year = date("Y");
+            $date1=($year-1).'-01-01';
+            $date2=$year.'-01-01';
+            $policy_result_set=$this->read_selective_policy("WHERE (NOT comission_percentage=0) AND (issue_date BETWEEN '".$date1."' AND '".$date2."')");
+            $premium=0;
+            if($policy_result_set){
+                while($policy_result=$policy_result_set->fetch_assoc()){
+                    $premium+=$policy_result['total_premium'];
+                }
+            }
+            return $premium;
+        }
+        public function get_total_premium_this_month(){
+            $year = date("Y");
+            $month=date('m');
+            $date1=$year.'-'.$month.'-01';
+            $date2=$year.'-'.($month+1).'-01';
+            $policy_result_set=$this->read_selective_policy("WHERE (NOT comission_percentage=0) AND (issue_date BETWEEN '".$date1."' AND '".$date2."')");
+            $premium=0;
+            if($policy_result_set){
+                while($policy_result=$policy_result_set->fetch_assoc()){
+                    $premium+=$policy_result['total_premium'];
+                }
+            }
+            return $premium;
+        }
+        public function get_total_premium_last_year_same_month(){
+            $year = date("Y");
+            $month=date('m');
+            $date1=($year-1).'-'.$month.'-01';
+            $date2=($year-1).'-'.($month+1).'-01';
+            $policy_result_set=$this->read_selective_policy("WHERE (NOT comission_percentage=0) AND (issue_date BETWEEN '".$date1."' AND '".$date2."')");
+            $premium=0;
+            if($policy_result_set){
+                while($policy_result=$policy_result_set->fetch_assoc()){
+                    $premium+=$policy_result['total_premium'];
+                }
+            }
+            return $premium;
+        }
+        //row 2
+        public function get_total_policy_count_this_year(){
+            $crud=new Crud();
+            $year = date("Y");
+            $date1=$year.'-01-01';
+            $date2=($year+1).'-01-01';
+            $policy_result_set=$crud->select_custom("SELECT count(*) AS counts FROM policy WHERE (NOT comission_percentage=0) AND (issue_date BETWEEN '".$date1."' AND '".$date2."')");
+            return $policy_result_set->fetch_assoc()['counts'];
+        }
+        public function get_total_policy_count_last_year(){
+            $crud=new Crud();
+            $year = date("Y");
+            $date1=($year-1).'-01-01';
+            $date2=$year.'-01-01';
+            $policy_result_set=$crud->select_custom("SELECT count(*) AS counts FROM policy WHERE (NOT comission_percentage=0) AND (issue_date BETWEEN '".$date1."' AND '".$date2."')");
+            return $policy_result_set->fetch_assoc()['counts'];
+        }
+        public function get_total_policy_count_this_month(){
+            $crud=new Crud();
+            $year = date("Y");
+            $month=date('m');
+            $date1=$year.'-'.$month.'-01';
+            $date2=$year.'-'.($month+1).'-01';
+            $policy_result_set=$crud->select_custom("SELECT count(*) AS counts FROM policy WHERE (NOT comission_percentage=0) AND (issue_date BETWEEN '".$date1."' AND '".$date2."')");
+            return $policy_result_set->fetch_assoc()['counts'];
+        }
+        public function get_policy_count_last_year_same_month(){
+            $crud=new Crud();
+            $year = date("Y");
+            $month=date('m');
+            $date1=($year-1).'-'.$month.'-01';
+            $date2=($year-1).'-'.($month+1).'-01';
+            $policy_result_set=$crud->select_custom("SELECT count(*) AS counts FROM policy WHERE (NOT comission_percentage=0) AND (issue_date BETWEEN '".$date1."' AND '".$date2."')");
+            return $policy_result_set->fetch_assoc()['counts'];
         }
     }
     class Agent extends Policy{
@@ -1350,7 +1533,7 @@
             "Make Model","Od Policy Start Date","Od Policy End Date","TP Policy Start Date","TP Policy End Date","OD Disc","OD Premium","TP Premium",
             "NET Premium","Total Premium","Agent Name","Branch"),$values_array);
         }
-        public function comission_recivable($pending_policy_result_set,$cheque_cleared_pending_policy_array,$approved_policy_result_set){
+        public function comission_recivable($pending_policy_result_set,$cheque_cleared_pending_policy_array){
             //preparing value array
             $values_array=array();
             $i=0;
@@ -1367,9 +1550,6 @@
                         $pending_policy_result['company_code'],
                         $pending_policy_result['customer_name'],
                         $pending_policy_result['registration_number'],
-                        "",//only has value after approved
-                        "",//only has value after approved
-                        "",//only has value after approved
                         $this->get_branch($pending_policy_result['agent_id']),
                         $this->get_agent_name($pending_policy_result['agent_id'])
                     );
@@ -1387,14 +1567,19 @@
                     $cheque_cleared_pending_policy_array[$j]['company_code'],
                     $cheque_cleared_pending_policy_array[$j]['customer_name'],
                     $cheque_cleared_pending_policy_array[$j]['registration_number'],
-                    "",//only has value after approved
-                    "",//only has value after approved
-                    "",//only has value after approved
                     $this->get_branch($cheque_cleared_pending_policy_array[$j]['agent_id']),
                     $this->get_agent_name($cheque_cleared_pending_policy_array[$j]['agent_id'])
                 );
                 $i++;
             }
+            //call to download excel
+            $this->excel(array("Policy Date","Policy Number","Policy Type","Product","Company","Booking Code","Customer Name","Registration Number","branch","agent_name"),$values_array);
+            header("Location:menu_utilities_comission_recivable.php");
+        }
+        public function comission_recivable_approved($approved_policy_result_set){
+            //preparing value array
+            $values_array=array();
+            $i=0;
             //adding approved policy
             if($approved_policy_result_set){
                 while($approved_policy_result=$approved_policy_result_set->fetch_assoc()){

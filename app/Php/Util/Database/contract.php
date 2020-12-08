@@ -2,6 +2,17 @@
 
     error_reporting(0);
 
+    //announcement
+    class Announcement_Contract{
+        private static $table_name="announcement";
+        private static $table_columns=array("announcement");
+        public static function get_table_name(){
+            return self::$table_name;
+        }
+        public static function get_table_columns(){
+            return self::$table_columns;
+        }
+    }
     //branch
     class Branch_Contract{
         private static $table_name="branch";

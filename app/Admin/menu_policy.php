@@ -168,6 +168,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilities</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="menu_utilities_comission_recivable.php">Comission Recivable</a>
+                                <a class="dropdown-item" href="menu_utilities_comission_recivable_approved.php">Comission Recivable Approved</a>
                                 <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission Payable</a>
                                 <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
@@ -312,7 +313,7 @@
                                                     if(strcasecmp($pending_policy_result['payment_mode'],'Cash')==0 || strcasecmp($pending_policy_result['payment_mode'],'Online')==0){
                                                         echo "  <td>Pending</td>";
                                                     }else{
-                                                        if($user->get_cheque_status(strcasecmp($pending_policy_result['id']),'Rejected')){
+                                                        if(strcasecmp($user->get_cheque_status($pending_policy_result['id']),'Rejected')){
                                                             echo "  <td>Rejected</td>";
                                                         }else{
                                                             echo "  <td>Pending</td>";

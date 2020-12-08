@@ -136,7 +136,7 @@
                                 <!--Col-->
                                 <div class="col-md-4">
                                     <label for="file_1">File 1</label>
-                                    <input type="file" class="form-control" id="file_1" name="file_1" placeholder="File 1" accept="application/pdf">
+                                    <input type="file" class="form-control" id="file_1" name="file_1" placeholder="File 1" accept="application/pdf" required="required">
                                 </div>
                                 <!--Col-->
                                 <div class="col-md-4">

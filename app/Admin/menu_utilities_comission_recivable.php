@@ -67,12 +67,7 @@
     }
     //pending policy via cheque
     $cleared_cheque_pending_policy_array=$user->get_cleared_cheque_pending_policy("my_comission_percentage",$_POST['company_name'],$_POST['company_code'],$_POST['branch'],$_POST['agent'],$_POST['filter_start_date'],$_POST['filter_end_date']);
-    //approved policy
-    if($constraint==""){
-        $approved_policy_result_set=$user->read_selective_policy('WHERE NOT my_comission_percentage=0');
-    }else{
-        $approved_policy_result_set=$user->read_selective_policy('WHERE NOT my_comission_percentage=0 '.$constraint);
-    }
+    
     //company
     $company_result_set=$user->read_all_company();
     //Booking Code
@@ -92,7 +87,7 @@
     //download
     if(isset($_POST['download_excel'])){
         $download=new Download();
-        $download->comission_recivable($pending_policy_result_set,$cleared_cheque_pending_policy_array,$approved_policy_result_set);
+        $download->comission_recivable($pending_policy_result_set,$cleared_cheque_pending_policy_array);
     }
     
 ?>
@@ -171,6 +166,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilities</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item active" href="menu_utilities_comission_recivable.php">Comission Recivable</a>
+                                <a class="dropdown-item" href="menu_utilities_comission_recivable_approved.php">Comission Recivable Approved</a>
                                 <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission Payable</a>
                                 <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
@@ -296,8 +292,6 @@
                                         <th>Customer Name</th>
                                         <th>Registration Number</th>
                                         <th>Payment Mode</th>
-                                        <th>Recivable From</th>
-                                        <th>Recivable Amount</th>
                                         <th>User Name</th>
                                         <th>Actions</th>
                                     </tr>
@@ -314,8 +308,6 @@
                                                 echo "  <td>".$pending_policy_result['customer_name']."</td>";
                                                 echo "  <td>".$pending_policy_result['registration_number']."</td>";
                                                 echo "  <td>".$pending_policy_result['payment_mode']."</td>";
-                                                echo "  <td></td>";
-                                                echo "  <td></td>";
                                                 echo "  <td>".$user->get_agent_name($pending_policy_result['agent_id'])."</td>";
                                                 echo '  <td>
                                                             <Button onclick="policy_open_overlay(this)" id="'.$pending_policy_result['id'].'">Approve</Button>
@@ -332,53 +324,12 @@
                                             echo "  <td>".$cleared_cheque_pending_policy_array[$i]['customer_name']."</td>";
                                             echo "  <td>".$cleared_cheque_pending_policy_array[$i]['registration_number']."</td>";
                                             echo "  <td>".$cleared_cheque_pending_policy_array[$i]['payment_mode']."</td>";
-                                            echo "  <td></td>";
-                                            echo "  <td></td>";
                                             echo "  <td>".$user->get_agent_name($cleared_cheque_pending_policy_array[$i]['agent_id'])."</td>";
                                             echo '  <td>
                                                         <Button onclick="policy_open_overlay(this)" id="'.$cleared_cheque_pending_policy_array[$i]['id'].'">Approve</Button>
                                                         <a href="view_policy.php?id='.$cleared_cheque_pending_policy_array[$i]['id'].'"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                                     </td>';
                                             echo "</tr>";
-                                        }
-                                        //approved policy
-                                        if($approved_policy_result_set){
-                                            while($approved_policy_result=$approved_policy_result_set->fetch_assoc()){
-                                                //comission calculation
-                                                $comission=0;
-                                                if($approved_policy_result['my_comission_type']=='OD'){
-                                                    $comission=$approved_policy_result['od_premium']*($approved_policy_result['my_comission_percentage']/100);
-                                                }
-                                                if($approved_policy_result['my_comission_type']=='NP'){
-                                                    $comission=$approved_policy_result['net_premium']*($approved_policy_result['my_comission_percentage']/100);
-                                                }
-                                                //elimating the transactioned amount
-                                                $recivable_transaction_result_set=$user->read_selective_recivable_transaction("WHERE policy_id='".$approved_policy_result['id']."'");
-                                                $recivable_amount=0;
-                                                if($recivable_transaction_result_set){
-                                                    while($recivable_transaction_result=$recivable_transaction_result_set->fetch_assoc()){
-                                                        $recivable_amount+=$recivable_transaction_result['amount'];
-                                                    }
-                                                }
-                                                $comission=$comission-$recivable_amount;
-                                                echo "<tr>";
-                                                echo "  <td>".$approved_policy_result['issue_date']."</td>";
-                                                echo "  <td>".$approved_policy_result['company_name']."</td>";
-                                                echo "  <td>".$approved_policy_result['policy_number']."</td>";
-                                                echo "  <td>".$approved_policy_result['customer_name']."</td>";
-                                                echo "  <td>".$approved_policy_result['registration_number']."</td>";
-                                                echo "  <td>".$approved_policy_result['payment_mode']."</td>";
-                                                
-                                                //elimating already transactioned amount
-                                                echo "  <td>".$approved_policy_result['my_comission_type']."</td>";
-                                                echo "  <td>".$comission."</td>";
-                                                echo "  <td>".$user->get_agent_name($approved_policy_result['agent_id'])."</td>";
-                                                echo '  <td>
-                                                            Approved <a href="view_policy.php?id='.$approved_policy_result['id'].'"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                            <a href="create_recivable_transaction.php?company_name='.$approved_policy_result['company_name'].'&policy_id='.$approved_policy_result['id'].'&policy_number='.$approved_policy_result['policy_number'].'&company_code='.$approved_policy_result['company_code'].'"><i class="fa fa-credit-card" aria-hidden="true"></i></a>
-                                                        </td>';
-                                                echo "</tr>";
-                                            }
                                         }
                                     ?>
                                 </tbody>

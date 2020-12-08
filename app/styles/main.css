@@ -81,7 +81,7 @@ header{
 }
 header nav{
     background: var(--primary-dark);
-}
+} 
 header nav a{
     color: var(--primary-dark-font);
     font-size: 28px;
@@ -308,4 +308,49 @@ header #account #account-menu img{
     #main-container .filter .search-container button {
         padding: 2px 8px;
     }
+}
+
+/*====Dashboard====*/
+.card{
+    padding:20px 34px;
+    background: rgba(0,0,0,.04);
+    border: 0;
+    border: 1px solid rgba(0,0,0,.1);
+}
+.cash{
+    background: rgba(0,0,255,.06);
+    padding: 10px 34px;
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,255,.1);
+}
+.cash h1{
+    margin-top:14px;
+    font-size:24px;
+}
+.comission{
+    background: rgba(0,0,255,.06);
+    padding: 10px 34px;
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,255,.1);
+}
+.comission h1{
+    margin-top:14px;
+    font-size:24px;
+}
+#main-container form{
+    width:100%;
+}
+.policy-details{
+    background: rgba(0,0,255,.06);
+}
+.policy-details .col-md-3{
+    padding: 7px 14px;
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,255,.1);
+}
+.payment-details{
+    background: rgba(0,255,255,.03);
+}
+.payment-details .col-md-4{
+    border: 1px solid rgba(0,255,255,.1);
 }

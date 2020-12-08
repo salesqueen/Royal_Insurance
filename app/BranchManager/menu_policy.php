@@ -269,7 +269,7 @@
                                                     if(strcasecmp($pending_policy_result['payment_mode'],'Cash')==0 || strcasecmp($pending_policy_result['payment_mode'],'Online')==0){
                                                         echo "  <td>Pending</td>";
                                                     }else{
-                                                        if($user->get_cheque_status(strcasecmp($pending_policy_result['id']),'Rejected')){
+                                                        if(strcasecmp($user->get_cheque_status($pending_policy_result['id']),'Rejected')){
                                                             echo "  <td>Rejected</td>";
                                                         }else{
                                                             echo "  <td>Pending</td>";

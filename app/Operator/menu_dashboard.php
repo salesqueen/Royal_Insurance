@@ -138,7 +138,7 @@
                     <!--Count-->
                     <div class="row">
                         <div class="col-md-6 card">
-                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_policy_count();?></h2>
+                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_approved_policy_count();?></h2>
                             <p>Policies</p>
                         </div>
                         <div class="col-md-6 card">
