@@ -145,45 +145,81 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
+                    <div class="row">
+                        <p>
+                            <?php 
+                                $announcement_result_set=$user->read_announcement();
+                                if($announcement_result_set){
+                                    echo "\n".$announcement_result_set->fetch_assoc()[Announcement_Contract::get_table_columns()[0]];
+                                }
+                            ?>
+                        </p>
+                    </div>
                     <!--Count-->
                     <div class="row">
-                        <div class="col-md-6 card">
+                        <div class="col-md-4 card">
                             <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_approved_policy_count();?></h2>
-                            <p>Policies</p>
+                            <p>Approved Policies</p>
                         </div>
-                        <div class="col-md-6 card">
+                        <div class="col-md-4 card">
+                            <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_branch_manager_count();?></h2>
+                            <p>Branch Manager</p>
+                        </div>
+                        <div class="col-md-4 card">
                             <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_agent_count();?></h2>
                             <p>User</p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 wallet">
-                            <div>
-                                <h1 class="fa fa-credit-card" aria-hidden="true"></h1>
-                                <p>Wallet</p>
-                            </div>
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_wallet_amount();?></h2>
+                    <div class="row payment-details">
+                        <div class="col-md-3">
+                            <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_payable();?></h2>
+                            <p>Payment Payable</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_cleared_cheque_count();?></h2>
+                            <p>Cheque Status Cleared</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_payable_pending_policy_count();?></h2>
+                            <p>Approval Pending Payable</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_pending_cheque_count();?></h2>
+                            <p>Approval Pending Cheque</p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 cash">
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_cash("Recived");?></h2>
-                            <h1 class="fa fa-plus-square-o" aria-hidden="true"></h1>
-                            <p>Cash Recived</p>
+                    <div class="row policy-details">
+                        <div class="col-md-3">
+                            <p>Total Policy Premium this year</p>
+                            <h4><b><?php echo $user->get_total_premium_this_year();?></b></h4>
+                            <div class="d-flex">
+                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_this_year();?></div><span>Policy</span>
+                            </div>
                         </div>
-                        <div class="col-md-6 cash">
-                            <h2><span class="fa fa-inr"></span>.<?php echo $user->get_admin_cash("Paid");?></h2>
-                            <h1 class="fa fa-minus-square-o"></h1>
-                            <p>Cash Paid</p>
+                        <div class="col-md-3">
+                            <p>Total Policy Premium Last year</p>
+                            <h4><b><?php echo $user->get_total_premium_last_year();?></b></h4>
+                            <div class="d-flex">
+                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_last_year();?></div><span>Policy</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <p>Total Policy Premium this Month</p>
+                            <h4><b><?php echo $user->get_total_premium_this_month();?></b></h4>
+                            <div class="d-flex">
+                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_this_month();?></div><span>Policy</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <p>Total Policy Last year same Month</p>
+                            <h4><b><?php echo $user->get_total_premium_last_year_same_month();?></b></h4>
+                            <div class="d-flex">
+                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_policy_count_last_year_same_month();?></div><span>Policy</span>
+                            </div>
                         </div>
                     </div>
                     
                 </div>
-                <!--Calendar-->
-                <div class="col-md-4">
-                  <?php include 'calander.php';?>
-                </div>
-            </div>
         </div>
     </section>
     <footer>

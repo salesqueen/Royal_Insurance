@@ -4,7 +4,7 @@
 
     //announcement
     class Announcement_Contract{
-        private static $table_name="announcement";
+        private static $table_name="annoucement";
         private static $table_columns=array("announcement");
         public static function get_table_name(){
             return self::$table_name;

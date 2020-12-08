@@ -14,7 +14,7 @@
   $constraint="";
   //filter assigning
   if(isset($_GET['filter_start_date']) && isset($_GET['filter_end_date'])){
-      $constraint="AND issue_date BETWEEN '".$_GET['filter_start_date']."' AND '".$_GET['filter_end_date']."'";
+      $constraint="AND od_policy_start_date BETWEEN '".$_GET['filter_start_date']."' AND '".$_GET['filter_end_date']."'";
   }
 
   //fetching main

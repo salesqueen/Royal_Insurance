@@ -23,7 +23,7 @@
     }
     //filter date
     if(isset($_POST['filter_start_date']) && isset($_POST['filter_end_date']) && $_POST['filter_start_date']!="" && $_POST['filter_end_date']!=""){
-        $constraint=$constraint." AND (issue_date BETWEEN '".$_POST['filter_start_date']."' AND '".$_POST['filter_end_date']."')";
+        $constraint=$constraint." AND (od_policy_start_date BETWEEN '".$_POST['filter_start_date']."' AND '".$_POST['filter_end_date']."')";
     }else{
         //only start date is set
         if(isset($_POST['filter_start_date']) && $_POST['filter_start_date']!=""){

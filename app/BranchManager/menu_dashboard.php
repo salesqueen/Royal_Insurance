@@ -132,17 +132,58 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
+                    <div class="row">
+                        <p>
+                            <?php 
+                                $announcement_result_set=$user->read_announcement();
+                                if($announcement_result_set){
+                                    echo "\n".$announcement_result_set->fetch_assoc()[Announcement_Contract::get_table_columns()[0]];
+                                }
+                            ?>
+                        </p>
+                    </div>
                     <!--Count-->
                     <div class="row">
                         <div class="col-md-6 card">
-                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_branch_manager_policy_count();?></h2>
-                            <p>Policies</p>
+                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_approved_policy_count();?></h2>
+                            <p>Approved Policies</p>
                         </div>
                         <div class="col-md-6 card">
-                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_branch_manager_agent_count();?></h2>
+                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_agent_count_under_branch($_SESSION['id']);?></h2>
                             <p>User</p>
                         </div>
                     </div>
+                    <div class="row policy-details">
+                        <div class="col-md-3">
+                            <p>Total Policy Premium this year</p>
+                            <h4><b><?php echo $user->get_total_premium_this_year();?></b></h4>
+                            <div class="d-flex">
+                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_this_year();?></div><span>Policy</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <p>Total Policy Premium Last year</p>
+                            <h4><b><?php echo $user->get_total_premium_last_year();?></b></h4>
+                            <div class="d-flex">
+                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_last_year();?></div><span>Policy</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <p>Total Policy Premium this Month</p>
+                            <h4><b><?php echo $user->get_total_premium_this_month();?></b></h4>
+                            <div class="d-flex">
+                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_this_month();?></div><span>Policy</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <p>Total Policy Last year same Month</p>
+                            <h4><b><?php echo $user->get_total_premium_last_year_same_month();?></b></h4>
+                            <div class="d-flex">
+                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_policy_count_last_year_same_month();?></div><span>Policy</span>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
                 <!--Calendar-->
                 <div class="col-md-4">

@@ -1,15 +1,18 @@
 <?php 
 
-  error_reporting(0);
+    error_reporting(0);
 
-  include '../Php/main.php';
+    include '../Php/main.php';
 
-  //session handelling
-  $session=new Session();
-  $session->check_session("Agent");
+    //session handelling
+    $session=new Session();
+    $session->check_session("Accountant");
 
-  //creating user object
-  $user=new Agent();
+    //creating user object
+    $user=new Admin();
+
+    //fetching main
+    $office_expenses_result_set=$user->read_selective_transaction("WHERE payment='Office_Expenses_Request'");
 
 ?>
 <!DOCTYPE html>
@@ -17,7 +20,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
+  <title>Office Expenses</title>
 
   <!-- CSS -->
   <!--Bootstrap-->
@@ -33,7 +36,6 @@
 
   <!--Custom style sheet-->
   <link rel="stylesheet" href="../styles/main.css">
-
 </head>
 <body>
     <header>
@@ -49,28 +51,31 @@
             </nav>
         </div>
     </header>
-    <section id="navbar"> 
+    <section id="navbar">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
-                </button> 
+                </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="menu_dashboard.php">Dashboard</a>
+                            <a class="nav-link" href="menu_dashboard.php">Dashboard</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                                <a class="nav-link" href="menu_manage_user_agent.php">Manage User</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="menu_policy.php">Policy</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown active">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilities</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission</a>
+                                <a class="dropdown-item" href="menu_utilities_comission_payable.php">Comission Payable</a>
                                 <a class="dropdown-item" href="menu_utilities_cheque_status.php">Cheque Status</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_recived.php">Cash Recived</a>
                                 <a class="dropdown-item" href="menu_utilities_cash_paid.php">Cash Paid</a>
-                                <a class="dropdown-item" href="menu_utilities_office_expenses.php">Office Expenses</a>
+                                <a class="dropdown-item active" href="menu_utilities_office_expenses.php">Office Expenses</a>
                             </div>
                         </li>
                         <li class="nav-item">
@@ -87,116 +92,77 @@
           </nav>
         </div>
     </section>
-    <style>
-        .card{
-            padding:20px 34px;
-            background: rgba(0,0,0,.04);
-            border: 0;
-            border: 1px solid rgba(0,0,0,.1);
-        }
-        .wallet{
-            background: rgba(0,255,255,.02);
-            border-radius: 5px;
-            padding:10px 34px;
-            border: 1px solid rgba(0,100,255,.2);
-            display: flex;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            justify-content: center;
-        }
-        .wallet h1{
-            font-size: 60px;
-        }
-        .wallet h2{
-            font-size: 60px;
-            font-family: var(--monserrat);
-            margin-top:5px;
-        }
-        
-        .wallet div{
-            margin-right:20px;
-            text-align:center;
-        }
-        .cash{
-            background: rgba(0,0,255,.06);
-            padding: 10px 34px;
-            border-radius: 5px;
-            border: 1px solid rgba(0,0,255,.1);
-        }
-        .cash h1{
-            margin-top:14px;
-            font-size:24px;
-        }
-        .comission{
-            background: rgba(0,0,255,.06);
-            padding: 10px 34px;
-            border-radius: 5px;
-            border: 1px solid rgba(0,0,255,.1);
-        }
-        .comission h1{
-            margin-top:14px;
-            font-size:24px;
-        }
-    </style>
     <section id="main-container">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="row">
-                        <p>
-                            <?php 
-                                $announcement_result_set=$user->read_announcement();
-                                if($announcement_result_set){
-                                    echo "\n".$announcement_result_set->fetch_assoc()[Announcement_Contract::get_table_columns()[0]];
-                                }
-                            ?>
-                        </p>
+      <div class="container">
+        <div class="form-container">
+          <div class="row">
+            <div class="col-md-12">
+                
+                <div class="row"> 
+                    <div class="col-md-6">
+                        <h2>Office Expenses</h2>
                     </div>
-                    <!--Count-->
-                    <div class="row">
-                        <div class="col-md-12 card">
-                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_approved_policy_count();?></h2>
-                            <p>Approved Policies</p>
-                        </div>
+                    <div class="col-md-6">
+                        <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST" style="float:right">
+                            <input type="hidden" name="constraint" value="<?php echo $constraint?>">
+                            <input type="submit" name="download_excel" value="Download Excel">
+                        </form>
                     </div>
-                    <div class="row policy-details">
-                        <div class="col-md-3">
-                            <p>Total Policy Premium this year</p>
-                            <h4><b><?php echo $user->get_total_premium_this_year();?></b></h4>
-                            <div class="d-flex">
-                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_this_year();?></div><span>Policy</span>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <p>Total Policy Premium Last year</p>
-                            <h4><b><?php echo $user->get_total_premium_last_year();?></b></h4>
-                            <div class="d-flex">
-                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_last_year();?></div><span>Policy</span>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <p>Total Policy Premium this Month</p>
-                            <h4><b><?php echo $user->get_total_premium_this_month();?></b></h4>
-                            <div class="d-flex">
-                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_this_month();?></div><span>Policy</span>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <p>Total Policy Last year same Month</p>
-                            <h4><b><?php echo $user->get_total_premium_last_year_same_month();?></b></h4>
-                            <div class="d-flex">
-                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_policy_count_last_year_same_month();?></div><span>Policy</span>
-                            </div>
-                        </div>
-                    </div>
-                    
                 </div>
-                <!--Calendar-->
-                <div class="col-md-4">
-                  <?php include 'calander.php';?>
-                </div>
-            </div>
+                
+                <ul class="nav nav-tabs">
+                    <li><a data-toggle="tab" href="#policy" class="active">Office Expenses</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="policy" class="tab-pane fade in active show">
+                        <div class="table-scroll">
+                            <table id="table_1" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>User Name</th>
+                                        <th>Branch</th>
+                                        <th>Amount</th>
+                                        <th>Remark</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                        if($office_expenses_result_set){
+                                            while($office_expenses_result=$office_expenses_result_set->fetch_assoc()){
+                                                echo '<tr>';
+                                                echo '  <td>'.$office_expenses_result['date'].'</td>';
+                                                echo '  <td>'.$user->get_agent_name($office_expenses_result['agent_id']).'</td>';
+                                                echo '  <td>'.$user->get_branch($office_expenses_result['agent_id']).'</td>';
+                                                echo '  <td>'.$office_expenses_result['amount'].'</td>';
+                                                echo '  <td>'.$office_expenses_result['remark'].'</td>';
+                                                echo '  <td>
+                                                            <a href="create_office_expenses_transaction.php?id='.$office_expenses_result['id'].'">Pay</a>
+                                                        </td>';
+                                                echo '</tr>';
+                                            }
+                                        }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--<nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            </ul>
+                        </nav>-->
+                    </div>
+                </div>       
+  
+          </div>
         </div>
+      </div>
     </section>
     <footer>
 
@@ -222,8 +188,11 @@
         font:normal normal normal 20px/1 FontAwesome;
     }
   </style>
-  <!--Custom javascript-->
+  <!--Custom script-->
+  <script src="../scripts/overlay.js"></script>
+  <script src="../scripts/search.js"></script>
   <script src="../scripts/main.js"></script>
+
   <?php 
     //Message handelling
     if(isset($_SESSION['message'])){
@@ -241,7 +210,7 @@
             </script>";
         unset($_SESSION['message']);
     }else{
-        echo $_SESSION['message'];
+        //Do Nothing
     }
   ?>
 </body>

@@ -166,36 +166,32 @@
                     </div>
                     <div class="row policy-details">
                         <div class="col-md-3">
-                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_total_premium_this_year();?></h2>
                             <p>Total Policy Premium this year</p>
+                            <h4><b><?php echo $user->get_total_premium_this_year();?></b></h4>
+                            <div class="d-flex">
+                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_this_year();?></div><span>Policy</span>
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_total_premium_last_year();?></h2>
-                            <p>Total Policy Premium Last Year</p>
+                            <p>Total Policy Premium Last year</p>
+                            <h4><b><?php echo $user->get_total_premium_last_year();?></b></h4>
+                            <div class="d-flex">
+                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_last_year();?></div><span>Policy</span>
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_total_premium_this_month();?></h2>
                             <p>Total Policy Premium this Month</p>
+                            <h4><b><?php echo $user->get_total_premium_this_month();?></b></h4>
+                            <div class="d-flex">
+                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_this_month();?></div><span>Policy</span>
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_total_premium_last_year_same_month();?></h2>
                             <p>Total Policy Last year same Month</p>
-                        </div>
-                        <div class="col-md-3">
-                            <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_total_policy_count_this_year();?></h2>
-                            <p>Total Policy Count this Year</p>
-                        </div>
-                        <div class="col-md-3">
-                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_total_policy_count_last_year();?></h2>
-                            <p>Total Policy Count Last Year</p>
-                        </div>
-                        <div class="col-md-3">
-                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_total_policy_count_this_month();?></h2>
-                            <p>Policy Count This Month</p>
-                        </div>
-                        <div class="col-md-3">
-                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_policy_count_last_year_same_month();?></h2>
-                            <p>Policy Count Last Year Same Month</p>
+                            <h4><b><?php echo $user->get_total_premium_last_year_same_month();?></b></h4>
+                            <div class="d-flex">
+                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_policy_count_last_year_same_month();?></div><span>Policy</span>
+                            </div>
                         </div>
                     </div>
                     

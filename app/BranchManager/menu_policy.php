@@ -32,7 +32,7 @@
     }
     //filter date
     if(isset($_POST['filter_start_date']) && isset($_POST['filter_end_date']) && $_POST['filter_start_date']!="" && $_POST['filter_end_date']!=""){
-        $constraint=$constraint." AND (issue_date BETWEEN '".$_POST['filter_start_date']."' AND '".$_POST['filter_end_date']."')";
+        $constraint=$constraint." AND (od_policy_start_date BETWEEN '".$_POST['filter_start_date']."' AND '".$_POST['filter_end_date']."')";
     }else{
         //only start date is set
         if(isset($_POST['filter_start_date']) && $_POST['filter_start_date']!=""){
@@ -57,19 +57,19 @@
     //generating agent id constraint
     $agent_id_constraint=" AND (";
     foreach($agent_id_array as $agent_id){
-        $agent_id_constraint=$agent_id_constraint."agent_id=".$agent_id." OR";
+        $agent_id_constraint=$agent_id_constraint." agent_id=".$agent_id." OR";
     }
     $agent_id_constraint=substr($agent_id_constraint,0,-2);
     $agent_id_constraint=$agent_id_constraint.")";
     //fetching pending policy details for cash
     if($constraint==""){
-        $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0".$agent_id_constraint);
+        $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$agent_id_constraint);
     }else{
         $pending_policy_result_set=$user->read_selective_policy("WHERE comission_percentage=0 ".$agent_id_constraint.$constraint);
     }
     //fetching approved policy details
     if($constraint==""){
-        $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0".$agent_id_constraint); 
+        $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$agent_id_constraint); 
     }else{
         $approved_policy_result_set=$user->read_selective_policy("WHERE NOT comission_percentage=0 ".$agent_id_constraint.$constraint);
     }
