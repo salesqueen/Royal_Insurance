@@ -51,7 +51,7 @@ $branch_manager_result_set=$user->read_all_branch_manager();
                                 echo "../agent/".$_SESSION['photo'];
                             }
                             //branch manager
-                            if($_SESSION['branch_manager']=='Branch_Manager'){
+                            if(strcasecmp($_SESSION['branch_manager'],'Branch_Manager')==0){
                                 echo "../branch_manager/".$_SESSION['photo'];
                             }
                             //opertor
@@ -66,9 +66,9 @@ $branch_manager_result_set=$user->read_all_branch_manager();
                             if(strcasecmp($_SESSION['user_type'],'Admin')==0){
                                 echo "../admin/".$_SESSION['photo'];
                             }
-                        }
-                        else{
+                        }else{
                             echo "../images/sign_in_side.jpg";
+                        }?>";
                         }?>" alt="Royal">
                   </div>
               </div>

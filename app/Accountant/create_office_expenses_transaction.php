@@ -59,7 +59,31 @@
                 <div id="account">
                     <p><?php echo $_SESSION['name']?></p>
                     <div id="account-menu">
-                        <img src="../images/sign_in_side.jpg" alt="">
+                        <a href="edit_profile.php"><img src="<?php if(strcasecmp($_SESSION['photo'],'Null')!=0){
+                            //agent
+                            if(strcasecmp($_SESSION['user_type'],'Agent')==0){
+                                echo "../agent/".$_SESSION['photo'];
+                            }
+                            //branch manager
+                            if(strcasecmp($_SESSION['branch_manager'],'Branch_Manager')==0){
+                                echo "../branch_manager/".$_SESSION['photo'];
+                            }
+                            //opertor
+                            if(strcasecmp($_SESSION['user_type'],'Operator')==0){
+                                echo "../operator/".$_SESSION['photo'];
+                            }
+                            //accountant
+                            if(strcasecmp($_SESSION['user_type'],'Accountant')==0){
+                                echo "../accountant/".$_SESSION['photo'];
+                            }
+                            //admin
+                            if(strcasecmp($_SESSION['user_type'],'Admin')==0){
+                                echo "../admin/".$_SESSION['photo'];
+                            }
+                        }
+                        else{
+                            echo "../images/sign_in_side.jpg";
+                        }?>" alt=""></a>
                     </div>
                 </div>
             </nav>

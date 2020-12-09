@@ -85,7 +85,6 @@ header nav{
 } 
 header nav a{
     color: var(--primary-dark-font);
-    font-size: 28px;
     font-family: var(--roboto);
     font-weight: 900;
 }
