@@ -34,7 +34,7 @@
       <div class="row">
         <div class="col-md-4" id="sign_in_form">
           <div class="brand">
-            <img src="images/logo-crop.png" alt="Rayal Brokers India Pvt Ltd">
+            <img src="images/logo.png" alt="Rayal Brokers India Pvt Ltd">
           </div>
           <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
             <h2>Welcome Back! </h2>
