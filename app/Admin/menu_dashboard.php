@@ -124,75 +124,107 @@
                         </form>
                     </div>
                     <!--Count-->
-                    <div class="row">
-                        <div class="col-md-4 card">
-                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_approved_policy_count();?></h2>
-                            <p>Approved Policies</p>
+                    <div class="flexda">
+
+                        <div class="daitem">
+                            <h2>Approved Policies <i class="fa fa-file-code-o" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h6><?php echo $user->get_approved_policy_count();?></h6>
+                            </div>
                         </div>
-                        <div class="col-md-4 card">
-                            <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_branch_manager_count();?></h2>
-                            <p>Branch Manager</p>
+
+                        <div class="daitem">
+                            <h2>Branch Manager <i class="fa fa-address-card-o" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h6><?php echo $user->get_branch_manager_count();?></h6>
+                            </div>
                         </div>
-                        <div class="col-md-4 card">
-                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_agent_count();?></h2>
-                            <p>User</p>
+
+                        <div class="daitem">
+                            <h2>User <i class="fa fa-address-book-o" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h6><?php echo $user->get_agent_count();?></h6>
+                            </div>
                         </div>
+
+                        <div class="daitem">
+                            <h2>Payment Recivable <i class="fa fa-money" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h6><?php echo $user->get_recivable();?></h6>
+                            </div>
+                        </div>
+
+                        <div class="daitem">
+                            <h2>Payment Payable <i class="fa fa-credit-card" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h6><?php echo $user->get_payable();?></h6>
+                            </div>
+                        </div>
+
+                        <div class="daitem">
+                            <h2>Cheque Status Cleared <i class="fa fa-file-text-o" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h6><?php echo $user->get_cleared_cheque_count();?></h6>
+                            </div>
+                        </div>
+
+                        <div class="daitem">
+                            <h2>Approval Pending Recivable <i class="fa fa-gg" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h6><?php echo $user->get_recivable_pending_policy_count();?></h6>
+                            </div>
+                        </div>
+
+                        <div class="daitem">
+                            <h2>Approval Pending Payable <i class="fa fa-line-chart" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h6><?php echo $user->get_payable_pending_policy_count();?></h6>
+                            </div>
+                        </div>
+
+                        <div class="daitem">
+                            <h2>Approval Pending Cheque <i class="fa fa-clone" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h6><?php echo $user->get_pending_cheque_count();?></h6>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="row payment-details">
-                        <div class="col-md-4">
-                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_recivable();?></h2>
-                            <p>Payment Recivable</p>
-                        </div>
-                        <div class="col-md-4">
-                            <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_payable();?></h2>
-                            <p>Payment Payable</p>
-                        </div>
-                        <div class="col-md-4">
-                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_cleared_cheque_count();?></h2>
-                            <p>Cheque Status Cleared</p>
-                        </div>
-                        <div class="col-md-4">
-                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_recivable_pending_policy_count();?></h2>
-                            <p>Approval Pending Recivable</p>
-                        </div>
-                        <div class="col-md-4">
-                            <h2><i class="fa fa-bookmark-o" aria-hidden="true"></i> <?php echo $user->get_payable_pending_policy_count();?></h2>
-                            <p>Approval Pending Payable</p>
-                        </div>
-                        <div class="col-md-4">
-                            <h2><i class="fa fa-user-o" aria-hidden="true"></i> <?php echo $user->get_pending_cheque_count();?></h2>
-                            <p>Approval Pending Cheque</p>
-                        </div>
-                    </div>
-                    <div class="row policy-details">
-                        <div class="col-md-3">
-                            <p>Total Policy Premium this year</p>
-                            <h4><b><?php echo $user->get_total_premium_this_year();?></b></h4>
-                            <div class="d-flex">
-                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_this_year();?></div><span>Policy</span>
+
+                    <div class="flexda">
+
+                        <div class="daitem">
+                            <h2>Total Policy Premium <i class="fa fa-bar-chart" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h3 class="h3da"><span class="lspda"><?php echo $user->get_total_premium_this_year();?></span>This year</h3>
+                                <h3 class="h4da">Last year <span class="rspda"><?php echo $user->get_total_premium_last_year();?></span></h3>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <p>Total Policy Premium Last year</p>
-                            <h4><b><?php echo $user->get_total_premium_last_year();?></b></h4>
-                            <div class="d-flex">
-                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_last_year();?></div><span>Policy</span>
+
+                        <div class="daitem">
+                            <h2>Total Policy Premium <i class="fa fa-object-group" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h3 class="h3da"><span class="lspda"><?php echo $user->get_total_premium_this_month();?></span>This month</h3>
+                                <h3 class="h4da">Last yr same month <span class="rspda"><?php echo $user->get_total_premium_last_year_same_month();?></span></h3>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <p>Total Policy Premium this Month</p>
-                            <h4><b><?php echo $user->get_total_premium_this_month();?></b></h4>
-                            <div class="d-flex">
-                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_this_month();?></div><span>Policy</span>
+
+                        <div class="daitem">
+                            <h2>Total Policy <i class="fa fa-file-excel-o" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h3 class="h3da"><span class="lspda"><?php echo $user->get_total_policy_count_this_year();?></span>This year</h3>
+                                <h3 class="h4da">Last year <span class="rspda"><?php echo $user->get_total_policy_count_last_year();?></span></h3>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <p>Total Policy Last year same Month</p>
-                            <h4><b><?php echo $user->get_total_premium_last_year_same_month();?></b></h4>
-                            <div class="d-flex">
-                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_policy_count_last_year_same_month();?></div><span>Policy</span>
+
+                        <div class="daitem">
+                            <h2>Total Policy <i class="fa fa-area-chart" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h3 class="h3da"><span class="lspda"><?php echo $user->get_total_policy_count_this_month();?></span>This month</h3>
+                                <h3 class="h4da">Last yr same month <span class="rspda"><?php echo $user->get_policy_count_last_year_same_month();?></span></h3>
                             </div>
                         </div>
+
                     </div>
                     
                 </div>

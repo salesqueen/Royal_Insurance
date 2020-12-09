@@ -12,6 +12,7 @@ body{
 }
 #sign_in_container #sign_in_form .brand img{
     max-width: 60px;
+    max-height: 60px;
 }
 #sign_in_container #sign_in_form form h2{
     visibility: hidden;

@@ -87,57 +87,6 @@
           </nav>
         </div>
     </section>
-    <style>
-        .card{
-            padding:20px 34px;
-            background: rgba(0,0,0,.04);
-            border: 0;
-            border: 1px solid rgba(0,0,0,.1);
-        }
-        .wallet{
-            background: rgba(0,255,255,.02);
-            border-radius: 5px;
-            padding:10px 34px;
-            border: 1px solid rgba(0,100,255,.2);
-            display: flex;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            justify-content: center;
-        }
-        .wallet h1{
-            font-size: 60px;
-        }
-        .wallet h2{
-            font-size: 60px;
-            font-family: var(--monserrat);
-            margin-top:5px;
-        }
-        
-        .wallet div{
-            margin-right:20px;
-            text-align:center;
-        }
-        .cash{
-            background: rgba(0,0,255,.06);
-            padding: 10px 34px;
-            border-radius: 5px;
-            border: 1px solid rgba(0,0,255,.1);
-        }
-        .cash h1{
-            margin-top:14px;
-            font-size:24px;
-        }
-        .comission{
-            background: rgba(0,0,255,.06);
-            padding: 10px 34px;
-            border-radius: 5px;
-            border: 1px solid rgba(0,0,255,.1);
-        }
-        .comission h1{
-            margin-top:14px;
-            font-size:24px;
-        }
-    </style>
     <section id="main-container">
         <div class="container">
             <div class="row">
@@ -153,41 +102,51 @@
                         </p>
                     </div>
                     <!--Count-->
-                    <div class="row">
-                        <div class="col-md-12 card">
-                            <h2><i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> <?php echo $user->get_approved_policy_count();?></h2>
-                            <p>Approved Policies</p>
+                    <div class="flexda">
+
+                        <div class="daitem">
+                            <h2>Approved Policies <i class="fa fa-file-code-o" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h6><?php echo $user->get_approved_policy_count();?></h6>
+                            </div>
                         </div>
+
                     </div>
-                    <div class="row policy-details">
-                        <div class="col-md-3">
-                            <p>Total Policy Premium this year</p>
-                            <h4><b><?php echo $user->get_total_premium_this_year();?></b></h4>
-                            <div class="d-flex">
-                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_this_year();?></div><span>Policy</span>
+
+                    <div class="flexda">
+
+                        <div class="daitem">
+                            <h2>Total Policy Premium <i class="fa fa-heart" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h3 class="h3da"><span class="lspda"><?php echo $user->get_total_premium_this_year();?></span>This year</h3>
+                                <h3 class="h4da">Last year <span class="rspda"><?php echo $user->get_total_premium_last_year();?></span></h3>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <p>Total Policy Premium Last year</p>
-                            <h4><b><?php echo $user->get_total_premium_last_year();?></b></h4>
-                            <div class="d-flex">
-                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_last_year();?></div><span>Policy</span>
+
+                        <div class="daitem">
+                            <h2>Total Policy Premium <i class="fa fa-heart" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h3 class="h3da"><span class="lspda"><?php echo $user->get_total_premium_this_month();?></span>This month</h3>
+                                <h3 class="h4da">Last yr same month <span class="rspda"><?php echo $user->get_total_premium_last_year_same_month();?></span></h3>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <p>Total Policy Premium this Month</p>
-                            <h4><b><?php echo $user->get_total_premium_this_month();?></b></h4>
-                            <div class="d-flex">
-                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_total_policy_count_this_month();?></div><span>Policy</span>
+
+                        <div class="daitem">
+                            <h2>Total Policy <i class="fa fa-heart" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h3 class="h3da"><span class="lspda"><?php echo $user->get_total_policy_count_this_year();?></span>This year</h3>
+                                <h3 class="h4da">Last year <span class="rspda"><?php echo $user->get_total_policy_count_last_year();?></span></h3>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <p>Total Policy Last year same Month</p>
-                            <h4><b><?php echo $user->get_total_premium_last_year_same_month();?></b></h4>
-                            <div class="d-flex">
-                                <div class="bg-primary p-1 rounded mr-3 text-light"><?php echo $user->get_policy_count_last_year_same_month();?></div><span>Policy</span>
+
+                        <div class="daitem">
+                            <h2>Total Policy <i class="fa fa-heart" aria-hidden="true"></i></h2>
+                            <div class="flotext">
+                                <h3 class="h3da"><span class="lspda"><?php echo $user->get_total_policy_count_this_month();?></span>This month</h3>
+                                <h3 class="h4da">Last yr same month <span class="rspda"><?php echo $user->get_policy_count_last_year_same_month();?></span></h3>
                             </div>
                         </div>
+
                     </div>
                     
                 </div>
