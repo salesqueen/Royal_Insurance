@@ -1978,8 +1978,17 @@
         public function insert_admin(){
 
         }
-        public function update_admin(){
-
+        public function update_admin($name_array,$id){
+            //Initiallizing required variables
+            $crud=new Crud();
+            $form=new Form();
+            //getting form values
+            $form_name_array=$name_array;
+            $form_value_array=$form->get_form_values($form_name_array);
+            //forming database insertion variables
+            $table_name=Admin_Contract::get_table_name();
+            //performing updation
+            $crud->update($table_name,$id,$form_name_array,$form_value_array);
         }
         public function read_one_admin($id){
             $crud=new Crud();
